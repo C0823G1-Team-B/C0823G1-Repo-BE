@@ -13,7 +13,8 @@ public class CarAttendant {
     private String name;
     private String birthday;
     private String identity;
-
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
     @OneToMany(mappedBy = "carAttendant")
     private List<DetailCar> detailCarList;
 
@@ -24,11 +25,12 @@ public class CarAttendant {
     public CarAttendant() {
     }
 
-    public CarAttendant(Integer id, String name, String birthday, String identity, List<DetailCar> detailCarList, Account account) {
+    public CarAttendant(Integer id, String name, String birthday, String identity, boolean isDelete, List<DetailCar> detailCarList, Account account) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.identity = identity;
+        this.isDelete = isDelete;
         this.detailCarList = detailCarList;
         this.account = account;
     }
@@ -63,6 +65,14 @@ public class CarAttendant {
 
     public void setIdentity(String identity) {
         this.identity = identity;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public List<DetailCar> getDetailCarList() {

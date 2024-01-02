@@ -14,6 +14,8 @@ public class Driver {
     private String phoneNumber;
     private String identity;
     private String address;
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
 
     @OneToMany(mappedBy = "driver")
     private List<DetailCar> detailCarList;
@@ -21,12 +23,13 @@ public class Driver {
     public Driver() {
     }
 
-    public Driver(Integer id, String name, String phoneNumber, String identity, String address, List<DetailCar> detailCarList) {
+    public Driver(Integer id, String name, String phoneNumber, String identity, String address, boolean isDelete, List<DetailCar> detailCarList) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.identity = identity;
         this.address = address;
+        this.isDelete = isDelete;
         this.detailCarList = detailCarList;
     }
 
@@ -68,6 +71,14 @@ public class Driver {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public List<DetailCar> getDetailCarList() {

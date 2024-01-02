@@ -11,16 +11,18 @@ public class TypeTicket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
     @OneToMany(mappedBy = "typeTicket")
     private List<Ticket> tickets;
 
     public TypeTicket() {
     }
 
-    public TypeTicket(Integer id, String name, List<Ticket> tickets) {
+    public TypeTicket(Integer id, String name, boolean isDelete, List<Ticket> tickets) {
         this.id = id;
         this.name = name;
+        this.isDelete = isDelete;
         this.tickets = tickets;
     }
 
@@ -38,6 +40,14 @@ public class TypeTicket {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public List<Ticket> getTickets() {

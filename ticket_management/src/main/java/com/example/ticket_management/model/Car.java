@@ -11,6 +11,8 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String licensePlates;
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
     @OneToMany(mappedBy = "car")
     private List<DetailCar> detailCarList;
 
@@ -21,9 +23,10 @@ public class Car {
     public Car() {
     }
 
-    public Car(Integer id, String licensePlates, List<DetailCar> detailCarList, TypeCar typeCar) {
+    public Car(Integer id, String licensePlates, boolean isDelete, List<DetailCar> detailCarList, TypeCar typeCar) {
         this.id = id;
         this.licensePlates = licensePlates;
+        this.isDelete = isDelete;
         this.detailCarList = detailCarList;
         this.typeCar = typeCar;
     }
@@ -42,6 +45,14 @@ public class Car {
 
     public void setLicensePlates(String licensePlates) {
         this.licensePlates = licensePlates;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public List<DetailCar> getDetailCarList() {

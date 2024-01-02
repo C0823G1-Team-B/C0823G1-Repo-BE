@@ -13,6 +13,8 @@ public class DetailCar {
 
     private String start_time;
     private String end_time;
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "car_attendant_id",referencedColumnName = "id")
@@ -36,10 +38,11 @@ public class DetailCar {
     public DetailCar() {
     }
 
-    public DetailCar(Integer id, String start_time, String end_time, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public DetailCar(Integer id, String start_time, String end_time, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
         this.id = id;
         this.start_time = start_time;
         this.end_time = end_time;
+        this.isDelete = isDelete;
         this.carAttendant = carAttendant;
         this.car = car;
         this.driver = driver;
@@ -69,6 +72,14 @@ public class DetailCar {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public CarAttendant getCarAttendant() {

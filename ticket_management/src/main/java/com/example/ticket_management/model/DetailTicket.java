@@ -10,7 +10,8 @@ public class DetailTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
     @ManyToOne
     @JoinColumn(name = "ticket_id",referencedColumnName = "id")
     private Ticket ticket;
@@ -25,8 +26,9 @@ public class DetailTicket {
     public DetailTicket() {
     }
 
-    public DetailTicket(Integer id, Ticket ticket, Customer customer, List<Payment> payments) {
+    public DetailTicket(Integer id, boolean isDelete, Ticket ticket, Customer customer, List<Payment> payments) {
         this.id = id;
+        this.isDelete = isDelete;
         this.ticket = ticket;
         this.customer = customer;
         this.payments = payments;
@@ -38,6 +40,14 @@ public class DetailTicket {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public Ticket getTicket() {
