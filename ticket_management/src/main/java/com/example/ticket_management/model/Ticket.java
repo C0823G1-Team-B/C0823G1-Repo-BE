@@ -12,7 +12,10 @@ public class Ticket {
     private Integer id;
     @Column(name = "number_seat")
     private Integer numberSeat;
+    @Column(columnDefinition = "int default 0")
     private boolean status;
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "type_ticket",referencedColumnName = "id")
@@ -28,10 +31,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Integer id, Integer numberSeat, boolean status, TypeTicket typeTicket, DetailCar detailCar, List<DetailTicket> detailTickets) {
+    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, TypeTicket typeTicket, DetailCar detailCar, List<DetailTicket> detailTickets) {
         this.id = id;
         this.numberSeat = numberSeat;
         this.status = status;
+        this.isDelete = isDelete;
         this.typeTicket = typeTicket;
         this.detailCar = detailCar;
         this.detailTickets = detailTickets;
@@ -59,6 +63,14 @@ public class Ticket {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public TypeTicket getTypeTicket() {

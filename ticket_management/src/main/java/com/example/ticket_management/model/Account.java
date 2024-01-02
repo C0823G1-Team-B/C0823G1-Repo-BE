@@ -12,9 +12,10 @@ public class Account {
     private Integer id;
     private String name;
     private String email;
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
     @Column(name = "password")
     private String acPassword;
-
 
     @ManyToOne
     @JoinColumn(name = "type_account",referencedColumnName = "id")
@@ -29,10 +30,11 @@ public class Account {
     public Account() {
     }
 
-    public Account(Integer id, String name, String email, String acPassword, TypeAccount typeAccount, List<Customer> customers, List<CarAttendant> carAttendants) {
+    public Account(Integer id, String name, String email, boolean isDelete, String acPassword, TypeAccount typeAccount, List<Customer> customers, List<CarAttendant> carAttendants) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.isDelete = isDelete;
         this.acPassword = acPassword;
         this.typeAccount = typeAccount;
         this.customers = customers;
@@ -63,12 +65,20 @@ public class Account {
         this.email = email;
     }
 
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
     public String getAcPassword() {
         return acPassword;
     }
 
-    public void setAcPassword(String password) {
-        this.acPassword = password;
+    public void setAcPassword(String acPassword) {
+        this.acPassword = acPassword;
     }
 
     public TypeAccount getTypeAccount() {

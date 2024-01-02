@@ -17,14 +17,18 @@ public class CarRoute {
     @OneToMany(mappedBy = "carRoute")
     private List<DetailCar> detailCarList;
 
+    @Column(columnDefinition = "int default 0")
+    private boolean isDelete;
+
     public CarRoute() {
     }
 
-    public CarRoute(Integer id, String startingPoint, String endingPoint, List<DetailCar> detailCarList) {
+    public CarRoute(Integer id, String startingPoint, String endingPoint, List<DetailCar> detailCarList, boolean isDelete) {
         this.id = id;
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
         this.detailCarList = detailCarList;
+        this.isDelete = isDelete;
     }
 
     public Integer getId() {
@@ -39,16 +43,16 @@ public class CarRoute {
         return startingPoint;
     }
 
-    public void setStartingPoint(String startingLocation) {
-        this.startingPoint = startingLocation;
+    public void setStartingPoint(String startingPoint) {
+        this.startingPoint = startingPoint;
     }
 
     public String getEndingPoint() {
         return endingPoint;
     }
 
-    public void setEndingPoint(String endingLocation) {
-        this.endingPoint = endingLocation;
+    public void setEndingPoint(String endingPoint) {
+        this.endingPoint = endingPoint;
     }
 
     public List<DetailCar> getDetailCarList() {
@@ -57,5 +61,13 @@ public class CarRoute {
 
     public void setDetailCarList(List<DetailCar> detailCarList) {
         this.detailCarList = detailCarList;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }
