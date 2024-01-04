@@ -22,8 +22,8 @@ public class Ticket {
     private TypeTicket typeTicket;
 
     @ManyToOne
-    @JoinColumn(name = "detail_car_id",referencedColumnName = "id")
-    private DetailCar detailCar;
+    @JoinColumn(name = "car_route_individual_id",referencedColumnName = "id")
+    private CarRouteIndividual carRouteIndividual;
 
     @OneToMany(mappedBy = "ticket")
     private List<DetailTicket> detailTickets;
@@ -31,13 +31,13 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, TypeTicket typeTicket, DetailCar detailCar, List<DetailTicket> detailTickets) {
+    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, TypeTicket typeTicket, CarRouteIndividual carRouteIndividual, List<DetailTicket> detailTickets) {
         this.id = id;
         this.numberSeat = numberSeat;
         this.status = status;
         this.isDelete = isDelete;
         this.typeTicket = typeTicket;
-        this.detailCar = detailCar;
+        this.carRouteIndividual = carRouteIndividual;
         this.detailTickets = detailTickets;
     }
 
@@ -81,12 +81,12 @@ public class Ticket {
         this.typeTicket = typeTicket;
     }
 
-    public DetailCar getDetailCar() {
-        return detailCar;
+    public CarRouteIndividual getCarRouteIndividual() {
+        return carRouteIndividual;
     }
 
-    public void setDetailCar(DetailCar detailCar) {
-        this.detailCar = detailCar;
+    public void setCarRouteIndividual(CarRouteIndividual carRouteIndividual) {
+        this.carRouteIndividual = carRouteIndividual;
     }
 
     public List<DetailTicket> getDetailTickets() {

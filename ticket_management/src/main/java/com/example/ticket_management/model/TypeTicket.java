@@ -15,7 +15,6 @@ public class TypeTicket {
     private boolean isDelete;
     @OneToMany(mappedBy = "typeTicket")
     private List<Ticket> tickets;
-
     public TypeTicket() {
     }
 

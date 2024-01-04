@@ -16,7 +16,7 @@ public class CarAttendant {
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
     @OneToMany(mappedBy = "carAttendant")
-    private List<DetailCar> detailCarList;
+    private List<CarRouteIndividual> carRouteIndividualList;
 
     @ManyToOne
     @JoinColumn(name = "account_id",referencedColumnName = "id")
@@ -25,13 +25,13 @@ public class CarAttendant {
     public CarAttendant() {
     }
 
-    public CarAttendant(Integer id, String name, String birthday, String identity, boolean isDelete, List<DetailCar> detailCarList, Account account) {
+    public CarAttendant(Integer id, String name, String birthday, String identity, boolean isDelete, List<CarRouteIndividual> carRouteIndividualList, Account account) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.identity = identity;
         this.isDelete = isDelete;
-        this.detailCarList = detailCarList;
+        this.carRouteIndividualList = carRouteIndividualList;
         this.account = account;
     }
 
@@ -75,12 +75,12 @@ public class CarAttendant {
         isDelete = delete;
     }
 
-    public List<DetailCar> getDetailCarList() {
-        return detailCarList;
+    public List<CarRouteIndividual> getCarRouteIndividualList() {
+        return carRouteIndividualList;
     }
 
-    public void setDetailCarList(List<DetailCar> detailCarList) {
-        this.detailCarList = detailCarList;
+    public void setCarRouteIndividualList(List<CarRouteIndividual> carRouteIndividualList) {
+        this.carRouteIndividualList = carRouteIndividualList;
     }
 
     public Account getAccount() {

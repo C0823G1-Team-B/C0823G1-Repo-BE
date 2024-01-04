@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "detail_car")
-public class DetailCar {
+@Table(name = "car_route_individual")
+public class CarRouteIndividual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String start_time;
-    private String end_time;
+    private String startTime;
+    private String endTime;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
 
@@ -32,16 +32,16 @@ public class DetailCar {
     @JoinColumn(name = "car_route_id",referencedColumnName = "id")
     private CarRoute carRoute;
 
-    @OneToMany(mappedBy = "detailCar")
+    @OneToMany(mappedBy = "carRouteIndividual")
     private List<Ticket> tickets;
 
-    public DetailCar() {
+    public CarRouteIndividual() {
     }
 
-    public DetailCar(Integer id, String start_time, String end_time, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public CarRouteIndividual(Integer id, String startTime, String endTime, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
         this.id = id;
-        this.start_time = start_time;
-        this.end_time = end_time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.isDelete = isDelete;
         this.carAttendant = carAttendant;
         this.car = car;
@@ -58,20 +58,20 @@ public class DetailCar {
         this.id = id;
     }
 
-    public String getStart_time() {
-        return start_time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setStartTime(String start_time) {
+        this.startTime = start_time;
     }
 
-    public String getEnd_time() {
-        return end_time;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setEndTime(String end_time) {
+        this.endTime = end_time;
     }
 
     public boolean isDelete() {
