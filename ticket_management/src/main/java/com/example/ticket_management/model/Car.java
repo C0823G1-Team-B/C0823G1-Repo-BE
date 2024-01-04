@@ -16,19 +16,14 @@ public class Car {
     @OneToMany(mappedBy = "car")
     private List<CarRouteIndividual> carRouteIndividualList;
 
-    @ManyToOne
-    @JoinColumn(name = "type_car_id",referencedColumnName = "id")
-    private TypeCar typeCar;
-
     public Car() {
     }
 
-    public Car(Integer id, String licensePlates, boolean isDelete, List<CarRouteIndividual> carRouteIndividualList, TypeCar typeCar) {
+    public Car(Integer id, String licensePlates, boolean isDelete, List<CarRouteIndividual> carRouteIndividualList) {
         this.id = id;
         this.licensePlates = licensePlates;
         this.isDelete = isDelete;
         this.carRouteIndividualList = carRouteIndividualList;
-        this.typeCar = typeCar;
     }
 
     public Integer getId() {
@@ -61,13 +56,5 @@ public class Car {
 
     public void setCarRouteIndividualList(List<CarRouteIndividual> carRouteIndividualList) {
         this.carRouteIndividualList = carRouteIndividualList;
-    }
-
-    public TypeCar getTypeCar() {
-        return typeCar;
-    }
-
-    public void setTypeCar(TypeCar typeCar) {
-        this.typeCar = typeCar;
     }
 }
