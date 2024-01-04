@@ -14,9 +14,6 @@ public class Customer {
     private String birthday;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
-    @ManyToOne
-    @JoinColumn(name = "account_id",referencedColumnName = "id")
-    private Account account;
 
     @OneToMany(mappedBy = "customer" )
     private List<DetailTicket> detailTickets;
@@ -24,12 +21,11 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String birthday, boolean isDelete, Account account, List<DetailTicket> detailTickets) {
+    public Customer(Integer id, String name, String birthday, boolean isDelete, List<DetailTicket> detailTickets) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.isDelete = isDelete;
-        this.account = account;
         this.detailTickets = detailTickets;
     }
 
@@ -63,14 +59,6 @@ public class Customer {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public List<DetailTicket> getDetailTickets() {

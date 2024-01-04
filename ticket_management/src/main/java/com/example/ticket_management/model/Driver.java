@@ -18,19 +18,19 @@ public class Driver {
     private boolean isDelete;
 
     @OneToMany(mappedBy = "driver")
-    private List<DetailCar> detailCarList;
+    private List<CarRouteIndividual> carRouteIndividualList;
 
     public Driver() {
     }
 
-    public Driver(Integer id, String name, String phoneNumber, String identity, String address, boolean isDelete, List<DetailCar> detailCarList) {
+    public Driver(Integer id, String name, String phoneNumber, String identity, String address, boolean isDelete, List<CarRouteIndividual> carRouteIndividualList) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.identity = identity;
         this.address = address;
         this.isDelete = isDelete;
-        this.detailCarList = detailCarList;
+        this.carRouteIndividualList = carRouteIndividualList;
     }
 
     public Integer getId() {
@@ -81,11 +81,11 @@ public class Driver {
         isDelete = delete;
     }
 
-    public List<DetailCar> getDetailCarList() {
-        return detailCarList;
+    public List<CarRouteIndividual> getCarRouteIndividualList() {
+        return carRouteIndividualList;
     }
 
-    public void setDetailCarList(List<DetailCar> detailCarList) {
-        this.detailCarList = detailCarList;
+    public void setCarRouteIndividualList(List<CarRouteIndividual> carRouteIndividualList) {
+        this.carRouteIndividualList = carRouteIndividualList;
     }
 }

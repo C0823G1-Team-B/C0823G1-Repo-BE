@@ -1,6 +1,5 @@
 package com.example.ticket_management.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;

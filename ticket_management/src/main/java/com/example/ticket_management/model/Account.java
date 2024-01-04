@@ -21,23 +21,19 @@ public class Account {
     @JoinColumn(name = "type_account",referencedColumnName = "id")
     private TypeAccount typeAccount;
 
-    @OneToMany(mappedBy = "account")
-    private List<Customer> customers;
-
    @OneToMany(mappedBy = "account")
     private List<CarAttendant> carAttendants;
 
     public Account() {
     }
 
-    public Account(Integer id, String name, String email, boolean isDelete, String acPassword, TypeAccount typeAccount, List<Customer> customers, List<CarAttendant> carAttendants) {
+    public Account(Integer id, String name, String email, boolean isDelete, String acPassword, TypeAccount typeAccount, List<CarAttendant> carAttendants) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.isDelete = isDelete;
         this.acPassword = acPassword;
         this.typeAccount = typeAccount;
-        this.customers = customers;
         this.carAttendants = carAttendants;
     }
 
@@ -87,14 +83,6 @@ public class Account {
 
     public void setTypeAccount(TypeAccount typeAccount) {
         this.typeAccount = typeAccount;
-    }
-
-    public List<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
     }
 
     public List<CarAttendant> getCarAttendants() {
