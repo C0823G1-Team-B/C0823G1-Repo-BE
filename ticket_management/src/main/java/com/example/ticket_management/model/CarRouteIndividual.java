@@ -2,6 +2,7 @@ package com.example.ticket_management.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -11,8 +12,8 @@ public class CarRouteIndividual {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String startTime;
-    private String endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
 
@@ -38,7 +39,7 @@ public class CarRouteIndividual {
     public CarRouteIndividual() {
     }
 
-    public CarRouteIndividual(Integer id, String startTime, String endTime, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -58,20 +59,20 @@ public class CarRouteIndividual {
         this.id = id;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String start_time) {
-        this.startTime = start_time;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String end_time) {
-        this.endTime = end_time;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public boolean isDelete() {
