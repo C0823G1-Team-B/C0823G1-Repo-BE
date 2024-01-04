@@ -18,27 +18,28 @@ public class Ticket {
     private boolean isDelete;
 
     @ManyToOne
-    @JoinColumn(name = "type_ticket",referencedColumnName = "id")
-    private TypeTicket typeTicket;
-
-    @ManyToOne
-    @JoinColumn(name = "car_route_individual_id",referencedColumnName = "id")
+    @JoinColumn(name = "car_route_individual_id", referencedColumnName = "id")
     private CarRouteIndividual carRouteIndividual;
 
-    @OneToMany(mappedBy = "ticket")
-    private List<DetailTicket> detailTickets;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customers;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payments;
 
     public Ticket() {
     }
 
-    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, TypeTicket typeTicket, CarRouteIndividual carRouteIndividual, List<DetailTicket> detailTickets) {
+    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, CarRouteIndividual carRouteIndividual, Customer customers, Payment payments) {
         this.id = id;
         this.numberSeat = numberSeat;
         this.status = status;
         this.isDelete = isDelete;
-        this.typeTicket = typeTicket;
         this.carRouteIndividual = carRouteIndividual;
-        this.detailTickets = detailTickets;
+        this.customers = customers;
+        this.payments = payments;
     }
 
     public Integer getId() {
@@ -73,14 +74,6 @@ public class Ticket {
         isDelete = delete;
     }
 
-    public TypeTicket getTypeTicket() {
-        return typeTicket;
-    }
-
-    public void setTypeTicket(TypeTicket typeTicket) {
-        this.typeTicket = typeTicket;
-    }
-
     public CarRouteIndividual getCarRouteIndividual() {
         return carRouteIndividual;
     }
@@ -89,11 +82,19 @@ public class Ticket {
         this.carRouteIndividual = carRouteIndividual;
     }
 
-    public List<DetailTicket> getDetailTickets() {
-        return detailTickets;
+    public Customer getCustomers() {
+        return customers;
     }
 
-    public void setDetailTickets(List<DetailTicket> detailTickets) {
-        this.detailTickets = detailTickets;
+    public void setCustomers(Customer customers) {
+        this.customers = customers;
+    }
+
+    public Payment getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Payment payments) {
+        this.payments = payments;
     }
 }

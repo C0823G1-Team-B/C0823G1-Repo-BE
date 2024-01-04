@@ -18,10 +18,6 @@ public class CarRouteIndividual {
     private boolean isDelete;
 
     @ManyToOne
-    @JoinColumn(name = "car_attendant_id",referencedColumnName = "id")
-    private CarAttendant carAttendant;
-
-    @ManyToOne
     @JoinColumn(name = "car_id",referencedColumnName = "id")
     private Car car;
 
@@ -39,12 +35,11 @@ public class CarRouteIndividual {
     public CarRouteIndividual() {
     }
 
-    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isDelete = isDelete;
-        this.carAttendant = carAttendant;
         this.car = car;
         this.driver = driver;
         this.carRoute = carRoute;
@@ -81,14 +76,6 @@ public class CarRouteIndividual {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
-    }
-
-    public CarAttendant getCarAttendant() {
-        return carAttendant;
-    }
-
-    public void setCarAttendant(CarAttendant carAttendant) {
-        this.carAttendant = carAttendant;
     }
 
     public Car getCar() {

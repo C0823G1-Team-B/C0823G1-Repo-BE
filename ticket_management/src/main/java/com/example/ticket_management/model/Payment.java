@@ -2,6 +2,8 @@ package com.example.ticket_management.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "payment")
 public class Payment {
@@ -12,18 +14,17 @@ public class Payment {
     private boolean status;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
-    @ManyToOne
-    @JoinColumn(name = "detail_ticket_id",referencedColumnName = "id")
-    private DetailTicket detailTicket;
+    @OneToMany(mappedBy = "payments")
+    private List<Ticket> tickets;
 
     public Payment() {
     }
 
-    public Payment(Integer id, boolean status, boolean isDelete, DetailTicket detailTicket) {
+    public Payment(Integer id, boolean status, boolean isDelete, List<Ticket> tickets) {
         this.id = id;
         this.status = status;
         this.isDelete = isDelete;
-        this.detailTicket = detailTicket;
+        this.tickets = tickets;
     }
 
     public Integer getId() {
@@ -50,11 +51,11 @@ public class Payment {
         isDelete = delete;
     }
 
-    public DetailTicket getDetailTicket() {
-        return detailTicket;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setDetailTicket(DetailTicket detailTicket) {
-        this.detailTicket = detailTicket;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }
