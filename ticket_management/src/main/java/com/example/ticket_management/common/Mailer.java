@@ -1,4 +1,4 @@
-package com.example.ticket_management.model;
+package com.example.ticket_management.common;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
