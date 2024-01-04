@@ -1,28 +1,35 @@
 package com.example.ticket_management.service.impl;
 
 import com.example.ticket_management.model.Ticket;
+import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TicketService implements ITicketService {
+    @Autowired
+    private ITicketRepository iTicketRepository;
+
     @Override
     public Iterable<Ticket> findAll() {
-        return null;
+        return iTicketRepository.findAll();
     }
 
     @Override
     public Ticket save(Ticket ticket) {
-        return null;
+        return iTicketRepository.save(ticket);
     }
 
     @Override
-    public Ticket findById(Integer id) {
-        return null;
+    public Optional<Ticket> findById(Integer id) {
+        return iTicketRepository.findById(id);
     }
 
     @Override
     public void deleteById(Integer id) {
-
+        iTicketRepository.deleteById(id);
     }
 }

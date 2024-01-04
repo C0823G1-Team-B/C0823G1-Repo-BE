@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "account")
+@Table(name = "adm_account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,26 +15,17 @@ public class Account {
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
     @Column(name = "password")
-    private String acPassword;
-
-    @ManyToOne
-    @JoinColumn(name = "type_account",referencedColumnName = "id")
-    private TypeAccount typeAccount;
-
-   @OneToMany(mappedBy = "account")
-    private List<CarAttendant> carAttendants;
+    private String password;
 
     public Account() {
     }
 
-    public Account(Integer id, String name, String email, boolean isDelete, String acPassword, TypeAccount typeAccount, List<CarAttendant> carAttendants) {
+    public Account(Integer id, String name, String email, boolean isDelete, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.isDelete = isDelete;
-        this.acPassword = acPassword;
-        this.typeAccount = typeAccount;
-        this.carAttendants = carAttendants;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -69,27 +60,11 @@ public class Account {
         isDelete = delete;
     }
 
-    public String getAcPassword() {
-        return acPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAcPassword(String acPassword) {
-        this.acPassword = acPassword;
-    }
-
-    public TypeAccount getTypeAccount() {
-        return typeAccount;
-    }
-
-    public void setTypeAccount(TypeAccount typeAccount) {
-        this.typeAccount = typeAccount;
-    }
-
-    public List<CarAttendant> getCarAttendants() {
-        return carAttendants;
-    }
-
-    public void setCarAttendants(List<CarAttendant> carAttendants) {
-        this.carAttendants = carAttendants;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
