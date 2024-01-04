@@ -10,6 +10,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String email;
     private String name;
     private String birthday;
     @Column(columnDefinition = "int default 0")
@@ -21,8 +22,9 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String birthday, boolean isDelete, List<DetailTicket> detailTickets) {
+    public Customer(Integer id, String email, String name, String birthday, boolean isDelete, List<DetailTicket> detailTickets) {
         this.id = id;
+        this.email = email;
         this.name = name;
         this.birthday = birthday;
         this.isDelete = isDelete;
@@ -35,6 +37,14 @@ public class Customer {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
