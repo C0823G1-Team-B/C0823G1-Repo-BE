@@ -1,0 +1,103 @@
+<div>
+    <form id="myForm" method="get" action="https://www.google.com/">
+        <p>Điểm đi</p>
+        <select style="width: 400px;" name="tinhDi" id="departureCity" class="search-select" onchange="handleDepartureCityChange()">
+            <option value="" selected>Chọn tỉnh thành</option>
+        </select>
+
+        <br>
+
+        <p>Điểm đến</p>
+        <select  style="width: 400px;" name="tinhDen" id="city" class="search-select" onchange="handleCityChange()">
+            <option value="" selected>Chọn tỉnh thành</option>
+        </select>
+
+        <br>
+
+        <p>Thời gian và ngày bắt đầu đi</p>
+        <input type="datetime-local" id="startDateTime" required>
+
+        <input type="button" value="submit" onclick="validateForm()">
+    </form>
+</div>
+
+<h2 id="result"></h2>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+<script>
+    const host = "https://provinces.open-api.vn/api/";
+
+    var callAPI = (api, selectId) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, selectId);
+            });
+    }
+
+    callAPI('https://provinces.open-api.vn/api/?depth=1', 'departureCity');
+    callAPI('https://provinces.open-api.vn/api/?depth=1', 'city');
+
+    var renderData = (array, select) => {
+        let row = '<option disable value="">Chọn</option>';
+        array.forEach(element => {
+            let option = `<option data-id="${element.code}" value="${element.name}" class="${select}-option">${element.name}</option>`;
+            row += option;
+        });
+        document.querySelector("#" + select).innerHTML = row;
+    }
+
+    var handleDepartureCityChange = () => {
+        printResult();
+    };
+
+    var handleCityChange = () => {
+        printResult();
+    };
+
+    var isPastDateTime = (dateTimeString) => {
+        let selectedDateTime = new Date(dateTimeString);
+        let currentDateTime = new Date();
+        return selectedDateTime < currentDateTime;
+    }
+
+    $("#startDateTime").change(() => {
+        printResult();
+    });
+
+    var printResult = () => {
+        let selectedDateTime = new Date($("#startDateTime").val());
+        let currentDateTime = new Date();
+
+        if ($("#departureCity").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+            $("#startDateTime").val() !== "") {
+
+            if (isPastDateTime($("#startDateTime").val())) {
+                alert("Vui lòng chọn ngày và giờ trong tương lai.");
+                $("#startDateTime").val("");
+            } else {
+                let result = "Điểm đi: " + $("#departureCity option:selected").text() +
+                    "<br>Điểm đến: " + $("#city option:selected").text() +
+                    "<br>Thời gian và ngày bắt đầu đi: " + $("#startDateTime").val();
+                $("#result").html(result);
+            }
+        }
+    }
+
+    var validateForm = () => {
+        let selectedDateTime = new Date($("#startDateTime").val());
+        let currentDateTime = new Date();
+
+        if ($("#startDateTime").val() !== "" && isPastDateTime($("#startDateTime").val())) {
+            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $("#startDateTime").val("");
+        } else {
+            $("#myForm").submit();
+        }
+    }
+
+    $(".search-select").select2();
+</script>
