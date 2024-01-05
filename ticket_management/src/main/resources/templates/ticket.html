@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container pt-3 pb-3">
+    <div class="row justify-content-between" style="padding-bottom: 50px">
+        <div class="col-sm-8 p-0">
+            <div class="row">
+                <div id="tang-1" class="col-sm-6">
+                    <a class="nav-link" id="tang-1-tab" href="#tang-1"
+                       style="font-weight: bold; color: black;border-color: black">Tầng 1</a>
+                    <table class="table table-bordered border-bottom-0 border-top-0 border-dark mb-0">
+                        <tbody>
+                        <tr>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Tài xế</td>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Tầng 1</td>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Cửa xe</td>
+                        </tr>
+                        <tr>
+                            <td class="border-0 text-center"><input type="button"
+                                                                    class="btn btn-sm btn-light"
+                                                                    value="--">
+                            </td>
+                            <td class="border-0 text-center"><input type="button"
+                                                                    class="btn btn-sm btn-light"
+                                                                    value="--">
+                            </td>
+                            <td class="lock position-relative border-0 text-center"><input type="button"
+                                                                                           class="btn btn-sm btn-light"
+                                                                                           value="--">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(0).status == false}" th:id="${tickets.get(0).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(0).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(0).id})}">
+                                            <button class="btn btn-sm btn-primary">01
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(0).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(0).id})}">
+                                            <button class="btn btn-sm btn-danger">01
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div th:if="${tickets.get(0).status == true}" th:id="${tickets.get(0).id}">
+                                    <button class="btn btn-sm btn-light">01
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(1).status == false}" th:id="${tickets.get(1).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(1).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(1).id})}">
+                                            <button class="btn btn-sm btn-primary">02
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(1).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(1).id})}">
+                                            <button class="btn btn-sm btn-danger">02
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div th:if="${tickets.get(1).status == true}" th:id="${tickets.get(1).id}">
+                                    <button class="btn btn-sm btn-light">02
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(2).status == false}" th:id="${tickets.get(2).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(2).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(2).id})}">
+                                            <button class="btn btn-sm btn-primary">03
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(2).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(2).id})}">
+                                            <button class="btn btn-sm btn-danger">03
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div th:if="${tickets.get(2).status == true}" th:id="${tickets.get(2).id}">
+                                    <button class="btn btn-sm btn-light">03
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(3).status == false}" th:id="${tickets.get(3).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(3).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(3).id})}">
+                                            <button class="btn btn-sm btn-primary">04
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(3).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(3).id})}">
+                                            <button class="btn btn-sm btn-danger">04
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(4).status == false}" th:id="${tickets.get(4).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(4).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(4).id})}">
+                                            <button class="btn btn-sm btn-primary">05
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(4).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(4).id})}">
+                                            <button class="btn btn-sm btn-danger">05
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(5).status == false}" th:id="${tickets.get(5).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(5).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(5).id})}">
+                                            <button class="btn btn-sm btn-primary">06
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(5).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(5).id})}">
+                                            <button class="btn btn-sm btn-danger">06
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(6).status == false}" th:id="${tickets.get(6).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(6).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(6).id})}">
+                                            <button class="btn btn-sm btn-primary">07
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(6).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(6).id})}">
+                                            <button class="btn btn-sm btn-danger">07
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(7).status == false}" th:id="${tickets.get(7).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(7).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(7).id})}">
+                                            <button class="btn btn-sm btn-primary">08
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(7).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(7).id})}">
+                                            <button class="btn btn-sm btn-danger">08
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(8).status == false}" th:id="${tickets.get(8).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(8).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(8).id})}">
+                                            <button class="btn btn-sm btn-primary">09
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(8).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(8).id})}">
+                                            <button class="btn btn-sm btn-danger">09
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(9).status == false}" th:id="${tickets.get(9).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(9).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(9).id})}">
+                                            <button class="btn btn-sm btn-primary">10
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(9).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(9).id})}">
+                                            <button class="btn btn-sm btn-danger">10
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(10).status == false}" th:id="${tickets.get(10).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(10).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(10).id})}">
+                                            <button class="btn btn-sm btn-primary">11
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(10).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(10).id})}">
+                                            <button class="btn btn-sm btn-danger">11
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(11).status == false}" th:id="${tickets.get(11).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(11).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(11).id})}">
+                                            <button class="btn btn-sm btn-primary">12
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(11).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(11).id})}">
+                                            <button class="btn btn-sm btn-danger">12
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(12).status == false}" th:id="${tickets.get(12).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(12).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(12).id})}">
+                                            <button class="btn btn-sm btn-primary">13
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(12).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(12).id})}">
+                                            <button class="btn btn-sm btn-danger">13
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(13).status == false}" th:id="${tickets.get(13).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(13).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(13).id})}">
+                                            <button class="btn btn-sm btn-primary">14
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(13).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(13).id})}">
+                                            <button class="btn btn-sm btn-danger">14
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(14).status == false}" th:id="${tickets.get(14).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(14).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(14).id})}">
+                                            <button class="btn btn-sm btn-primary">15
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(14).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(14).id})}">
+                                            <button class="btn btn-sm btn-danger">15
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered border-dark mb-0" style="width: 100%">
+                        <tbody>
+                        <tr>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(15).status == false}" th:id="${tickets.get(15).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(15).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(15).id})}">
+                                            <button class="btn btn-sm btn-primary">16
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(15).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(15).id})}">
+                                            <button class="btn btn-sm btn-danger">16
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(16).status == false}" th:id="${tickets.get(16).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(16).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(16).id})}">
+                                            <button class="btn btn-sm btn-primary">17
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(16).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(16).id})}">
+                                            <button class="btn btn-sm btn-danger">17
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(17).status == false}" th:id="${tickets.get(17).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(17).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(17).id})}">
+                                            <button class="btn btn-sm btn-primary">18
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(17).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(17).id})}">
+                                            <button class="btn btn-sm btn-danger">18
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(18).status == false}" th:id="${tickets.get(18).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(18).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(18).id})}">
+                                            <button class="btn btn-sm btn-primary">19
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(18).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(18).id})}">
+                                            <button class="btn btn-sm btn-danger">19
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="tang-2" class="col-sm-6">
+                    <a class="nav-link" id="tang-2-tab" href="#tang-1"
+                       style="font-weight: bold; color: black;border-color: black">Tầng 2</a>
+                    <table class="table table-bordered border-bottom-0 border-top-0 border-dark mb-0">
+                        <tbody>
+                        <tr>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Tài xế</td>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Tầng 1</td>
+                            <td class="border-0 text-center" style="background-color: #dee2e6;height: 0">Cửa xe</td>
+                        </tr>
+                        <tr>
+                            <td class="border-0 text-center">
+                                <div th:if="${tickets.get(19).status == false}" th:id="${tickets.get(19).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(19).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(19).id})}">
+                                            <button class="btn btn-sm btn-primary">20
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(19).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(19).id})}">
+                                            <button class="btn btn-sm btn-danger">20
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(20).status == false}" th:id="${tickets.get(20).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(20).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(20).id})}">
+                                            <button class="btn btn-sm btn-primary">21
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(20).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(20).id})}">
+                                            <button class="btn btn-sm btn-danger">21
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(21).status == false}" th:id="${tickets.get(21).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(21).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(21).id})}">
+                                            <button class="btn btn-sm btn-primary">22
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(21).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(21).id})}">
+                                            <button class="btn btn-sm btn-danger">22
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(22).status == false}" th:id="${tickets.get(22).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(22).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(22).id})}">
+                                            <button class="btn btn-sm btn-primary">23
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(22).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(22).id})}">
+                                            <button class="btn btn-sm btn-danger">23
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(23).status == false}" th:id="${tickets.get(23).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(23).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(23).id})}">
+                                            <button class="btn btn-sm btn-primary">24
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(23).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(23).id})}">
+                                            <button class="btn btn-sm btn-danger">24
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(24).status == false}" th:id="${tickets.get(24).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(24).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(24).id})}">
+                                            <button class="btn btn-sm btn-primary">25
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(24).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(24).id})}">
+                                            <button class="btn btn-sm btn-danger">25
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(25).status == false}" th:id="${tickets.get(25).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(25).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(25).id})}">
+                                            <button class="btn btn-sm btn-primary">26
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(25).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(25).id})}">
+                                            <button class="btn btn-sm btn-danger">26
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(26).status == false}" th:id="${tickets.get(26).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(26).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(26).id})}">
+                                            <button class="btn btn-sm btn-primary">27
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(26).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(26).id})}">
+                                            <button class="btn btn-sm btn-danger">27
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(27).status == false}" th:id="${tickets.get(27).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(27).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(27).id})}">
+                                            <button class="btn btn-sm btn-primary">28
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(27).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(27).id})}">
+                                            <button class="btn btn-sm btn-danger">28
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(28).status == false}" th:id="${tickets.get(28).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(28).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(28).id})}">
+                                            <button class="btn btn-sm btn-primary">29
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(28).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(28).id})}">
+                                            <button class="btn btn-sm btn-danger">29
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(29).status == false}" th:id="${tickets.get(29).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(29).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(29).id})}">
+                                            <button class="btn btn-sm btn-primary">30
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(29).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(29).id})}">
+                                            <button class="btn btn-sm btn-danger">30
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(30).status == false}" th:id="${tickets.get(30).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(30).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(30).id})}">
+                                            <button class="btn btn-sm btn-primary">31
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(30).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(30).id})}">
+                                            <button class="btn btn-sm btn-danger">31
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(31).status == false}" th:id="${tickets.get(31).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(31).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(31).id})}">
+                                            <button class="btn btn-sm btn-primary">32
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(31).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(31).id})}">
+                                            <button class="btn btn-sm btn-danger">32
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(32).status == false}" th:id="${tickets.get(32).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(32).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(32).id})}">
+                                            <button class="btn btn-sm btn-primary">33
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(32).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(32).id})}">
+                                            <button class="btn btn-sm btn-danger">33
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(33).status == false}" th:id="${tickets.get(33).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(33).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(33).id})}">
+                                            <button class="btn btn-sm btn-primary">34
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(33).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(33).id})}">
+                                            <button class="btn btn-sm btn-danger">34
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(34).status == false}" th:id="${tickets.get(34).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(34).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(34).id})}">
+                                            <button class="btn btn-sm btn-primary">35
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(34).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(34).id})}">
+                                            <button class="btn btn-sm btn-danger">35
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(35).status == false}" th:id="${tickets.get(35).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(35).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(35).id})}">
+                                            <button class="btn btn-sm btn-primary">36
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(35).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(35).id})}">
+                                            <button class="btn btn-sm btn-danger">36
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="lock position-relative border-0 text-center">
+                                <div th:if="${tickets.get(36).status == false}" th:id="${tickets.get(36).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(36).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(36).id})}">
+                                            <button class="btn btn-sm btn-primary">37
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(36).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(36).id})}">
+                                            <button class="btn btn-sm btn-danger">37
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered border-dark mb-0" style="width: 100%">
+                        <tbody>
+                        <tr>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(37).status == false}" th:id="${tickets.get(37).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(37).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(37).id})}">
+                                            <button class="btn btn-sm btn-primary">38
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(37).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(37).id})}">
+                                            <button class="btn btn-sm btn-danger">38
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(38).status == false}" th:id="${tickets.get(38).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(38).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(38).id})}">
+                                            <button class="btn btn-sm btn-primary">39
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(38).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(38).id})}">
+                                            <button class="btn btn-sm btn-danger">39
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(39).status == false}" th:id="${tickets.get(39).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(39).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(39).id})}">
+                                            <button class="btn btn-sm btn-primary">40
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(39).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(39).id})}">
+                                            <button class="btn btn-sm btn-danger">40
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="position-relative border-dark text-center" style="width: 20%">
+                                <div th:if="${tickets.get(40).status == false}" th:id="${tickets.get(40).id}">
+                                    <div th:if="${!ticketCart.checkTicket(tickets.get(40).id)}">
+                                        <a th:href="@{/ticket/selectticket/{id}(id=${tickets.get(40).id})}">
+                                            <button class="btn btn-sm btn-primary">41
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div th:if="${ticketCart.checkTicket(tickets.get(40).id)}">
+                                        <a th:href="@{/ticket/noselectticket/{id}(id=${tickets.get(40).id})}">
+                                            <button class="btn btn-sm btn-danger">41
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-3" style="height: 20%">
+                <div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td style="width: 40px; height: 100px"><input type="button" class="btn btn-sm btn-light"
+                                                                          value="--"></td>
+                            <td style="width: 200px; height: 100px">Ghế không bán</td>
+                            <td style="width: 40px; height: 100px"><input type="button" class="btn btn-sm btn-dark"
+                                                                          value="--"></td>
+                            <td style="width: 200px; height: 100px">Ghế đã có người mua</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40px; height: 100px"><input type="button"
+                                                                          class="btn btn-sm btn-primary" value="--">
+                            </td>
+                            <td style="width: 200px; height: 100px">Ghế đang trống</td>
+                            <td style="width: 40px; height: 100px"><input type="button"
+                                                                          class="btn btn-sm btn-danger" value="--">
+                            </td>
+                            <td style="width: 200px; height: 100px">Ghế bạn đang chọn</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-3" style="left: 0">
+            <div class="card bg-light p-0 ">
+                <div class="card-body">
+                    <p class="card-text">Chuyến xe: <strong th:text="${}">Đà Nẵng - Tân Kỳ</strong></p>
+                    <p class="card-text">Loại xe: <strong>Xe thường 44 chỗ</strong></p>
+                    <p class="card-text">Thời gian chạy: <strong>05/01/2024, 20:35</strong></p>
+                    <p class="card-text">Thời gian đón (dự kiến): <strong>20:35</strong></p>
+                    <p class="card-text">Điểm đón: <strong>Bến xe Đà Nẵng</strong></p>
+                    <p class="card-text">Điểm trả: <strong>Đô Lương</strong></p>
+                    <p class="card-text">Ghế đã chọn: <span class="font-weight-bold" name="so_ghe"></span></p>
+                    <div class="text-left col-6 p-0">Thành tiền:</div>
+                    <div class="total_amount text-right col-6 p-0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script>-->
+<!--    function bookTicket(id) {-->
+<!--        $.ajax({-->
+<!--            url: "http://localhost:8080/ws/ticket/" + id,-->
+<!--            type: "GET",-->
+<!--            success: () => {-->
+<!--                function getData() {-->
+<!--                    document.getElementById(id).innerHTML = "<div th:if=\"${!ticketCart.checkTicket(tickets.get(1).id)}\">\n" +-->
+<!--                        "                                            <button name=\"01\" th:id=\"${tickets.get(1).id}\"\n" +-->
+<!--                        "                                                    th:value=\"${tickets.get(1).id}\"\n" +-->
+<!--                        "                                                    th:attr=\"onclick=|bookTicket('${tickets.get(1).id}')|\" >01\n" +-->
+<!--                        "                                            </button>\n" +-->
+<!--                        "                                        </div>\n" +-->
+<!--                        "                                        <div th:if=\"${ticketCart.checkTicket(tickets.get(1).id)}\">\n" +-->
+<!--                        "                                            000\n" +-->
+<!--                        "                                        </div>"-->
+<!--                }-->
+
+<!--                getData()-->
+
+<!--            },-->
+<!--            error: () => {-->
+<!--                alert("404 Not found")-->
+<!--            }-->
+
+<!--        })-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>
