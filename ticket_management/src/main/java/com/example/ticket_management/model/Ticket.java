@@ -12,6 +12,8 @@ public class Ticket {
     private Integer id;
     @Column(name = "number_seat")
     private Integer numberSeat;
+    private Long price;
+
     @Column(columnDefinition = "int default 0")
     private boolean status;
     @Column(columnDefinition = "int default 0")
@@ -32,9 +34,10 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Integer id, Integer numberSeat, boolean status, boolean isDelete, CarRouteIndividual carRouteIndividual, Customer customers, Payment payments) {
+    public Ticket(Integer id, Integer numberSeat, Long price, boolean status, boolean isDelete, CarRouteIndividual carRouteIndividual, Customer customers, Payment payments) {
         this.id = id;
         this.numberSeat = numberSeat;
+        this.price = price;
         this.status = status;
         this.isDelete = isDelete;
         this.carRouteIndividual = carRouteIndividual;
@@ -56,6 +59,14 @@ public class Ticket {
 
     public void setNumberSeat(Integer numberSeat) {
         this.numberSeat = numberSeat;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public boolean isStatus() {
