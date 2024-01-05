@@ -12,7 +12,7 @@ public class Customer {
     private Integer id;
     private String email;
     private String name;
-    private String birthday;
+    private Integer phoneNumber;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
 
@@ -22,11 +22,11 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String email, String name, String birthday, boolean isDelete, List<Ticket> ticket) {
+    public Customer(Integer id, String email, String name, Integer phoneNumber, boolean isDelete, List<Ticket> ticket) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.birthday = birthday;
+        this.phoneNumber = phoneNumber;
         this.isDelete = isDelete;
         this.ticket = ticket;
     }
@@ -55,12 +55,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean isDelete() {

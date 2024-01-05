@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3 style="text-align: center">Thêm tài xế</h3>
+<form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
+    <div>
+    Họ và tên : <input type="text" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
+    </div>
+    <br/>
+    <div>
+    CMND/CCCD : <input type="text" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
+    </div>
+    <br/>
+    <div>
+    Số điện thoại : <input type="text" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
+    </div>
+    <br/>
+    <div>
+    Địa chỉ : <input type="text" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
+    </div>
+    <br/>
+    <input type="submit" value="create">
+</form>
+</body>
+</html>

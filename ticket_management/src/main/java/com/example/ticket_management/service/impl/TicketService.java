@@ -1,5 +1,7 @@
 package com.example.ticket_management.service.impl;
 
+
+import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
@@ -31,5 +33,10 @@ public class TicketService implements ITicketService {
     @Override
     public void deleteById(Integer id) {
         iTicketRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Ticket> findAllByCarRouteIndividual(CarRouteIndividual carRouteIndividual) {
+        return iTicketRepository.findAllByCarRouteIndividual(carRouteIndividual);
     }
 }
