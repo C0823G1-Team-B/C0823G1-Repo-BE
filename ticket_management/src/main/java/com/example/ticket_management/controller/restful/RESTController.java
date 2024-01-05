@@ -1,4 +1,4 @@
-package com.example.ticket_management.controller;
+package com.example.ticket_management.controller.restful;
 
 import com.example.ticket_management.utils.BCryptUtils;
 import jakarta.mail.Message;

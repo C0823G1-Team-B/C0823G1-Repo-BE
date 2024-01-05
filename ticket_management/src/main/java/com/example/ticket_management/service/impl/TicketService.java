@@ -38,4 +38,9 @@ public class TicketService implements ITicketService{
     public void deleteById(Integer id) {
         iTicketRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Ticket> findAllByCarRouteIndividual(CarRouteIndividual carRouteIndividual) {
+        return iTicketRepository.findAllByCarRouteIndividual(carRouteIndividual);
+    }
 }
