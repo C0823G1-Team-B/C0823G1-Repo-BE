@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+</head>
+<body>
+
+<h1 class="text-center">Thêm Lịch trình</h1>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Thêm Lịch trình</h1>
+    <form>
+        <div class="mb-3">
+            <label for="startDateTime" class="form-label">Ngày bắt đầu đi</label>
+            <input name="timeStart" class="form-control" type="datetime-local" id="startDateTime" required>
+        </div>
+        <div class="mb-3">
+            <label for="endDateTime" class="form-label">Ngày kết thúc</label>
+            <input name="timeEnd" class="form-control" type="datetime-local" id="endDateTime" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="route" class="form-label">Chọn tuyến đường</label>
+            <select id="route" name="route" class="form-select">
+                <option th:each="itemCar,status : ${listCarRoute}" th:value="${itemCar.id}" th:text="${itemCar.startingPoint + ' Đến '+ itemCar.endingPoint}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label  for="car" class="form-label">Chọn tài xế</label>
+            <select id="car" name="car" class="form-select">
+                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}" th:text="${'Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label  for="driver" class="form-label">Chọn tài xế</label>
+            <select id="driver" name="driver" class="form-select">
+                <option th:each="itemDriver,status : ${listDriver}" th:value="${itemDriver.id}" th:text="${itemDriver.name}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+<script>
+    var isPastDateTime = (dateTimeString) => {
+        let selectedDateTime = new Date(dateTimeString);
+        let currentDateTime = new Date();
+        return selectedDateTime < currentDateTime;
+    }
+
+    $("#startDateTime").change(() => {
+        let selectedStartDateTime = new Date($("#startDateTime").val());
+
+        if (isPastDateTime($("#startDateTime").val())) {
+            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $("#startDateTime").val("");
+        }
+    });
+
+    $("#endDateTime").change(() => {
+        let selectedStartDateTime = new Date($("#startDateTime").val());
+        let selectedEndDateTime = new Date($("#endDateTime").val());
+
+        if (isPastDateTime($("#endDateTime").val())) {
+            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $("#endDateTime").val("");
+        } else if (selectedEndDateTime <= selectedStartDateTime) {
+            alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+            $("#endDateTime").val("");
+        }
+    });
+
+    $(document).ready(function (){
+        $('#startDateTime').change(function (){
+            alert("The date  have been changed.");
+        })
+    })
+</script>

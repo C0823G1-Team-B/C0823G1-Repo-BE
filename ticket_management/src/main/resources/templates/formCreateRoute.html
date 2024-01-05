@@ -14,7 +14,8 @@
 <body>
 
 <div>
-    <form id="myForm" method="get" th:action="@{/api/ticket/searchTicket}">
+    <h1 class="text-center">Tạo Tuyến xe</h1>
+    <form  id="myForm" method="get" th:action="@{/api/ticket/createRoute}">
         <p>Điểm đi</p>
         <select   style="width: 400px;" name="departure" id="departureCity" class="search-select" onchange="handleDepartureCityChange()" required>
             <option  value="" selected>Chọn tỉnh thành</option>
@@ -27,38 +28,13 @@
             <option value="" selected>Chọn tỉnh thành</option>
         </select>
 
-        <br>
-
-        <p>Ngày bắt đầu đi</p>
-        <input  name="timeStart" type="datetime-local" id="startDateTime" required>
-
         <input type="submit" value="Submit">
 
     </form>
 </div>
-
 <div th:if="${message}" th:text="${message}" class="success-message"></div>
-<div th:if="${listTicket != null}">
-    <p th:if="${listTicket.isEmpty()}"> Không có kết quả được tìm thấy. </p>
-</div>
 
-<div th:if="${listTicket != null}">
-    <table  class="table table-hover" th:if="${!listTicket.isEmpty()}" >
-    <tr>
-        <th>Điểm đi</th>
-        <th>Điểm đến</th>
-        <th>Thời gian bắt đầu</th>
-        <th>Thời gian kết thúc</th>
-    </tr>
-    <tr th:each="row,rowStart : ${listTicket}">
-        <td th:text="${row.carRoute.startingPoint}"></td>
-        <td th:text="${row.carRoute.endingPoint}"></td>
-        <td th:text="${row.startTime}"></td>
-        <td th:text="${row.endTime}"></td>
-    </tr>
 
-</table>
-</div>
 
 </body>
 </html>
@@ -106,8 +82,6 @@
         printResult();
     });
 
-
-
     var printResult = () => {
         let selectedDateTime = new Date($("#startDateTime").val());
         let currentDateTime = new Date();
@@ -115,15 +89,12 @@
         if ($("#departureCity").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
             $("#startDateTime").val() !== "") {
 
-            if (isPastDateTime($("#startDateTime").val())) {
-                alert("Vui lòng chọn ngày và giờ trong tương lai.sss");
-                $("#startDateTime").val("");
-            }
         }
     }
 
+
     $(".search-select").select2();
-
-
-
 </script>
+
+
+<!--sssssss-->

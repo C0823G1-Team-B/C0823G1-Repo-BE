@@ -109,4 +109,18 @@ public class CarRouteIndividual {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+    @Override
+    public String toString() {
+        return "CarRouteIndividual{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", isDelete=" + isDelete +
+                ", car=" + car +
+                ", driver=" + driver +
+                ", carRoute=" + carRoute +
+                ", tickets=" + tickets +
+                '}';
+    }
 }
