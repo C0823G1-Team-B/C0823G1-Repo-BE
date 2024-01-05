@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteIndividual,Integer> {
-    @Query(value = "select car_route_individual.end_time as endTime, \n" +
+    @Query(value = "select car_route_individual.id as id, \n" +
+            "car_route_individual.end_time as endTime, \n" +
             "car_route_individual.start_time as startTime, \n" +
             "car.total_seats as totalSeats, \n" +
             "car_route_individual.price as price, \n" +

@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 public class TicketCart {
-    private Map<Integer,Ticket> ticketList = new HashMap<>();
+    public Map<Integer,Ticket> ticketList = new HashMap<>();
 
     public TicketCart() {
     }

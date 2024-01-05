@@ -18,20 +18,19 @@ public class CustomerDTO {
     @Size(min = 5, max = 60, message = "Độ dài phải từ 5-60 kí tự")
     @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Tên chỉ được nhập a-z hoặc A-Z")
     private String name;
-    private String birthday;
-    private boolean isDelete;
-    private List<Ticket> ticket;
+
+    @NotBlank(message = "Tên không được để trống")
+    @Pattern(regexp = "^0\\d{9}$", message = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0")
+    private String phoneNumber;
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(Integer id, String email, String name, String birthday, boolean isDelete, List<Ticket> ticket) {
+    public CustomerDTO(Integer id, String email, String name, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.birthday = birthday;
-        this.isDelete = isDelete;
-        this.ticket = ticket;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getId() {
@@ -58,27 +57,11 @@ public class CustomerDTO {
         this.name = name;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
-    }
-
-    public List<Ticket> getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(List<Ticket> ticket) {
-        this.ticket = ticket;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
