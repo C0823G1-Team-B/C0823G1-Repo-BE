@@ -6,6 +6,7 @@ import com.example.ticket_management.service.ICarRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,7 +15,7 @@ public class CarRouteService implements ICarRouteService {
     private ICarRouteRepository iCarRouteRepository;
 
     @Override
-    public Iterable<CarRoute> findAll() {
+    public List<CarRoute> findAll() {
         return iCarRouteRepository.findAll();
     }
 
@@ -32,4 +33,11 @@ public class CarRouteService implements ICarRouteService {
     public void deleteById(Integer id) {
         iCarRouteRepository.deleteById(id);
     }
+
+    @Override
+    public CarRoute findCarRouteByStartingPointAndEndingPoint(String departure, String destination) {
+         return iCarRouteRepository.findCarRouteByStartingPointAndEndingPoint(departure,destination);
+    }
+
+
 }

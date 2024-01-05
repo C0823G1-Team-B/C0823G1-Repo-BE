@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org/">
 
 <head>
+    <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +32,7 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
           media="screen">
+
 </head>
 
 <body>
@@ -50,17 +52,15 @@
                 <div class="menu_text">
                     <ul>
                         <li><a href="#">Trang Chủ</a></li>
-                        <li><a href="#about">Đặt xe</a></li>
-                        <li><a href="#taxis">Loại Xe</a></li>
+                        <li><a th:href="@{api/ticket}">Đặt vé</a></li>
+                        <li><a th:href="@{api/ticket/formCreateRoute}">Tạo tuyến</a></li>
+                        <li><a th:href="@{api/ticket/formCreateRouteIndividual}">Tạo lịch trình</a></li>
                         <li><a href="#booking">Chi Tiết</a></li>
-                        <li><a href="#contact">Liên Hệ</a></li>
-                        <li><a th:href="@{/admin/driver}">Thêm tài xế</a></li>
-                        <li><a href="#"><img src="images/search-icon.png"></a></li>
                         <div id="myNav" class="overlay">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                             <div class="overlay-content">
                                 <a href="#">Trang Chủ</a>
-                                <a href="#about">Đặt xe</a>
+                                <a href="">Đặt xe</a>
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>

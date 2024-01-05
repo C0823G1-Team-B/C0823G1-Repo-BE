@@ -120,4 +120,18 @@ public class CarRouteIndividual {
     public void setPrice(Long price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "CarRouteIndividual{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", isDelete=" + isDelete +
+                ", car=" + car +
+                ", driver=" + driver +
+                ", carRoute=" + carRoute +
+                ", tickets=" + tickets +
+                '}';
+    }
 }
