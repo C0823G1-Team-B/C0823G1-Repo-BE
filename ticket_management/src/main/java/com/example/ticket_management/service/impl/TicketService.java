@@ -21,12 +21,12 @@ public class TicketService implements ITicketService{
 
     @Override
     public Iterable<Ticket> findAll() {
-        return null;
+        return iTicketRepository.findAll();
     }
 
     @Override
     public Ticket save(Ticket ticket) {
-        return null;
+        return iTicketRepository.save(ticket);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class TicketService implements ITicketService{
 
     @Override
     public void deleteById(Integer id) {
-
+        iTicketRepository.deleteById(id);
     }
 }

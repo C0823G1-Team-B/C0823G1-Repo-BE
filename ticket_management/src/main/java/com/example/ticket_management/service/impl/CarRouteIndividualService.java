@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 public class CarRouteIndividualService implements ICarRouteIndividualService {
@@ -21,7 +20,7 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
 
     @Override
     public CarRouteIndividual save(CarRouteIndividual carRouteIndividual) {
-        return null;
+        return iCarRouteIndividualRepository.save(carRouteIndividual);
     }
 
     @Override
@@ -31,6 +30,7 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
 
     @Override
     public void deleteById(Integer id) {
+        iCarRouteIndividualRepository.deleteById(id);
 
     }
 
