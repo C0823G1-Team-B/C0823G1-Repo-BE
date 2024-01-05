@@ -4,6 +4,8 @@ import com.example.ticket_management.model.Customer;
 import com.example.ticket_management.service.ICustomerService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomerService implements ICustomerService {
     @Override
@@ -17,7 +19,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer findById(Integer id) {
+    public Optional<Customer> findById(Integer id) {
         return null;
     }
 

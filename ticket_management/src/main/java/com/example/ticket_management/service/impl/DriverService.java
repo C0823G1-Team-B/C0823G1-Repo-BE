@@ -4,6 +4,8 @@ import com.example.ticket_management.model.Driver;
 import com.example.ticket_management.service.IDriverService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class DriverService implements IDriverService {
     @Override
@@ -17,7 +19,7 @@ public class DriverService implements IDriverService {
     }
 
     @Override
-    public Driver findById(Integer id) {
+    public Optional<Driver> findById(Integer id) {
         return null;
     }
 

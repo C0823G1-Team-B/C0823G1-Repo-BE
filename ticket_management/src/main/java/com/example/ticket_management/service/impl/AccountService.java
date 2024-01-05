@@ -4,6 +4,8 @@ import com.example.ticket_management.model.Account;
 import com.example.ticket_management.service.IAccountService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AccountService implements IAccountService {
     @Override
@@ -17,7 +19,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account findById(Integer id) {
+    public Optional<Account> findById(Integer id) {
         return null;
     }
 

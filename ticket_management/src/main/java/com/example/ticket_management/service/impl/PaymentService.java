@@ -4,6 +4,8 @@ import com.example.ticket_management.model.Payment;
 import com.example.ticket_management.service.IPaymentService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PaymentService implements IPaymentService {
     @Override
@@ -17,7 +19,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Payment findById(Integer id) {
+    public Optional<Payment> findById(Integer id) {
         return null;
     }
 

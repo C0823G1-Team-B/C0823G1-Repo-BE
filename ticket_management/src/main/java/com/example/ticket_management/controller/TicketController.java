@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,8 @@ public class TicketController {
         return new TicketCart();
     }
     @GetMapping("/{idCRI}")
-    public ModelAndView showTicket(@PathVariable Integer idCRI, @ModelAttribute("ticketCart") TicketCart ticketCart){
+    public ModelAndView showTicket(@PathVariable Integer idCRI){
+
         Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
         if (!carRouteIndividual.isPresent()){
             return new ModelAndView("error");
@@ -36,8 +38,9 @@ public class TicketController {
         Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(carRouteIndividual.get());
         List<Ticket> tickets1 = (List<Ticket>) tickets;
         ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-        modelAndView.addObject("ticketCart",ticketCart);
+        modelAndView.addObject("ticketCart",new TicketCart());
         modelAndView.addObject("cri",iCarRouteIndividualDTO);
+        modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
         return modelAndView;
     }
 
@@ -52,7 +55,8 @@ public class TicketController {
         List<Ticket> tickets1 = (List<Ticket>) tickets;
         ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
         modelAndView.addObject("ticketCart",ticketCart);
-        modelAndView.addObject("cri",ticket.get().getCarRouteIndividual());
+        modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+        modelAndView.addObject("cri",iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
         return modelAndView;
     }
 
@@ -67,7 +71,8 @@ public class TicketController {
         List<Ticket> tickets1 = (List<Ticket>) tickets;
         ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
         modelAndView.addObject("ticketCart",ticketCart);
-        modelAndView.addObject("cri",ticket.get().getCarRouteIndividual());
+        modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+        modelAndView.addObject("cri",iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
         return modelAndView;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.ticket_management.model;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+
 import java.util.*;
 
 public class TicketCart {
@@ -30,5 +32,22 @@ public class TicketCart {
 
     public void removeTicket(Ticket ticket){
        ticketList.remove(ticket.getId());
+    }
+
+    public List<String> getNumberSeat2(){
+        List<String> strList = new ArrayList<>();
+        Set<Integer> tickets = ticketList.keySet();
+        String string = "";
+        for (Integer integer:tickets){
+            if (ticketList.get(integer).getNumberSeat() < 10){
+                string = "0" + ticketList.get(integer).getNumberSeat();
+                strList.add(string);
+            }
+            else {
+                string = String.valueOf(ticketList.get(integer).getNumberSeat());
+                strList.add(string);
+            }
+        }
+        return strList;
     }
 }

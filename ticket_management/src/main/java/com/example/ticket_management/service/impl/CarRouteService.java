@@ -4,6 +4,8 @@ import com.example.ticket_management.model.CarRoute;
 import com.example.ticket_management.service.ICarRouteService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CarRouteService implements ICarRouteService {
     @Override
@@ -17,7 +19,7 @@ public class CarRouteService implements ICarRouteService {
     }
 
     @Override
-    public CarRoute findById(Integer id) {
+    public Optional<CarRoute> findById(Integer id) {
         return null;
     }
 
