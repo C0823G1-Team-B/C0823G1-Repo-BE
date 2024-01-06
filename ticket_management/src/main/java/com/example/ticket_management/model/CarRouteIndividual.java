@@ -14,7 +14,7 @@ public class CarRouteIndividual {
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     @ManyToOne

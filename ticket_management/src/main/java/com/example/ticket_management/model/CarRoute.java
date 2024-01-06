@@ -11,7 +11,6 @@ public class CarRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Long price;
     @Column(name = "starting_point")
     private String startingPoint;
     @Column(name = "ending_point")
@@ -20,7 +19,7 @@ public class CarRoute {
     @OneToMany(mappedBy = "carRoute")
     private List<CarRouteIndividual> carRouteIndividualList;
 
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     public CarRoute() {
@@ -37,9 +36,8 @@ public class CarRoute {
         this.endingPoint = endingPoint;
     }
 
-    public CarRoute(Integer id, Long price, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {
+    public CarRoute(Integer id, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {
         this.id = id;
-        this.price = price;
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
         this.carRouteIndividualList = carRouteIndividualList;
@@ -52,14 +50,6 @@ public class CarRoute {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
     }
 
     public String getStartingPoint() {

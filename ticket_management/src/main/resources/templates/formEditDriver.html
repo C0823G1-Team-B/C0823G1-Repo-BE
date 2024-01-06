@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+  <a th:href="@{/admin/driver/list}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
+</div>
+<form method="post" th:object="${drivers}" th:action="@{/admin/driver/edit}">
+    <fieldset>
+        <legend>information</legend>
+        <div><input type="hidden" th:field="*{id}"></div>
+        <div>
+            <label for="name">Họ và tên</label>
+            <input type="text" id="name" th:field="*{name}"/>
+        </div>
+
+        <div>
+            <label for="identity">CMND/CCCD</label>
+            <input type="text" id="identity" th:field="*{identity}"/>
+        </div>
+
+        <div>
+            <label for="phone_number">Số điện thoại</label>
+            <input type="text" id="phone_number" th:field="*{phoneNumber}"/>
+        </div>
+
+        <div>
+            <label for="address">Địa chỉ</label>
+            <input type="text" id="address" th:field="*{address}">
+        </div>
+
+        <input type="submit" value="edit"/>
+    </fieldset>
+</form>
+</body>
+</html>
