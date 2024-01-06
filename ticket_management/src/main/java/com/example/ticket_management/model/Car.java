@@ -12,7 +12,7 @@ public class Car {
     private Integer id;
     private Integer totalSeats;
     private String licensePlates;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
     @OneToMany(mappedBy = "car")
     private List<CarRouteIndividual> carRouteIndividualList;

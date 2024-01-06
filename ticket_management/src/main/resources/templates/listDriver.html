@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<br/>
+<h3 style="text-align: center">List Driver</h3>
+<br/>
+<br/>
+<div>
+    <a th:href="@{/admin/driver/create}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Thêm mới tài xế</a>
+</div>
+<table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên</th>
+            <th scope="col">CNMD/CCCD</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Sửa</th>
+            <th scope="col">Xoá</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d,loop:${drivers}">
+            <td th:text="${loop.count}"></td>
+            <td th:text="${d.name}"></td>
+            <td th:text="${d.identity}"></td>
+            <td th:text="${d.phoneNumber}"></td>
+            <td th:text="${d.address}"></td>
+            <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
+                   class="btn btn-outline-primary">Edit</a></td>
+            <td>
+                <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
+                   data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+                    Delete
+                </a>
+            </td>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <form action="/admin/driver/remove" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="idDelete" id="idDelete">
+                        Do you want to delete driver with name <span id="nameDelete"></span>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:if="${drivers.hasPrevious()}"><a class="page-link"
+                                                                      th:href="@{/admin/driver/list(page=${drivers.number - 1})}">Previous</a>
+            </li>
+            <div th:each="item : ${#numbers.sequence(1, drivers.totalPages)}">
+                <li class="page-item active" th:if="${drivers.number + 1 == item}">
+                    <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
+                </li>
+                <li class="page-item" th:if="${drivers.number + 1 != item}">
+                    <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
+                </li>
+            </div>
+            <li class="page-item" th:if="${drivers.hasNext()}"><a class="page-link"
+                                                                  th:href="@{/admin/driver/list(page=${drivers.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</body>
+<script>
+    function onDeleteHandler(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").innerHTML = name;
+    }
+</script>
+
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+></script>
+</html>

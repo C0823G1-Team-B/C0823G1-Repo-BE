@@ -13,7 +13,7 @@ public class Customer {
     private String email;
     private String name;
     private String phoneNumber;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
    @OneToMany(mappedBy ="customers" )

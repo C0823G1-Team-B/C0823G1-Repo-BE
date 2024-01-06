@@ -14,9 +14,9 @@ public class Ticket {
     private Integer numberSeat;
     private Long price;
 
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean status;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     @ManyToOne

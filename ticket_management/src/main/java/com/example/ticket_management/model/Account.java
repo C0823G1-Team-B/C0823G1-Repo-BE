@@ -12,7 +12,7 @@ public class Account {
     private Integer id;
     private String name;
     private String email;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
     @Column(name = "password")
     private String password;
