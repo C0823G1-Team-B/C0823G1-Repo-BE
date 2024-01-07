@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/">
-
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <!-- basic -->
     <meta charset="utf-8">
@@ -64,6 +64,12 @@
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
+                                <div sec:authorize="!isAuthenticated()">
+                                    Chưa đăng nhập
+                                </div>
+                                <div sec:authorize="isAuthenticated()">
+                                     đăng nhập
+                                </div>
                             </div>
                         </div>
                         <span style="font-size:33px;cursor:pointer; color: #ffffff;" onclick="openNav()">
@@ -356,6 +362,7 @@
                                 </a>
                             </span>
                     </div>
+
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
                     <h2 class="account_text">Follow Us</h2>
