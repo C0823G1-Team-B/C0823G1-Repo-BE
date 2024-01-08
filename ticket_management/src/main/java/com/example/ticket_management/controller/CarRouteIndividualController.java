@@ -19,4 +19,5 @@ public class CarRouteIndividualController {
         Iterable<CarRouteIndividual> carRouteIndividuals = iCarRouteIndividualService.findAll();
         return new ModelAndView("car-route-individual", "criList", carRouteIndividuals);
     }
+
 }

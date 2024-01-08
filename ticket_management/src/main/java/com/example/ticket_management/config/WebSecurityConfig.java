@@ -68,11 +68,19 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/**","/logout").permitAll()
                         .requestMatchers("/public/ajax/**").permitAll()
                         .anyRequest().authenticated()
+
                 )
+
+                .formLogin((formLogin) ->
+                        formLogin.defaultSuccessUrl("/admin"))
+                .logout(logout ->
+                        logout.logoutSuccessUrl("/"))
+//                .logout(logout ->logout.logoutUrl("/logout"))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
