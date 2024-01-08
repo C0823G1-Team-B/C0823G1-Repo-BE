@@ -129,7 +129,7 @@
 
                 </div>
                 <div class="col-md-1">
-                    <a class="btn btn-dark" th:text="${row.id}">Đặt vé</a>
+                    <a class="btn btn-dark" target="_blank" th:href="@{/ticket/{idCRI}(idCRI=${row.getId()})}"> Đặt vé </a>
 
                 </div>
             </div>

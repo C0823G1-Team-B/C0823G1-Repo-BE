@@ -17,8 +17,8 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "car_route_individual.price as price, \n" +
             "car_route.ending_point as endingPoint, \n" +
             "car_route.starting_point as startingPoint \n" +
-            "from car_route_individual join car on car_route_individual.id = car.id\n" +
-            "join car_route on car_route.id = car_route_individual.id\n" +
+            "from car_route_individual join car on car_route_individual.car_id = car.id\n" +
+            "join car_route on car_route.id = car_route_individual.car_route_id\n" +
             "where car_route_individual.id = :idCRI", nativeQuery = true)
     ICarRouteIndividualDTO findByDTO(Integer idCRI);
 
