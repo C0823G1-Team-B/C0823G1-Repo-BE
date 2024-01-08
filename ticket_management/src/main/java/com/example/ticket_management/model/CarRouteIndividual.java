@@ -14,12 +14,8 @@ public class CarRouteIndividual {
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
-
-    @ManyToOne
-    @JoinColumn(name = "car_attendant_id",referencedColumnName = "id")
-    private CarAttendant carAttendant;
 
     @ManyToOne
     @JoinColumn(name = "car_id",referencedColumnName = "id")
@@ -36,19 +32,21 @@ public class CarRouteIndividual {
     @OneToMany(mappedBy = "carRouteIndividual")
     private List<Ticket> tickets;
 
+    private Long price;
+
     public CarRouteIndividual() {
     }
 
-    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, CarAttendant carAttendant, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets, Long price) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isDelete = isDelete;
-        this.carAttendant = carAttendant;
         this.car = car;
         this.driver = driver;
         this.carRoute = carRoute;
         this.tickets = tickets;
+        this.price = price;
     }
 
     public Integer getId() {
@@ -83,14 +81,6 @@ public class CarRouteIndividual {
         isDelete = delete;
     }
 
-    public CarAttendant getCarAttendant() {
-        return carAttendant;
-    }
-
-    public void setCarAttendant(CarAttendant carAttendant) {
-        this.carAttendant = carAttendant;
-    }
-
     public Car getCar() {
         return car;
     }
@@ -121,5 +111,27 @@ public class CarRouteIndividual {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "CarRouteIndividual{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", isDelete=" + isDelete +
+                ", car=" + car +
+                ", driver=" + driver +
+                ", carRoute=" + carRoute +
+                ", tickets=" + tickets +
+                '}';
     }
 }

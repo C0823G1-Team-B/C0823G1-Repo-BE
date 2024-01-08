@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/">
-
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <!-- basic -->
     <meta charset="utf-8">
@@ -39,6 +39,51 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!--header section start -->
 <div id="header"></div>
+<div id="index.html" class="header_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <div class="logo"><a href="#"> <img
+                        src="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png"
+                        srcset="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png 1x"
+                        width="227" height="69" alt="Nhà Xe Hiếu Hoa Đà Nẵng Logo" data-retina_logo_url=""
+                        class="fusion-standard-logo" /></a></div>
+            </div>
+            <div class="col-sm-6 col-lg-9">
+                <div class="menu_text">
+                    <ul>
+                        <li><a href="#">Trang Chủ</a></li>
+                        <li><a th:href="@{api/ticket}">Đặt vé</a></li>
+                        <li><a th:href="@{api/ticket/formCreateRoute}">Tạo tuyến</a></li>
+                        <li><a th:href="@{api/ticket/formCreateRouteIndividual}">Tạo lịch trình</a></li>
+                        <li><a href="#booking">Chi Tiết</a></li>
+                        <div id="myNav" class="overlay">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                            <div class="overlay-content">
+                                <a href="#">Trang Chủ</a>
+                                <a href="">Đặt xe</a>
+                                <a href="#taxis">Loại Xe</a>
+                                <a href="#booking">Chi Tiết</a>
+                                <a href="#contact">Liên Hệ</a>
+                                <div sec:authorize="!isAuthenticated()">
+                                    Chưa đăng nhập
+                                </div>
+                                <div sec:authorize="isAuthenticated()">
+                                    đăng nhập
+                                </div>
+                            </div>
+                        </div>
+                        <span style="font-size:33px;cursor:pointer; color: #ffffff;" onclick="openNav()">
+                                <box-icon name='menu' color='#e8e8e8'></box-icon>
+                            </span>
+                    </ul>
+                </div>
+                </li>
+
+            </div>
+        </div>
+    </div>
+</div>
 <!-- header section end -->
 <!-- banner section start -->
 <div class="banner_section">
@@ -318,6 +363,7 @@
                                 </a>
                             </span>
                     </div>
+
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
                     <h2 class="account_text">Follow Us</h2>

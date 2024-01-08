@@ -1,5 +1,6 @@
 package com.example.ticket_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,13 +15,25 @@ public class CarRoute {
     private String startingPoint;
     @Column(name = "ending_point")
     private String endingPoint;
+    @JsonBackReference
     @OneToMany(mappedBy = "carRoute")
     private List<CarRouteIndividual> carRouteIndividualList;
 
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     public CarRoute() {
+    }
+
+    public CarRoute(String startingPoint, String endingPoint, boolean isDelete) {
+        this.startingPoint = startingPoint;
+        this.endingPoint = endingPoint;
+        this.isDelete = isDelete;
+    }
+
+    public CarRoute(String startingPoint, String endingPoint) {
+        this.startingPoint = startingPoint;
+        this.endingPoint = endingPoint;
     }
 
     public CarRoute(Integer id, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {

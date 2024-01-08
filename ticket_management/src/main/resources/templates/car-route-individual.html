@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--đoạn này hiển thị lúc tìm kiếm thì hiển thị ra cái list tuyến xe phải bao gồm id tuyến xe nhé-->
+<div th:each="cri: ${criList}">
+    <a target="_blank" th:href="@{/ticket/{idCRI}(idCRI=${cri.getId()})}" th:text="${cri.startTime}"></a>
+</div>
+</body>
+</html>

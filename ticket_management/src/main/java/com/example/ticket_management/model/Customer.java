@@ -12,23 +12,25 @@ public class Customer {
     private Integer id;
     private String email;
     private String name;
-    private String birthday;
-    @Column(columnDefinition = "int default 0")
+    private String phoneNumber;
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
-    @OneToMany(mappedBy = "customer" )
-    private List<DetailTicket> detailTickets;
+   @OneToMany(mappedBy ="customers" )
+    private List<Ticket> ticket;
 
     public Customer() {
     }
 
-    public Customer(Integer id, String email, String name, String birthday, boolean isDelete, List<DetailTicket> detailTickets) {
+
+    public Customer(Integer id, String email, String name, String phoneNumber, boolean isDelete, List<Ticket> ticket) {
+
         this.id = id;
         this.email = email;
         this.name = name;
-        this.birthday = birthday;
+        this.phoneNumber = phoneNumber;
         this.isDelete = isDelete;
-        this.detailTickets = detailTickets;
+        this.ticket = ticket;
     }
 
     public Integer getId() {
@@ -55,12 +57,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean isDelete() {
@@ -71,11 +73,11 @@ public class Customer {
         isDelete = delete;
     }
 
-    public List<DetailTicket> getDetailTickets() {
-        return detailTickets;
+    public List<Ticket> getTicket() {
+        return ticket;
     }
 
-    public void setDetailTickets(List<DetailTicket> detailTickets) {
-        this.detailTickets = detailTickets;
+    public void setTicket(List<Ticket> ticket) {
+        this.ticket = ticket;
     }
 }
