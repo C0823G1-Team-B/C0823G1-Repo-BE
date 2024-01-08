@@ -33,8 +33,8 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "where cdt.start_time >= :timeConvert " +
             "and cdt.start_time < date_add(:timeConvert, interval 1 day) " +
             "and cdt.car_route_id = :carRoute", nativeQuery = true)
-
     List<CarRouteIndividual> findCarouteByStartTimeAndIdRoute(@Param("timeConvert") String timeConvert, @Param("carRoute") Integer carRoute);
+
 
 //    List<CarRouteIndividual> findCarouteByStartTimeAndIdRoute(String timeConvert, Integer id);
 
