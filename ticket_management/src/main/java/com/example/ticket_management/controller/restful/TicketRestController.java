@@ -33,7 +33,7 @@ public class TicketRestController {
 
         String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println("test");
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
         LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
@@ -48,7 +48,6 @@ public class TicketRestController {
                 carRouteIndividual.getPrice());
 
         CarRouteIndividual carRouteIndividual2 = iCarRouteIndividualService.save(carRouteIndividual1);
-        Optional<CarRoute> carRoute = iCarRouteService.findById(carRouteIndividual.getRoute());
 
         for (int i = 1; i <= 41; i++) {
             ticket = new Ticket();
