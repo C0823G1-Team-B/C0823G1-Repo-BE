@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/public/ajax")
+@RequestMapping("/public")
 public class TicketRestController {
     @Autowired
     private IDriverService iDriverService;
