@@ -5,35 +5,65 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-  <a th:href="@{/admin/driver/list}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa tài xế</title>
+    <!-- Bao gồm Bootstrap CSS từ CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Nút Quay lại -->
+    <div>
+        <a th:href="@{/admin/driver/list}" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
+    </div>
+
+    <!-- Form sử dụng Bootstrap classes -->
+    <form method="post" th:object="${drivers}" th:action="@{/admin/driver/edit}">
+        <fieldset>
+            <legend class="mt-4">Thông tin tài xế</legend>
+
+            <!-- Sử dụng form-group để nhóm các trường -->
+            <div class="form-group">
+                <input type="hidden" th:field="*{id}">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Họ và tên</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" />
+            </div>
+
+            <div class="form-group">
+                <label for="identity">CMND/CCCD</label>
+                <input type="text" class="form-control" id="identity" th:field="*{identity}" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Số điện thoại</label>
+                <input type="text" class="form-control" id="phone_number" th:field="*{phoneNumber}" />
+            </div>
+
+            <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </fieldset>
+    </form>
 </div>
-<form method="post" th:object="${drivers}" th:action="@{/admin/driver/edit}">
-    <fieldset>
-        <legend>information</legend>
-        <div><input type="hidden" th:field="*{id}"></div>
-        <div>
-            <label for="name">Họ và tên</label>
-            <input type="text" id="name" th:field="*{name}"/>
-        </div>
 
-        <div>
-            <label for="identity">CMND/CCCD</label>
-            <input type="text" id="identity" th:field="*{identity}"/>
-        </div>
+<!-- Bao gồm Bootstrap JS và Popper.js từ CDN (cần cho một số tính năng của Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        <div>
-            <label for="phone_number">Số điện thoại</label>
-            <input type="text" id="phone_number" th:field="*{phoneNumber}"/>
-        </div>
+</body>
+</html>
 
-        <div>
-            <label for="address">Địa chỉ</label>
-            <input type="text" id="address" th:field="*{address}">
-        </div>
-
-        <input type="submit" value="edit"/>
-    </fieldset>
-</form>
 </body>
 </html>

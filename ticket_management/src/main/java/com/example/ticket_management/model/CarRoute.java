@@ -19,7 +19,7 @@ public class CarRoute {
     @OneToMany(mappedBy = "carRoute")
     private List<CarRouteIndividual> carRouteIndividualList;
 
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     public CarRoute() {
