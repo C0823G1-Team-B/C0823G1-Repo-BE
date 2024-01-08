@@ -38,6 +38,7 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "    )\n" +
             ")",nativeQuery = true)
     List<Driver> findAllDriverFreeByTime(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
+
     @Query(value = "select d.* from driver d where d.name like :name and d.is_delete = 0",
             nativeQuery = true,
             countQuery = "select count(*) from(select d.* from driver d where d.name like :name and d.is_delete = 0) temp")

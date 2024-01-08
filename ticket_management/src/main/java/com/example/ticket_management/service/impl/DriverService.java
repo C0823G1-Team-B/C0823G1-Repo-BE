@@ -43,11 +43,11 @@ public class DriverService implements IDriverService {
 
     @Override
     public List<Driver> findAllDriverFreeByTime(String startTimeConvert, String endTimeConvert) {
-        return iDriverRepository.findAllDriverFreeByTime(startTimeConvert,endTimeConvert);
+        return iDriverRepository.findAllDriverFreeByTime(startTimeConvert, endTimeConvert);
     }
 
     @Override
     public Page<Driver> find(Pageable pageable, String name) {
-        return iDriverRepository.find(pageable,name);
+        return iDriverRepository.find(pageable, "%" + name + "%");
     }
 }

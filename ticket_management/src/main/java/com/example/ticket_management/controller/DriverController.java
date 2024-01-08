@@ -25,7 +25,7 @@ public class DriverController {
     @PostMapping("/create")
     public String create(Driver driver) {
         this.iDriverService.save(driver);
-        return "redirect:/admin/driver";
+        return "redirect:/admin/driver/list";
     }
 
     @GetMapping("/list")
@@ -41,8 +41,11 @@ public class DriverController {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Driver> drivers = this.iDriverService.find(pageable, name);
         model.addAttribute("drivers", drivers);
+        System.out.println(drivers);
         return "listDriver";
     }
+
+
 
     @PostMapping("/remove")
     public String remove(@RequestParam("idDelete") Integer idDelete) {

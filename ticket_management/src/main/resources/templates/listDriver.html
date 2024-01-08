@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách tài xế</title>
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
             rel="stylesheet"
@@ -10,7 +10,7 @@
 </head>
 <body>
 <br/>
-<h3 style="text-align: center">List Driver</h3>
+<h3 style="text-align: center">Danh sách tài xế</h3>
 <br/>
 <br/>
 <div>
@@ -24,23 +24,23 @@
             <th scope="col">CNMD/CCCD</th>
             <th scope="col">Số điện thoại</th>
             <th scope="col">Địa chỉ</th>
-            <th scope="col">Sửa</th>
-            <th scope="col">Xoá</th>
+            <th scope="col">Cập nhật thông tin</th>
+            <th scope="col">Sa thải</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="d,loop:${drivers}">
-            <td th:text="${loop.count}"></td>
+            <td th:text="${loop.count + drivers.size * drivers.number}"></td>
             <td th:text="${d.name}"></td>
             <td th:text="${d.identity}"></td>
             <td th:text="${d.phoneNumber}"></td>
             <td th:text="${d.address}"></td>
             <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
-                   class="btn btn-outline-primary">Edit</a></td>
+                   class="btn btn-outline-primary">Cập nhật</a></td>
             <td>
                 <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
-                    Delete
+                    Sa thải
                 </a>
             </td>
         </tbody>
@@ -58,13 +58,13 @@
                     <div class="modal-body">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="idDelete" id="idDelete">
-                        Do you want to delete driver with name <span id="nameDelete"></span>?
+                        Bạn có chắc chắn muốn sa thải tài xế có tên: <span id="nameDelete"></span>?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
-                            Close
+                            Đóng
                         </button>
-                        <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Delete</button>
+                        <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Sa thải</button>
                     </div>
                 </form>
             </div>
