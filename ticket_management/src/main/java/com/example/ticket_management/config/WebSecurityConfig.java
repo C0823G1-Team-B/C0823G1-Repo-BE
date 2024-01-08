@@ -73,7 +73,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/**","/logout").permitAll()
                         .requestMatchers("/public/**").permitAll()
                         .anyRequest().authenticated()
-                        .anyRequest().permitAll()
+
 
                 )
 
