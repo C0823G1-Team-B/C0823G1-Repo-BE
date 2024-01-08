@@ -2,30 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm tài xế</title>
+    <!-- Bao gồm Bootstrap CSS từ CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h3 style="text-align: center">Thêm tài xế</h3>
-<a th:href="@{/admin/driver/list}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
-<br>
-<form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
-    <div>
-    Họ và tên : <input type="text" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
-    </div>
-    <br/>
-    <div>
-    CMND/CCCD : <input type="text" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
-    </div>
-    <br/>
-    <div>
-    Số điện thoại : <input type="text" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
-    </div>
-    <br/>
-    <div>
-    Địa chỉ : <input type="text" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
-    </div>
-    <br/>
-    <input type="submit" value="create">
-</form>
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Thêm tài xế</h3>
+
+    <!-- Nút Quay lại -->
+    <a th:href="@{/admin/driver/list}" class="btn btn-light mb-3">Quay lại</a>
+
+    <!-- Form sử dụng Bootstrap classes -->
+    <form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
+        <div class="form-group">
+            <label>Họ và tên:</label>
+            <input type="text" class="form-control" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
+        </div>
+
+        <div class="form-group">
+            <label>CMND/CCCD:</label>
+            <input type="text" class="form-control" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
+        </div>
+
+        <div class="form-group">
+            <label>Số điện thoại:</label>
+            <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
+        </div>
+
+        <div class="form-group">
+            <label>Địa chỉ:</label>
+            <input type="text" class="form-control" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </form>
+</div>
+
+<!-- Bao gồm Bootstrap JS và Popper.js từ CDN (cần cho một số tính năng của Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

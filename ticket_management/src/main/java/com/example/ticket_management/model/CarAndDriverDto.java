@@ -1,5 +1,8 @@
 package com.example.ticket_management.model;
 
+import com.example.ticket_management.model.Car;
+import com.example.ticket_management.model.Driver;
+
 import java.util.List;
 
 public class CarAndDriverDto {
