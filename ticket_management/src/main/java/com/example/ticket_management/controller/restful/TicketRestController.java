@@ -12,9 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/api/ajax")
+@RequestMapping("/public/ajax")
 public class TicketRestController {
     @Autowired
     private IDriverService iDriverService;
@@ -28,12 +28,12 @@ public class TicketRestController {
     private ICarRouteService iCarRouteService;
 
 
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<CarRouteIndividual> createRI(@RequestBody CarRouteIndiviDto carRouteIndividual) {
 
-//        String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println(carRouteIndividual);
+        String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println("test");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
         LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
