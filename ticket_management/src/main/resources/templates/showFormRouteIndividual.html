@@ -26,27 +26,30 @@
         <div class="mb-3">
             <label for="route" class="form-label">Chọn tuyến đường</label>
             <select id="route" name="route" class="form-select">
-                <option th:each="itemCar,status : ${listCarRoute}" th:value="${itemCar.id}" th:text="${itemCar.startingPoint + ' Đến '+ itemCar.endingPoint}"></option>
+                <option th:each="itemCar,status : ${listCarRoute}" th:value="${itemCar.id}"
+                        th:text="${itemCar.startingPoint + ' Đến '+ itemCar.endingPoint}"></option>
             </select>
         </div>
         <div class="mb-3">
-            <label  for="car" class="form-label">Chọn xe</label>
+            <label for="car" class="form-label">Chọn xe</label>
 
             <select id="car" name="car" class="form-select">
-                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}" th:text="${'Mã xe: ' + itemcar.id + ', Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
+                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}"
+                        th:text="${'Mã xe: ' + itemcar.id + ', Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
             </select>
         </div>
 
         <div class="mb-3">
-            <label  for="driver" class="form-label">Chọn tài xế</label>
+            <label for="driver" class="form-label">Chọn tài xế</label>
             <select id="driver" name="driver" class="form-select">
-                <option th:each="itemDriver,status : ${listDriver}" th:value="${itemDriver.id}" th:text="${itemDriver.name}"></option>
+                <option th:each="itemDriver,status : ${listDriver}" th:value="${itemDriver.id}"
+                        th:text="${itemDriver.name}"></option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="endDateTime" class="form-label">Nhập giá</label>
-            <input name="price"  class="form-control" type="number" id="price" required>
+            <input name="price" class="form-control" type="number" id="price" required>
         </div>
 
         <button type="submit" class="btn btn-primary" onclick="createRI()">Submit</button>
@@ -66,7 +69,7 @@
         return selectedDateTime < currentDateTime;
     }
 
-    $(document).ready(function (){
+    $(document).ready(function () {
 
         $("#startDateTime").change(() => {
             let selectedStartDateTime = new Date($("#startDateTime").val());
@@ -78,7 +81,7 @@
                 alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
                 $("#startDateTime").val("");
             } else {
-                if ($("#endDateTime").val() !== ""){
+                if ($("#endDateTime").val() !== "") {
                     console.log("alo alo anh em oi")
                     handleEndDateTimeChange()
                 } else {
@@ -103,13 +106,13 @@
             }
         });
 
-        function handleEndDateTimeChange(){
+        function handleEndDateTimeChange() {
             let startDateTimeValue = $("#startDateTime").val();
             let endDateTimeValue = $("#endDateTime").val();
             if (endDateTimeValue) {
                 $.ajax({
                     type: "GET",
-                    url: "/api/ajax/endTime",
+                    url: "/public/ajax/endTime",
                     data: {
                         startTime: startDateTimeValue,
                         endTime: endDateTimeValue
@@ -125,12 +128,12 @@
             }
         }
 
-        function handleStartDateTimeChange(){
+        function handleStartDateTimeChange() {
             let startDateTimeValue = $("#startDateTime").val();
             if (startDateTimeValue) {
                 $.ajax({
                     type: "GET",
-                    url: "/api/ajax/startTime",
+                    url: "/public/ajax/startTime",
                     data: {
                         startTime: startDateTimeValue
                     },
@@ -178,32 +181,33 @@
         let price = $("#price").val();
 
         if (startDateTime && endDateTime && route && car && driver && price) {
-        let newRI = {
-            startDateTime: startDateTime,
-            endDateTime: endDateTime,
-            route: route,
-            car: car,
-            driver: driver,
-            price: price
-        }
-            console.log(newRI)
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            data: JSON.stringify(newRI),
-            url: "http://localhost:8080/api/ajax",
-            success: function () {
-                alert("Thêm mới thành công")
-                $("#startDateTime, #endDateTime, #route, #car, #driver").val("");
-            },
-            error: function (error) {
-                console.log("Error:", error);
+            let newRI = {
+                startDateTime: startDateTime,
+                endDateTime: endDateTime,
+                route: route,
+                car: car,
+                driver: driver,
+                price: price
             }
+            console.log(newRI)
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                type: "POST",
+                data: JSON.stringify(newRI),
+                url: "http://localhost:8080/public/ajax/create",
+                success: function () {
+                    alert("Thêm mới thành công")
+                    $("#startDateTime, #endDateTime, #route, #car, #driver").val("");
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
 
-        })
+            })
 
         } else {
             alert("Vui lòng nhập đầy đủ thông tin trước khi tạo lịch trình.");
