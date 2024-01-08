@@ -12,8 +12,8 @@ public class Customer {
     private Integer id;
     private String email;
     private String name;
-    private Integer phoneNumber;
-    @Column(columnDefinition = "int default 0")
+    private String phoneNumber;
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
    @OneToMany(mappedBy ="customers" )
@@ -22,7 +22,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String email, String name, Integer phoneNumber, boolean isDelete, List<Ticket> ticket) {
+    public Customer(Integer id, String email, String name, String phoneNumber, boolean isDelete, List<Ticket> ticket) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -55,11 +55,11 @@ public class Customer {
         this.name = name;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -74,14 +74,13 @@ public class TicketBook {
     @GetMapping("createRoute")
     public String save(@RequestParam("departure") String departure,
                        @RequestParam("destination") String destination,
-                       @RequestParam("price") Long price,
                        RedirectAttributes redirectAttributes) {
 
         CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure, destination);
         if (carRoute != null) {
             redirectAttributes.addFlashAttribute("message", "Đã tồn tại tuyến này");
         } else {
-            iCarRouteService.save(new CarRoute(price,departure, destination, false));
+            iCarRouteService.save(new CarRoute(departure, destination, false));
             redirectAttributes.addFlashAttribute("message", "Thêm thành công");
         }
         return "redirect:/api/ticket/formCreateRoute";

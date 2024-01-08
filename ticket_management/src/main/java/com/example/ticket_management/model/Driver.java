@@ -15,7 +15,7 @@ public class Driver {
     private String phoneNumber;
     private String identity;
     private String address;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     @OneToMany(mappedBy = "driver")

@@ -16,7 +16,7 @@ public class CarRouteIndividual {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-    @Column(columnDefinition = "int default 0")
+    @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
     @ManyToOne
@@ -34,10 +34,12 @@ public class CarRouteIndividual {
     @OneToMany(mappedBy = "carRouteIndividual")
     private List<Ticket> tickets;
 
+    private Long price;
+
     public CarRouteIndividual() {
     }
 
-    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets) {
+    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute, List<Ticket> tickets, Long price) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -46,15 +48,17 @@ public class CarRouteIndividual {
         this.driver = driver;
         this.carRoute = carRoute;
         this.tickets = tickets;
+        this.price = price;
     }
 
-    public CarRouteIndividual(LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute) {
+    public CarRouteIndividual(LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute,Long price) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.isDelete = isDelete;
         this.car = car;
         this.driver = driver;
         this.carRoute = carRoute;
+        this.price = price;
     }
 
     public Integer getId() {
@@ -119,6 +123,14 @@ public class CarRouteIndividual {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     @Override

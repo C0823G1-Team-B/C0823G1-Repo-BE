@@ -44,6 +44,11 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="endDateTime" class="form-label">Nhập giá</label>
+            <input name="price"  class="form-control" type="number" id="price" required>
+        </div>
+
         <button type="submit" class="btn btn-primary" onclick="createRI()">Submit</button>
     </form>
 </div>
@@ -170,14 +175,16 @@
         let route = $("#route").val();
         let car = $("#car").val();
         let driver = $("#driver").val();
+        let price = $("#price").val();
 
-        if (startDateTime && endDateTime && route && car && driver) {
+        if (startDateTime && endDateTime && route && car && driver && price) {
         let newRI = {
             startDateTime: startDateTime,
             endDateTime: endDateTime,
             route: route,
             car: car,
-            driver: driver
+            driver: driver,
+            price: price
         }
             console.log(newRI)
         $.ajax({

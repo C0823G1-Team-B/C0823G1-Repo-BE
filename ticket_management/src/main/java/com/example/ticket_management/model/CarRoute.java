@@ -11,7 +11,6 @@ public class CarRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Long price;
     @Column(name = "starting_point")
     private String startingPoint;
     @Column(name = "ending_point")
@@ -41,16 +40,9 @@ public class CarRoute {
         this.endingPoint = endingPoint;
     }
 
-    public CarRoute(Long price, String startingPoint, String endingPoint, boolean isDelete) {
-        this.price = price;
-        this.startingPoint = startingPoint;
-        this.endingPoint = endingPoint;
-        this.isDelete = isDelete;
-    }
 
-    public CarRoute(Integer id, Long price, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {
+    public CarRoute(Integer id, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {
         this.id = id;
-        this.price = price;
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
         this.carRouteIndividualList = carRouteIndividualList;
@@ -65,13 +57,6 @@ public class CarRoute {
         this.id = id;
     }
 
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
 
     public String getStartingPoint() {
         return startingPoint;
@@ -105,15 +90,5 @@ public class CarRoute {
         isDelete = delete;
     }
 
-    @Override
-    public String toString() {
-        return "CarRoute{" +
-                "id=" + id +
-                ", price=" + price +
-                ", startingPoint='" + startingPoint + '\'' +
-                ", endingPoint='" + endingPoint + '\'' +
-                ", carRouteIndividualList=" + carRouteIndividualList +
-                ", isDelete=" + isDelete +
-                '}';
-    }
+
 }

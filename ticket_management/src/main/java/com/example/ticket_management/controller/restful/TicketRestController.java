@@ -44,14 +44,15 @@ public class TicketRestController {
                 false,
                 new Car(carRouteIndividual.getCar()),
                 new Driver(carRouteIndividual.getDriver()),
-                new CarRoute(carRouteIndividual.getRoute()));
+                new CarRoute(carRouteIndividual.getRoute()),
+                carRouteIndividual.getPrice());
 
         CarRouteIndividual carRouteIndividual2 = iCarRouteIndividualService.save(carRouteIndividual1);
         Optional<CarRoute> carRoute = iCarRouteService.findById(carRouteIndividual.getRoute());
 
         for (int i = 1; i <= 41; i++) {
             ticket = new Ticket();
-            ticket.setPrice(carRoute.get().getPrice());
+            ticket.setPrice(carRouteIndividual1.getPrice());
             ticket.setNumberSeat(i);
             ticket.setCarRouteIndividual(carRouteIndividual2);
             iTicketService.save(ticket);

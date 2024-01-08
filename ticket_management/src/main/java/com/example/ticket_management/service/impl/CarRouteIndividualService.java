@@ -1,5 +1,6 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.dto.ICarRouteIndividualDTO;
 
 import com.example.ticket_management.dto.ICarRouteIndividualDTO;
 import com.example.ticket_management.model.CarRouteIndividual;
@@ -35,11 +36,12 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
     @Override
     public void deleteById(Integer id) {
         iCarRouteIndividualRepository.deleteById(id);
+
     }
 
     @Override
     public ICarRouteIndividualDTO findByIdDTO(Integer idCRI) {
-        return iCarRouteIndividualRepository.findByIdDTO(idCRI);
+        return iCarRouteIndividualRepository.findByDTO(idCRI);
     }
 
 //    @Override
