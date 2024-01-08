@@ -26,6 +26,10 @@ public class CarRoute {
     public CarRoute() {
     }
 
+    public CarRoute(Integer id) {
+        this.id = id;
+    }
+
     public CarRoute(String startingPoint, String endingPoint, boolean isDelete) {
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
@@ -35,6 +39,13 @@ public class CarRoute {
     public CarRoute(String startingPoint, String endingPoint) {
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
+    }
+
+    public CarRoute(Long price, String startingPoint, String endingPoint, boolean isDelete) {
+        this.price = price;
+        this.startingPoint = startingPoint;
+        this.endingPoint = endingPoint;
+        this.isDelete = isDelete;
     }
 
     public CarRoute(Integer id, Long price, String startingPoint, String endingPoint, List<CarRouteIndividual> carRouteIndividualList, boolean isDelete) {
@@ -92,5 +103,17 @@ public class CarRoute {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    @Override
+    public String toString() {
+        return "CarRoute{" +
+                "id=" + id +
+                ", price=" + price +
+                ", startingPoint='" + startingPoint + '\'' +
+                ", endingPoint='" + endingPoint + '\'' +
+                ", carRouteIndividualList=" + carRouteIndividualList +
+                ", isDelete=" + isDelete +
+                '}';
     }
 }

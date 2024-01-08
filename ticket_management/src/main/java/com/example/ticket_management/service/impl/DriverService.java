@@ -6,6 +6,7 @@ import com.example.ticket_management.service.IDriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,15 @@ public class DriverService implements IDriverService {
     @Override
     public void deleteById(Integer id) {
         iDriverRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Driver> findAllDriverFree(String timeConvert) {
+        return iDriverRepository.findAllDriverFree(timeConvert);
+    }
+
+    @Override
+    public List<Driver> findAllDriverFreeByTime(String startTimeConvert, String endTimeConvert) {
+        return iDriverRepository.findAllDriverFreeByTime(startTimeConvert,endTimeConvert);
     }
 }

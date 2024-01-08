@@ -1,5 +1,6 @@
 package com.example.ticket_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class CarRouteIndividual {
     private Integer id;
 
     private LocalDateTime startTime;
+
     private LocalDateTime endTime;
     @Column(columnDefinition = "int default 0")
     private boolean isDelete;
@@ -44,6 +46,15 @@ public class CarRouteIndividual {
         this.driver = driver;
         this.carRoute = carRoute;
         this.tickets = tickets;
+    }
+
+    public CarRouteIndividual(LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isDelete = isDelete;
+        this.car = car;
+        this.driver = driver;
+        this.carRoute = carRoute;
     }
 
     public Integer getId() {

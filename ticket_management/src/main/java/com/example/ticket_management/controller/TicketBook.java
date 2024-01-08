@@ -1,9 +1,6 @@
 package com.example.ticket_management.controller;
 
-import com.example.ticket_management.model.Car;
-import com.example.ticket_management.model.CarRoute;
-import com.example.ticket_management.model.CarRouteIndividual;
-import com.example.ticket_management.model.Driver;
+import com.example.ticket_management.model.*;
 import com.example.ticket_management.service.ICarRouteIndividualService;
 import com.example.ticket_management.service.ICarRouteService;
 import com.example.ticket_management.service.ICarService;
@@ -16,22 +13,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/api/ticket")
 public class TicketBook {
     @Autowired
-    private ICarRouteService  iCarRouteService;
+    private ICarRouteService iCarRouteService;
     @Autowired
     private ICarRouteIndividualService iCarRouteIndividualService;
     @Autowired
     private IDriverService iDriverService;
     @Autowired
     private ICarService iCarService;
-
 
 
     @GetMapping()
@@ -46,49 +44,58 @@ public class TicketBook {
 //    }
 
     @GetMapping("searchTicket")
-    public String searchTicket(@RequestParam("departure") String departure , @RequestParam("destination") String destination,
-                               @RequestParam("timeStart")String timeStart , RedirectAttributes redirectAttributes,
-                               Model model){
-        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure,destination);
+    public String searchTicket(@RequestParam("departure") String departure, @RequestParam("destination") String destination,
+                               @RequestParam("timeStart") String timeStart, RedirectAttributes redirectAttributes,
+                               Model model) {
+        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure, destination);
         String timeConvert = LocalDateTime.parse(timeStart).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println(timeConvert);
-        if (carRoute != null){
-            List<CarRouteIndividual>  listTicket = iCarRouteIndividualService.findCarouteByStartTimeAndIdRoute(timeConvert, carRoute.getId());
+//        String endConvert = LocalDateTime.parse(timeStart).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-            model.addAttribute("listTicket",listTicket);
+        //2024-01-06 19:52:00
+        if (carRoute != null) {
+            System.out.println(carRoute.getId() + "thoi gian : " + timeConvert);
+            List<CarRouteIndividual> listSearch = iCarRouteIndividualService.findCarouteByStartTimeAndIdRoute(timeConvert, carRoute.getId());
+            model.addAttribute("listTicket", listSearch);
+            System.out.println(listSearch.size());
+
             return "BookTickets";
         } else {
-            redirectAttributes.addFlashAttribute("message","Không tìm thấy chuyến");
+            redirectAttributes.addFlashAttribute("message", "Không tìm thấy chuyến");
             return "redirect:/api/ticket";
         }
     }
 
     @GetMapping("formCreateRoute")
-    public String createRouteIn(){
+    public String createRouteIn() {
 
         return "formCreateRoute";
     }
 
     @GetMapping("createRoute")
-    public String save(@RequestParam("departure") String departure , @RequestParam("destination") String destination ,RedirectAttributes redirectAttributes){
+    public String save(@RequestParam("departure") String departure,
+                       @RequestParam("destination") String destination,
+                       @RequestParam("price") Long price,
+                       RedirectAttributes redirectAttributes) {
 
-        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure,destination);
-        if (carRoute != null){
-            redirectAttributes.addFlashAttribute("message","Đã tồn tại tuyến này");
+        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure, destination);
+        if (carRoute != null) {
+            redirectAttributes.addFlashAttribute("message", "Đã tồn tại tuyến này");
         } else {
-            iCarRouteService.save(new CarRoute(departure,destination,false));
+            iCarRouteService.save(new CarRoute(price,departure, destination, false));
+            redirectAttributes.addFlashAttribute("message", "Thêm thành công");
         }
         return "redirect:/api/ticket/formCreateRoute";
     }
+
     @GetMapping("formCreateRouteIndividual")
-    public String createFormIndividual(Model model){
+    public String createFormIndividual(Model model) {
         List<CarRoute> listCarRoute = (List<CarRoute>) iCarRouteService.findAll();
         List<Driver> listDriver = (List<Driver>) iDriverService.findAll();
         List<Car> listCar = (List<Car>) iCarService.findAll();
 
-        model.addAttribute("listCarRoute",listCarRoute);
-        model.addAttribute("listDriver",listDriver);
-        model.addAttribute("listCar",listCar);
+        model.addAttribute("listCarRoute", listCarRoute);
+        model.addAttribute("listDriver", listDriver);
+        model.addAttribute("listCar", listCar);
 
 
         return "showFormRouteIndividual";

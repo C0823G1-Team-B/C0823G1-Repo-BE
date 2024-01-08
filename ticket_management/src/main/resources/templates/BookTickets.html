@@ -10,54 +10,150 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 </head>
+<style>
+    *{
+        margin-left: 0;
+        box-sizing: border-box;
+        border: 0;
+    }
+</style>
 <body>
 
-<div>
-    <form id="myForm" method="get" th:action="@{/api/ticket/searchTicket}">
-        <p>Điểm đi</p>
-        <select   style="width: 400px;" name="departure" id="departureCity" class="search-select" onchange="handleDepartureCityChange()" required>
-            <option  value="" selected>Chọn tỉnh thành</option>
-        </select>
 
-        <br>
-
-        <p>Điểm đến</p>
-        <select   style="width: 400px;" name="destination" id="city" class="search-select" onchange="handleCityChange()" required>
-            <option value="" selected>Chọn tỉnh thành</option>
-        </select>
-
-        <br>
-
-        <p>Ngày bắt đầu đi</p>
-        <input  name="timeStart" type="datetime-local" id="startDateTime" required>
-
-        <input type="submit" value="Submit">
+<h1 class="text-center mb-4">Đặt vé xe  Đà Nẵng trực tuyến</h1>
+<hr class="mb-5">
+<div class="container p-5 border border-2 mb-4" style="border-radius: 12px;">
+    <form id="myForm" method="get" th:action="@{/api/ticket/searchTicket}" class="text-center">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <i class="fa-solid fa-location-dot"></i>    <label style="margin-left: 8px" for="departureCity" class="form-label fw-bold">Điểm đi</label>
+                    <select style="width: 68%" name="departure" id="departureCity" class="form-select form-select-sm search-select !important" onchange="handleDepartureCityChange()" required>
+                        <option value="" selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <i class="fa-solid fa-location-dot"></i>   <label style="margin-left: 6px" for="city" class="form-label fw-bold">Điểm đến</label>
+                    <select style="width: 65%;" name="destination" id="city" class="form-select form-select-sm search-select" onchange="handleCityChange()" required>
+                        <option value="" selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <i class="fa-regular fa-calendar-days"></i><label style="margin-left: 8px" for="startDateTime" class="form-label fw-bold">Ngày bắt đầu đi</label>
+                    <input style="width: 60%;display: inline-block;" name="timeStart" type="datetime-local" id="startDateTime" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin-left: -3%">
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-dark" value="Tìm chuyến xe">
+                </div>
+            </div>
+        </div>
 
     </form>
 </div>
 
-<div th:if="${message}" th:text="${message}" class="success-message"></div>
-<div th:if="${listTicket != null}">
-    <p th:if="${listTicket.isEmpty()}"> Không có kết quả được tìm thấy. </p>
+
+
+
+
+<div th:if="${message}" class="success-message">
+    <div class="modal fade" id="myModalNotFound" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="${message}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:if="${listTicket != null}">
-    <table  class="table table-hover" th:if="${!listTicket.isEmpty()}" >
-    <tr>
-        <th>Điểm đi</th>
-        <th>Điểm đến</th>
-        <th>Thời gian bắt đầu</th>
-        <th>Thời gian kết thúc</th>
-    </tr>
-    <tr th:each="row,rowStart : ${listTicket}">
-        <td th:text="${row.carRoute.startingPoint}"></td>
-        <td th:text="${row.carRoute.endingPoint}"></td>
-        <td th:text="${row.startTime}"></td>
-        <td th:text="${row.endTime}"></td>
-    </tr>
+    <div th:if="${listTicket.isEmpty()}">
+        <!-- Modal -->
+        <div class="modal fade" id="noResultsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Không có kết quả được tìm thấy.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
 
-</table>
+
+<div class="container" th:if="${listTicket != null}">
+    <div th:if="${!listTicket.isEmpty()}" class="mt-4">
+        <div th:each="row,rowStart : ${listTicket}" class="mb-3">
+            <div class="row  p-4 border mb-4" style="border-radius: 10px">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <i style="font-size: 40px" class="fa-solid fa-bus me-3"></i>
+                        <p class="fw-bold mb-0"><span th:text="${row.carRoute.startingPoint + '-'} + ${row.carRoute.endingPoint}"></span></p>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold">Miễn phí</span>
+                        <i  class="fa-solid fa-wifi mx-2"></i>
+                        <i class="fa-solid fa-bottle-water mx-1"></i>
+                    </div>
+                    <p class="fw-bold">Giá vé <span th:text="${row.carRoute.price}"></span> <u>VNĐ</u></p>
+                </div>
+                <div class="col-md-5">
+                    <p class="fw-bold">Thời gian bắt đầu <span th:text="${row.startTime}"></span></p>
+                    <p class="fw-bold">Thời gian kết thúc <span th:text="${row.endTime}"></span></p>
+
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-dark" th:text="${row.id}">Đặt vé</a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="missingInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Vui lòng nhập đầy đủ thông tin.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
@@ -116,14 +212,31 @@
             $("#startDateTime").val() !== "") {
 
             if (isPastDateTime($("#startDateTime").val())) {
-                alert("Vui lòng chọn ngày và giờ trong tương lai.sss");
+                alert("Vui lòng chọn ngày và giờ trong tương lai");
                 $("#startDateTime").val("");
             }
         }
     }
-
     $(".search-select").select2();
 
+    $(document).ready(function () {
+        $('#myModalNotFound').modal('show');
+        $('#noResultsModal').modal('show');
+    });
 
+
+    $('#myForm').submit(function (event) {
+        if (!$('#departureCity').val() || !$('#city').val() || !$('#startDateTime').val()) {
+            event.preventDefault();
+            $('#missingInfoModal').modal('show');
+        }
+    });
+    $('input[type="submit"]').click(function (event) {
+        if (!$('#departureCity').val() || !$('#city').val() || !$('#startDateTime').val()) {
+            event.preventDefault();
+            $('#missingInfoModal').modal('show');
+        }
+    });
 
 </script>
+

@@ -1,5 +1,6 @@
 package com.example.ticket_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,9 +19,14 @@ public class Driver {
     private boolean isDelete;
 
     @OneToMany(mappedBy = "driver")
+    @JsonBackReference
     private List<CarRouteIndividual> carRouteIndividualList;
 
     public Driver() {
+    }
+
+    public Driver(Integer id) {
+        this.id = id;
     }
 
     public Driver(Integer id, String name, String phoneNumber, String identity, String address, boolean isDelete, List<CarRouteIndividual> carRouteIndividualList) {
@@ -87,5 +93,18 @@ public class Driver {
 
     public void setCarRouteIndividualList(List<CarRouteIndividual> carRouteIndividualList) {
         this.carRouteIndividualList = carRouteIndividualList;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", identity='" + identity + '\'' +
+                ", address='" + address + '\'' +
+                ", isDelete=" + isDelete +
+                ", carRouteIndividualList=" + carRouteIndividualList +
+                '}';
     }
 }

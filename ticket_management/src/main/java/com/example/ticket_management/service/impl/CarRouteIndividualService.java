@@ -42,10 +42,10 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
         return iCarRouteIndividualRepository.findByIdDTO(idCRI);
     }
 
-    @Override
-    public List<CarRouteIndividual> findCarRouteIndividualByStartTimeAndCarRoute_Id(LocalDateTime startTime, Integer id) {
-        return iCarRouteIndividualRepository.findCarRouteIndividualByStartTimeAndCarRoute_Id(startTime,id);
-    }
+//    @Override
+//    public List<CarRouteIndividual> findCarRouteIndividualByStartTimeAndCarRoute_Id(LocalDateTime startTime, Integer id) {
+//        return iCarRouteIndividualRepository.findCarRouteIndividualByStartTimeAndCarRoute_Id(startTime,id);
+//    }
 
     @Override
     public List<CarRouteIndividual> findCarouteByStartTimeAndIdRoute(String timeConvert, Integer id) {

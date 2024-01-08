@@ -6,6 +6,7 @@ import com.example.ticket_management.service.ICarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,15 @@ public class CarService implements ICarService {
     @Override
     public void deleteById(Integer id) {
         iCarRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Car> findAllCarFree(String timeConvert) {
+        return iCarRepository.findAllCarFree(timeConvert);
+    }
+
+    @Override
+    public List<Car> findAllCarFreeByTime(String startTimeConvert, String endTimeConvert) {
+        return iCarRepository.findAllCarFreeByTime(startTimeConvert,endTimeConvert);
     }
 }

@@ -5,10 +5,6 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 </head>
 <body>
@@ -34,9 +30,10 @@
             </select>
         </div>
         <div class="mb-3">
-            <label  for="car" class="form-label">Chọn tài xế</label>
+            <label  for="car" class="form-label">Chọn xe</label>
+
             <select id="car" name="car" class="form-select">
-                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}" th:text="${'Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
+                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}" th:text="${'Mã xe: ' + itemcar.id + ', Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
             </select>
         </div>
 
@@ -47,16 +44,16 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="createRI()">Submit</button>
     </form>
 </div>
 
-</body>
-</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
 <script>
     var isPastDateTime = (dateTimeString) => {
         let selectedDateTime = new Date(dateTimeString);
@@ -64,31 +61,149 @@
         return selectedDateTime < currentDateTime;
     }
 
-    $("#startDateTime").change(() => {
-        let selectedStartDateTime = new Date($("#startDateTime").val());
-
-        if (isPastDateTime($("#startDateTime").val())) {
-            alert("Vui lòng chọn ngày và giờ trong tương lai.");
-            $("#startDateTime").val("");
-        }
-    });
-
-    $("#endDateTime").change(() => {
-        let selectedStartDateTime = new Date($("#startDateTime").val());
-        let selectedEndDateTime = new Date($("#endDateTime").val());
-
-        if (isPastDateTime($("#endDateTime").val())) {
-            alert("Vui lòng chọn ngày và giờ trong tương lai.");
-            $("#endDateTime").val("");
-        } else if (selectedEndDateTime <= selectedStartDateTime) {
-            alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
-            $("#endDateTime").val("");
-        }
-    });
-
     $(document).ready(function (){
-        $('#startDateTime').change(function (){
-            alert("The date  have been changed.");
+
+        $("#startDateTime").change(() => {
+            let selectedStartDateTime = new Date($("#startDateTime").val());
+
+            if (isPastDateTime($("#startDateTime").val())) {
+                alert("Vui lòng chọn ngày và giờ trong tương lai.");
+                $("#startDateTime").val("");
+            } else if ($("#endDateTime").val() !== "" && selectedStartDateTime >= new Date($("#endDateTime").val())) {
+                alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+                $("#startDateTime").val("");
+            } else {
+                if ($("#endDateTime").val() !== ""){
+                    console.log("alo alo anh em oi")
+                    handleEndDateTimeChange()
+                } else {
+                    handleStartDateTimeChange();
+                }
+
+            }
+        });
+
+        $("#endDateTime").change(() => {
+            let selectedStartDateTime = new Date($("#startDateTime").val());
+            let selectedEndDateTime = new Date($("#endDateTime").val());
+
+            if (isPastDateTime($("#endDateTime").val())) {
+                alert("Vui lòng chọn ngày và giờ trong tương lai.");
+                $("#endDateTime").val("");
+            } else if (selectedEndDateTime <= selectedStartDateTime) {
+                alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+                $("#endDateTime").val("");
+            } else {
+                handleEndDateTimeChange();
+            }
+        });
+
+        function handleEndDateTimeChange(){
+            let startDateTimeValue = $("#startDateTime").val();
+            let endDateTimeValue = $("#endDateTime").val();
+            if (endDateTimeValue) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/ajax/endTime",
+                    data: {
+                        startTime: startDateTimeValue,
+                        endTime: endDateTimeValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        updateDropdowns(data);
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        }
+
+        function handleStartDateTimeChange(){
+            let startDateTimeValue = $("#startDateTime").val();
+            if (startDateTimeValue) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/ajax/startTime",
+                    data: {
+                        startTime: startDateTimeValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        updateDropdowns(data);
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+        }
+
+        function updateDropdowns(data) {
+            let driverDropdown = $("#driver");
+            driverDropdown.empty();
+            $.each(data.driverList, function (index, driver) {
+                driverDropdown.append($('<option>', {
+                    value: driver.id,
+                    text: driver.name
+                }));
+            });
+
+            let carDropdown = $("#car");
+            carDropdown.empty();
+            $.each(data.carList, function (index, car) {
+                carDropdown.append($('<option>', {
+                    value: car.id,
+                    text: 'Mã xe: ' + car.id + ', Biển số: ' + car.licensePlates + ', Số ghế: ' + car.totalSeats
+                }));
+            });
+        }
+
+
+    });
+
+    // tao Ri
+    function createRI() {
+        let startDateTime = $("#startDateTime").val();
+        let endDateTime = $("#endDateTime").val();
+        let route = $("#route").val();
+        let car = $("#car").val();
+        let driver = $("#driver").val();
+
+        if (startDateTime && endDateTime && route && car && driver) {
+        let newRI = {
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
+            route: route,
+            car: car,
+            driver: driver
+        }
+            console.log(newRI)
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(newRI),
+            url: "http://localhost:8080/api/ajax",
+            success: function () {
+                alert("Thêm mới thành công")
+                $("#startDateTime, #endDateTime, #route, #car, #driver").val("");
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+
         })
-    })
+
+        } else {
+            alert("Vui lòng nhập đầy đủ thông tin trước khi tạo lịch trình.");
+        }
+        event.preventDefault();
+    }
+
 </script>
+</body>
+</html>
