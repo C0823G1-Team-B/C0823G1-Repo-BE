@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,17 @@ public class DriverService implements IDriverService {
     }
 
     @Override
-    public Page<Driver> find(Pageable pageable,String name) {
-        return iDriverRepository.find(pageable,"%" + name + "%");
+    public List<Driver> findAllDriverFree(String timeConvert) {
+        return iDriverRepository.findAllDriverFree(timeConvert);
+    }
+
+    @Override
+    public List<Driver> findAllDriverFreeByTime(String startTimeConvert, String endTimeConvert) {
+        return iDriverRepository.findAllDriverFreeByTime(startTimeConvert,endTimeConvert);
+    }
+
+    @Override
+    public Page<Driver> find(Pageable pageable, String name) {
+        return iDriverRepository.find(pageable,name);
     }
 }
