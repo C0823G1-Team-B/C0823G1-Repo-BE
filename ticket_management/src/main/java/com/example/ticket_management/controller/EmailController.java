@@ -7,9 +7,12 @@ import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.model.TicketCart;
 import com.example.ticket_management.service.ICustomerService;
 import com.example.ticket_management.service.IPaymentService;
+import com.example.ticket_management.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -23,22 +26,32 @@ public class EmailController {
     ICustomerService customerService;
     @Autowired
     IPaymentService paymentService;
+    @Autowired
+    MailUtils mailUtils;
 
-    @GetMapping("/email_check")
-    public String checkMail(CustomerDTO customerDTO, @SessionAttribute("ticketCart") TicketCart ticketCart) {
+
+    @PostMapping("/email_check")
+    public String checkMailExistInDatabase(CustomerDTO customerDTO,
+                                           @SessionAttribute("ticketCart") TicketCart ticketCart,
+                                           Model model) {
         Customer customer = customerService.findByEmail(customerDTO.getEmail()).orElse(null);
         List<Ticket> ticketList = new ArrayList<>(ticketCart.ticketList.values());
+        Payment currentPayment = paymentService.save(new Payment(ticketList));
         Long totalPrice = 0L;
         for (Ticket ticket : ticketList) {
             totalPrice += ticket.getPrice();
         }
         if (customer == null) {
-//            customerService.save(new Customer(customerDTO.getEmail(), customerDTO.getName(), customerDTO.getPhoneNumber(), ticketList));
-            sendConfirmationEmail();
+            mailUtils.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO.getEmail());
+
+            model.addAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
             return "ticket";
         } else {
-            Payment currentPayment = paymentService.save(new Payment(ticketList));
-            return "redirect:/public/checkout?amount=" + totalPrice + "payment_id=" + currentPayment.getId();
+            return "redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + currentPayment.getId();
         }
+    }
+    @GetMapping("/confirm_email")
+    public void confirmMail(){
+//        customerService.save(new Customer(customerDTO.getEmail(), customerDTO.getName(), customerDTO.getPhoneNumber(), ticketList));
     }
 }
