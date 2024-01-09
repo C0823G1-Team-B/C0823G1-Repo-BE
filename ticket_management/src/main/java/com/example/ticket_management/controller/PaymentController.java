@@ -1,8 +1,11 @@
 package com.example.ticket_management.controller;
+
 import com.example.ticket_management.config.VNPAYConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,16 +14,18 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
+@RequestMapping("/public")
 public class PaymentController {
-    @GetMapping("/public/checkout")
-    public String getPay(HttpServletRequest req) throws UnsupportedEncodingException {
-        System.out.println("a");
+    @GetMapping("/checkout")
+    public String getPay(HttpServletRequest req,
+                         @RequestParam("amount") Long orderAmount,
+                         @RequestParam("payment_id") Integer paymentId) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = 250000 * 100;
+        long amount = orderAmount * 100;
 
-        String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
+//        String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPAYConfig.getIpAddress(req);
 
         String vnp_TmnCode = VNPAYConfig.vnp_TmnCode;
@@ -32,10 +37,9 @@ public class PaymentController {
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 //        vnp_Params.put("vnp_BankCode", bankCode);
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+        vnp_Params.put("vnp_TxnRef", String.valueOf(paymentId));
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + paymentId);
         vnp_Params.put("vnp_OrderType", orderType);
-
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", VNPAYConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
@@ -76,7 +80,7 @@ public class PaymentController {
         String vnp_SecureHash = VNPAYConfig.hmacSHA512(VNPAYConfig.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPAYConfig.vnp_PayUrl + "?" + queryUrl;
-        return "redirect:"+paymentUrl;
+        return "redirect:" + paymentUrl;
     }
 
     // @GetMapping("/payment_infor")

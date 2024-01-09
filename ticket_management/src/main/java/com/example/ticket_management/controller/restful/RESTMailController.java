@@ -20,11 +20,6 @@ public class RESTMailController {
     @Autowired
     JavaMailSender mailSender;
 
-    public ResponseEntity<String> checkUserEmail(){
-
-        return new ResponseEntity<>("userEmail",HttpStatus.OK);
-    }
-
     @GetMapping("/mail")
     public ResponseEntity<String> mailPaymentStatus(@RequestParam("ticket_id") Long ticketId) {
         String hashedTicketId = BCryptUtils.encryptPassword(String.valueOf(ticketId));
