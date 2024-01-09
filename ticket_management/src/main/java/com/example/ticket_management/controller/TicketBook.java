@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,37 +35,17 @@ public class TicketBook {
 
 
     @GetMapping()
-    public String showHomeBookTicket(Model model) {
-        return "BookTickets";
+    public String showHomeSearchTicket() {
+        return "searchTicket";
     }
-//    @ModelAttribute("listCarRoute")
-//    public List<CarRoute> listCarRoute(Model model){
-//        List<CarRoute> listCarRoute = (List<CarRoute>) iCarRouteService.findAll();
-//        model.addAttribute("listCarRoute",listCarRoute);
-//        return listCarRoute;
-//    }
 
-    @GetMapping("searchTicket")
-    public String searchTicket(@RequestParam("departure") String departure, @RequestParam("destination") String destination,
-                               @RequestParam("timeStart") String timeStart, RedirectAttributes redirectAttributes,
-                               Model model) {
-        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(departure, destination);
-        String timeConvert = LocalDateTime.parse(timeStart).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        String endConvert = LocalDateTime.parse(timeStart).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        //2024-01-06 19:52:00
-        if (carRoute != null) {
-            System.out.println(carRoute.getId() + "thoi gian : " + timeConvert);
-            List<CarRouteIndividual> listSearch = iCarRouteIndividualService.findCarouteByStartTimeAndIdRoute(timeConvert, carRoute.getId());
-            model.addAttribute("listTicket", listSearch);
-            System.out.println(listSearch.size());
-
-            return "BookTickets";
-        } else {
-            redirectAttributes.addFlashAttribute("message", "Không tìm thấy chuyến");
-            return "redirect:/api/ticket";
-        }
+    @ModelAttribute("listCarRoute")
+    public List<CarRoute> listCarRoute(Model model){
+        List<CarRoute> listCarRoute = (List<CarRoute>) iCarRouteService.findAll();
+        model.addAttribute("listCarRoute",listCarRoute);
+        return listCarRoute;
     }
+
 
     @GetMapping("formCreateRoute")
     public String createRouteIn() {
