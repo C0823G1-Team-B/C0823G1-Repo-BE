@@ -11,6 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../static/js/ticket.js"></script>
 </head>
 <body>
 <div class="container pt-3 pb-3">
@@ -1099,7 +1101,7 @@
                 </div>
             </div>
             <div style="padding-top: 30px">
-                <form th:action="@{/ticket/payment/{idCRI}(idCRI=${cri.getId()})}" th:object="${ctmDTO}" method="post">
+                <form id="checkout_form" th:action="@{/ticket/payment/{idCRI}(idCRI=${cri.getId()})}" th:object="${ctmDTO}" method="post">
                     <input type="hidden" name="id" th:field="*{id}">
                     <label><strong>Số điện thoại :</strong></label>
                     <p class="text-muted">(Nếu SĐT có Zalo thì thông tin vé sẽ được gửi về Zalo)</p>
