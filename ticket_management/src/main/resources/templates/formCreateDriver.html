@@ -97,6 +97,7 @@
             <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
             >
+
             <a href="#" class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
             >
@@ -184,9 +185,13 @@
 
     <!-- Form sử dụng Bootstrap classes -->
     <form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
         <div class="form-group">
             <label>Họ và tên:</label>
             <input type="text" class="form-control" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
+
         </div>
 
         <div class="form-group">
