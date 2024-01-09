@@ -20,18 +20,25 @@ public class CarRouteIndividual {
     private boolean isDelete;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "car_id",referencedColumnName = "id")
     private Car car;
 
     @ManyToOne
+    @JsonBackReference
+
     @JoinColumn(name = "driver_id",referencedColumnName = "id")
     private Driver driver;
 
     @ManyToOne
+    @JsonBackReference
+
     @JoinColumn(name = "car_route_id",referencedColumnName = "id")
     private CarRoute carRoute;
 
     @OneToMany(mappedBy = "carRouteIndividual")
+    @JsonBackReference
+
     private List<Ticket> tickets;
 
     private Long price;
