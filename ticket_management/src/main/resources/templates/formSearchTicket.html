@@ -16,11 +16,13 @@
         <button type="submit" class="btn btn-warning btn-rounded" data-mdb-ripple-init>Tra cứu</button>
     </form>
 </div>
-<div>
+<div th:if="${errorName != null}" th:text="${errorName}" class="modal-dialog modal-dialog-centered">Không có kết quả được tìm
+    thấy
+</div>
+<div th:if="${tickets != null}">
     <div th:if="${tickets.getTotalElements() == 0}" class="modal-dialog modal-dialog-centered">Không có kết quả được tìm
         thấy
     </div>
-
     <table class="table" th:if="${tickets.getTotalElements() != 0}">
         <tr>
             <th>#</th>

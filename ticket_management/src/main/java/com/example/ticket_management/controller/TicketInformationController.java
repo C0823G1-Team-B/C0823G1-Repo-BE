@@ -4,12 +4,16 @@ import com.example.ticket_management.dto.ITicketDto;
 import com.example.ticket_management.dto.TicketDto;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.service.ITicketService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,10 +39,16 @@ public class TicketInformationController {
                                        required = false,
                                        defaultValue = "0") int page,
                                Model model) {
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<ITicketDto> tickets = iTicketService.findAllTicketInformationOfUser(pageable, name);
+        try {
+            Integer.parseInt(name);
+            model.addAttribute("errorName","Vui lòng nhập đúng định dạng!");
+        } catch (NumberFormatException e) {
+            Pageable pageable = PageRequest.of(page, 5);
+            Page<ITicketDto> tickets = iTicketService.findAllTicketInformationOfUser(pageable, name);
+            model.addAttribute("searchValue",name);
+            model.addAttribute("tickets",tickets);
+        }
         model.addAttribute("searchValue",name);
-        model.addAttribute("tickets",tickets);
         return "formSearchTicket";
     }
 }
