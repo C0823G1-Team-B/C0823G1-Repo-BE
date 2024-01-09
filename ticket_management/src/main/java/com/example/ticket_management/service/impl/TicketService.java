@@ -1,10 +1,14 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.dto.ITicketDto;
+import com.example.ticket_management.dto.TicketDto;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class TicketService implements ITicketService{
+public class TicketService implements ITicketService {
     @Autowired
     private ITicketRepository iTicketRepository;
 
@@ -24,14 +28,21 @@ public class TicketService implements ITicketService{
     @Override
     public boolean checkStatusTicket(Integer i) {
         List<Ticket> tickets = (List<Ticket>) findAll();
-        for (Ticket ticket:tickets){
-            if (Objects.equals(ticket.getId(), i)){
-                if (ticket.isStatus()){
+        for (Ticket ticket : tickets) {
+            if (Objects.equals(ticket.getId(), i)) {
+                if (ticket.isStatus()) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, String email) {
+       Page<ITicketDto> ticketDtos = iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
+//        return iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
+        return ticketDtos;
     }
 
     @Override

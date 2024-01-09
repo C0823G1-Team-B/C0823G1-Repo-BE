@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tra cứu vé</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<h3 style="text-align: center;margin: 50px"> Tra cứu thông tin đặt vé</h3>
+<div style="text-align: center">
+    <form th:action="@{/search-ticket/search}" method="get">
+        <input type="text" placeholder="Vui lòng nhập email" name="search" th:value="${searchValue}">
+        <button type="submit" class="btn btn-warning btn-rounded" data-mdb-ripple-init>Tra cứu</button>
+    </form>
+</div>
+<div>
+    <div th:if="${tickets.getTotalElements() == 0}" class="modal-dialog modal-dialog-centered">Không có kết quả được tìm
+        thấy
+    </div>
+
+    <table class="table" th:if="${tickets.getTotalElements() != 0}">
+        <tr>
+            <th>#</th>
+            <th>Họ và tên</th>
+            <th>Số ghế</th>
+            <th>Xe số</th>
+            <th>Điểm đến</th>
+            <th>Thời gian đi</th>
+            <th>Điểm đi</th>
+            <th>Thời gian dự kiến</th>
+            <th>Giá vé</th>
+        </tr>
+        <tr th:each="t,loop : ${tickets}">
+            <td th:text="${loop.count + tickets.size * tickets.number}"></td>
+            <td th:text="${t.getName()}"></td>
+            <td th:text="${t.getNumberSeat()}"></td>
+            <td th:text="${t.getLicensePlates()}"></td>
+            <td th:text="${t.getStartingPoint()}"></td>
+            <td th:text="${t.getStartTime()}"></td>
+            <td th:text="${t.getEndingPoint()}"></td>
+            <td th:text="${t.getEndingPoint()}"></td>
+            <td th:text="${t.getPrice()}"></td>
+        </tr>
+    </table>
+
+    <!--    phân trang-->
+    <nav aria-label="Page navigation example" th:if="${tickets.getTotalElements() != 0}">
+        <ul class="pagination">
+            <li class="page-item" th:if="${tickets.hasPrevious()}"><a class="page-link"
+                                                                      th:href="@{/search(page=${tickets.number - 1})}">Previous</a>
+            </li>
+            <div th:each="item : ${#numbers.sequence(1, tickets.totalPages)}">
+                <li class="page-item active" th:if="${tickets.number + 1 == item}">
+                    <a class="page-link" th:href="@{/search(page=${item - 1})}" th:text="${item}">1</a>
+                </li>
+                <li class="page-item" th:if="${tickets.number + 1 != item}">
+                    <a class="page-link" th:href="@{/search(page=${item - 1})}" th:text="${item}">1</a>
+                </li>
+            </div>
+            <li class="page-item" th:if="${tickets.hasNext()}"><a class="page-link"
+                                                                  th:href="@{/search(page=${tickets.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</body>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+></script>
+</html>
