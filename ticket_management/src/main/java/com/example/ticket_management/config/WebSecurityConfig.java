@@ -70,9 +70,7 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**","/api/ticket/formCreateRoute","/api/ticket/formCreateRouteIndividual").hasRole("ADMIN")
-                        .requestMatchers("/**","/logout").permitAll()
-                        .requestMatchers("/public/**","/api/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
 
                 )
