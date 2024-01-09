@@ -2,12 +2,14 @@ package com.example.ticket_management.controller;
 
 import com.example.ticket_management.model.Driver;
 import com.example.ticket_management.service.IDriverService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -23,9 +25,13 @@ public class DriverController {
     }
 
     @PostMapping("/create")
-    public String create(Driver driver) {
+    public String create(@Valid Driver driver, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            return "formCreateDriver";
+        }
         this.iDriverService.save(driver);
-        return "redirect:/admin/driver";
+        return "redirect:/admin/driver/list";
     }
 
     @GetMapping("/list")
@@ -41,8 +47,11 @@ public class DriverController {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Driver> drivers = this.iDriverService.find(pageable, name);
         model.addAttribute("drivers", drivers);
+        System.out.println(drivers);
         return "listDriver";
     }
+
+
 
     @PostMapping("/remove")
     public String remove(@RequestParam("idDelete") Integer idDelete) {

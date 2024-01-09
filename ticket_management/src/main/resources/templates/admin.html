@@ -22,6 +22,7 @@
         body {
             background-color: #fbfbfb;
         }
+
         @media (min-width: 991.98px) {
             main {
                 padding-left: 240px;
@@ -45,6 +46,7 @@
                 width: 100%;
             }
         }
+
         .sidebar .active {
             border-radius: 5px;
             box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
@@ -69,50 +71,58 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-<!--                <a-->
-<!--                        href="#"-->
-<!--                        class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                        aria-current="true"-->
-<!--                >-->
-<!--                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>-->
-<!--                </a>-->
+                <!--                <a-->
+                <!--                        href="#"-->
+                <!--                        class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                        aria-current="true"-->
+                <!--                >-->
+                <!--                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>-->
+                <!--                </a>-->
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
                     <i class="fas fa-chart-area fa-fw me-3"></i><span>Quản lý xe</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+                <a href="http://localhost:8080/api/ticket/formCreateRoute"
+                   class="list-group-item list-group-item-action py-2 ripple"
                 ><i class="fas fa-lock fa-fw me-3"></i><span>Tạo Tuyến Xe</span></a
                 >
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+                <a href="http://localhost:8080/api/ticket/formCreateRouteIndividual?continue"
+                   class="list-group-item list-group-item-action py-2 ripple"
                 ><i class="fas fa-chart-line fa-fw me-3"></i><span>Tạo Lịch Trình</span></a
                 >
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                <a href="http://localhost:8080/admin/driver/list" class="list-group-item list-group-item-action py-2 ripple">
                     <i class="fas fa-chart-pie fa-fw me-3"></i><span>Quản Lý Tài Xế</span>
                 </a>
+                <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple"
+                ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
+                >
+                <a href="http://localhost:8080/admin/driver/edit" class="list-group-item list-group-item-action py-2 ripple"
+                ><i class="fas fa-globe fa-fw me-3"></i><span>Sửa Tài Xế</span></a
+                >
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple"
                 ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
                 >
-<!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                ><i class="fas fa-globe fa-fw me-3"></i><span>International</span></a-->
-<!--                >-->
-<!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                ><i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a-->
-<!--                >-->
-<!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                ><i class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a-->
-<!--                >-->
-<!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a-->
-<!--                >-->
-<!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
-<!--                ><i class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a-->
-<!--                >-->
+                <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                ><i class="fas fa-globe fa-fw me-3"></i><span>International</span></a-->
+                <!--                >-->
+                <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                ><i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a-->
+                <!--                >-->
+                <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                ><i class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a-->
+                <!--                >-->
+                <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a-->
+                <!--                >-->
+                <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+                <!--                ><i class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a-->
+                <!--                >-->
             </div>
         </div>
     </nav>
     <!-- Sidebar -->
 
     <!-- Navbar -->
-        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
 
         <!-- Container wrapper -->
         <div class="container-fluid">
@@ -130,7 +140,7 @@
             </button>
 
             <!-- Brand -->
-<!--            thay thay logo kiệt-->
+            <!--            thay thay logo kiệt-->
             <a class="navbar-brand" href="http://localhost:8080">
                 <img
                         src="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png"
@@ -161,15 +171,16 @@
 
                     </ul>
                 </div>
-        <!-- Container wrapper -->
-
-        </nav>
+                <!-- Container wrapper -->
+            </div>
+        </div>
+    </nav>
 
 
     <!-- Navbar -->
 </header>
 <!--Main Navigation-->
-
+<
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container pt-4"></div>

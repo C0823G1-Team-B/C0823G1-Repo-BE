@@ -2,30 +2,226 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm tài xế</title>
+    <!-- Bao gồm Bootstrap CSS từ CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        body {
+            background-color: #fbfbfb;
+        }
+
+        @media (min-width: 991.98px) {
+            main {
+                padding-left: 240px;
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 58px 0 0; /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        .sidebar .active {
+            border-radius: 5px;
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: 0.5rem;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
+        .container{
+            width: 900px;
+            margin-left: 20%;
+        }
+
+    </style>
 </head>
 <body>
-<h3 style="text-align: center">Thêm tài xế</h3>
-<a th:href="@{/admin/driver/list}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
-<br>
-<form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
-    <div>
-    Họ và tên : <input type="text" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+            <!--                <a-->
+            <!--                        href="#"-->
+            <!--                        class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                        aria-current="true"-->
+            <!--                >-->
+            <!--                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>-->
+            <!--                </a>-->
+            <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
+                <i class="fas fa-chart-area fa-fw me-3"></i><span>Quản lý xe</span>
+            </a>
+            <a href="http://localhost:8080/api/ticket/formCreateRoute"
+               class="list-group-item list-group-item-action py-2 ripple"
+            ><i class="fas fa-lock fa-fw me-3"></i><span>Tạo Tuyến Xe</span></a
+            >
+            <a href="http://localhost:8080/api/ticket/formCreateRouteIndividual?continue"
+               class="list-group-item list-group-item-action py-2 ripple"
+            ><i class="fas fa-chart-line fa-fw me-3"></i><span>Tạo Lịch Trình</span></a
+            >
+            <a href="http://localhost:8080/admin/driver/list" class="list-group-item list-group-item-action py-2 ripple">
+                <i class="fas fa-chart-pie fa-fw me-3"></i><span>Quản Lý Tài Xế</span>
+            </a>
+            <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple"
+            ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
+            >
+            <a href="#" class="list-group-item list-group-item-action py-2 ripple"
+            ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
+            >
+            <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                ><i class="fas fa-globe fa-fw me-3"></i><span>International</span></a-->
+            <!--                >-->
+            <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                ><i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a-->
+            <!--                >-->
+            <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                ><i class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a-->
+            <!--                >-->
+            <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a-->
+            <!--                >-->
+            <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
+            <!--                ><i class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a-->
+            <!--                >-->
+        </div>
     </div>
-    <br/>
-    <div>
-    CMND/CCCD : <input type="text" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
+</nav>
+<!-- Sidebar -->
+
+<!-- Navbar -->
+<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <!-- Toggle button -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#sidebarMenu"
+                aria-controls="sidebarMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Brand -->
+        <!--            thay thay logo kiệt-->
+        <a class="navbar-brand" href="http://localhost:8080">
+            <img
+                    src="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png"
+                    height="25"
+                    alt="MDB Logo"
+                    loading="lazy"
+            />
+        </a>
+
+
+        <div>
+
+
+            <!-- Avatar -->
+            <div class="dropdown">
+                <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-dropdown-init
+                        data-mdb-ripple-init
+                        aria-expanded="false"
+                >
+                    Admin
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="/logout">Đăng Xuất</a></li>
+
+                </ul>
+            </div>
+            <!-- Container wrapper -->
+        </div>
     </div>
-    <br/>
-    <div>
-    Số điện thoại : <input type="text" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
-    </div>
-    <br/>
-    <div>
-    Địa chỉ : <input type="text" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
-    </div>
-    <br/>
-    <input type="submit" value="create">
-</form>
+</nav>
+
+<div class="container mt-5">
+    </br>
+    <h3 class="text-center mb-4">Thêm tài xế</h3>
+
+    <!-- Nút Quay lại -->
+    <a th:href="@{/admin/driver/list}" class="btn btn-light mb-3">Quay lại</a>
+
+    <!-- Form sử dụng Bootstrap classes -->
+    <form method="post" th:action="@{/admin/driver/create}" th:object="${driver}">
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
+        <div class="form-group">
+            <label>Họ và tên:</label>
+            <input type="text" class="form-control" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
+
+        </div>
+
+        <div class="form-group">
+            <label>CMND/CCCD:</label>
+            <input type="text" class="form-control" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
+        </div>
+
+        <div class="form-group">
+            <label>Số điện thoại:</label>
+            <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
+        </div>
+
+        <div class="form-group">
+            <label>Địa chỉ:</label>
+            <input type="text" class="form-control" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </form>
+</div>
+<main style="margin-top: 58px;">
+    <div class="container pt-4"></div>
+</main>
+
+<!-- Bao gồm Bootstrap JS và Popper.js từ CDN (cần cho một số tính năng của Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+></script>
 </body>
 </html>

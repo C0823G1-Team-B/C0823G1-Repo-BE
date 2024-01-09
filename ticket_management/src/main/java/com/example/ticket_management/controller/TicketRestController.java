@@ -1,5 +1,7 @@
-package com.example.ticket_management.controller.restful;
+package com.example.ticket_management.controller;
 
+import com.example.ticket_management.model.CarAndDriverDto;
+import com.example.ticket_management.model.CarRouteIndiviDto;
 import com.example.ticket_management.model.*;
 import com.example.ticket_management.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/api/ajax")
+@RequestMapping("/public")
 public class TicketRestController {
     @Autowired
     private IDriverService iDriverService;
@@ -28,12 +30,12 @@ public class TicketRestController {
     private ICarRouteService iCarRouteService;
 
 
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<CarRouteIndividual> createRI(@RequestBody CarRouteIndiviDto carRouteIndividual) {
 
-//        String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println(carRouteIndividual);
+        String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
         LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
@@ -48,7 +50,6 @@ public class TicketRestController {
                 carRouteIndividual.getPrice());
 
         CarRouteIndividual carRouteIndividual2 = iCarRouteIndividualService.save(carRouteIndividual1);
-        Optional<CarRoute> carRoute = iCarRouteService.findById(carRouteIndividual.getRoute());
 
         for (int i = 1; i <= 41; i++) {
             ticket = new Ticket();
