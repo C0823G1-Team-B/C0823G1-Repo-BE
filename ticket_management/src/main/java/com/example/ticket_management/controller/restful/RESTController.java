@@ -23,6 +23,7 @@ public class RESTController {
     @Autowired
     JavaMailSender mailSender;
 
+
     @GetMapping("/mail")
     public ResponseEntity<String> mailPaymentStatus(@RequestParam("ticket_id") Long ticketId) {
         String hashedTicketId = BCryptUtils.encryptPassword(String.valueOf(ticketId));

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ICarRouteIndividualService extends IGenerationService<CarRouteIndividual> {
-    List<CarRouteIndividual> findCarRouteIndividualByStartTimeAndCarRoute_Id(LocalDateTime startTime , Integer id);
+//    List<CarRouteIndividual> findCarRouteIndividualByStartTimeAndCarRoute_Id(LocalDateTime startTime , Integer id);
 
 
     List<CarRouteIndividual> findCarouteByStartTimeAndIdRoute(String timeConvert, Integer id);

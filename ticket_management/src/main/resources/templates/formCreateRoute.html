@@ -10,29 +10,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 </head>
+<style>
+    *{
+        margin: 0;
+        border: 0;
+        box-sizing: border-box;
+    }
+</style>
 <body>
+<h1 class="text-center mb-4">Tạo Tuyến xe</h1>
+<div class="container p-3 border border-2 mb-4" style="border-radius: 12px;">
+    <form id="myForm" method="get" th:action="@{/api/ticket/createRoute}" class="text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <label for="departureCity" class="form-label  text-center">Điểm bắt đầu</label>
+                <div class="input-group">
+                    <span style="margin-right: 8px"> <i class="fa-solid fa-location-dot"></i></span>
+                    <select style="width: 60%;" name="departure" id="departureCity" class="form-select form-select-sm search-select" onchange="handleDepartureCityChange()" required>
+                        <option value="" selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+            </div>
 
-<div>
-    <h1 class="text-center">Tạo Tuyến xe</h1>
-    <form  id="myForm" method="get" th:action="@{/api/ticket/createRoute}">
-        <p>Điểm đi</p>
-        <select   style="width: 400px;" name="departure" id="departureCity" class="search-select" onchange="handleDepartureCityChange()" required>
-            <option  value="" selected>Chọn tỉnh thành</option>
-        </select>
+            <div class="col-md-3 mb-3">
+                <label for="city" class="form-label text-center">Điểm kết thúc</label>
+                <div class="input-group">
+                    <span style="margin-right: 8px"><i class="fa-solid fa-location-dot"></i></span>
+                    <select style="width: 60%;" name="destination" id="city" class="form-select form-select-sm search-select" onchange="handleCityChange()" required>
+                        <option value="" selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+            </div>
 
-        <br>
-
-        <p>Điểm đến</p>
-        <select   style="width: 400px;" name="destination" id="city" class="search-select" onchange="handleCityChange()" required>
-            <option value="" selected>Chọn tỉnh thành</option>
-        </select>
-
-        <input type="submit" value="Submit">
-
+            <div class="col-md-4">
+                <label></label>
+                <div class="input-group">
+                    <button type="submit" class="btn btn-dark" style="width: 100%;">Tạo Tuyến xe</button>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
-<div th:if="${message}" th:text="${message}" class="success-message"></div>
+
+
+
+<div th:if="${message}" class="success-message">
+    <div class="modal fade" id="myModalNotFound" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="${message}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -94,7 +136,10 @@
 
 
     $(".search-select").select2();
+
+    $(document).ready(function () {
+        $('#myModalNotFound').modal('show');
+    });
 </script>
 
 
-<!--sssssss-->

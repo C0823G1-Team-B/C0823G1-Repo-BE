@@ -38,7 +38,6 @@
 <body>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!--header section start -->
-<div id="header"></div>
 <div id="index.html" class="header_section">
     <div class="container">
         <div class="row">
@@ -54,22 +53,22 @@
                     <ul>
                         <li><a href="#">Trang Chủ</a></li>
                         <li><a th:href="@{api/ticket}">Đặt vé</a></li>
-                        <li><a th:href="@{api/ticket/formCreateRoute}">Tạo tuyến</a></li>
-                        <li><a th:href="@{api/ticket/formCreateRouteIndividual}">Tạo lịch trình</a></li>
+                        <li><a href="#taxis">Loại Xe</a></li>
+                        <li> <a href="#contact">Liên Hệ</a></li>
                         <li><a href="#booking">Chi Tiết</a></li>
                         <div id="myNav" class="overlay">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                             <div class="overlay-content">
                                 <a href="#">Trang Chủ</a>
-                                <a href="">Đặt xe</a>
+                                <a th:href="@{api/ticket}">Đặt vé</a>
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="!isAuthenticated()">
-                                    Chưa đăng nhập
+                                <div sec:authorize="!isAuthenticated()" >
+                                    <a href="/login">  Đăng Nhập</a>
                                 </div>
-                                <div sec:authorize="isAuthenticated()">
-                                    đăng nhập
+                                <div sec:authorize="isAuthenticated()" >
+                                    <a href="/logout">  Đăng Xuất</a>
                                 </div>
                             </div>
                         </div>
