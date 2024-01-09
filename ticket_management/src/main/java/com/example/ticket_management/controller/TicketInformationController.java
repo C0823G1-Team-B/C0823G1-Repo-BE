@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/search-ticket")
+@RequestMapping("api/search-ticket")
 public class TicketInformationController {
     @Autowired
     private ITicketService iTicketService;
