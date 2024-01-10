@@ -191,7 +191,7 @@
             <input type="text" class="form-control" th:field="*{name}" placeholder="Nhập họ và tên tài xế">
         </div>
         <div th:if="${#fields.hasErrors('name')}">
-            <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('name')}" th:text="${err}">
+            <div style="color: darkred" th:each="err : ${#fields.errors('name')}" th:text="${err}">
             </div>
         </div>
 
@@ -200,7 +200,7 @@
             <input type="text" class="form-control" th:field="*{identity}" placeholder="Nhập CCCD hoặc CMND của tài xế">
         </div>
         <div th:if="${#fields.hasErrors('identity')}">
-            <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('identity')}" th:text="${err}">
+            <div style="color: darkred" th:each="err : ${#fields.errors('identity')}" th:text="${err}">
             </div>
         </div>
 
@@ -209,7 +209,7 @@
             <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại của tài xế">
         </div>
         <div th:if="${#fields.hasErrors('phoneNumber')}">
-            <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}">
+            <div style="color: darkred" th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}">
             </div>
         </div>
 
@@ -218,7 +218,7 @@
             <input type="text" class="form-control" th:field="*{address}" placeholder="Nhập địa chỉ hoặc nơi ở">
         </div>
         <div th:if="${#fields.hasErrors('address')}">
-            <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('address')}" th:text="${err}">
+            <div style="color: darkred" th:each="err : ${#fields.errors('address')}" th:text="${err}">
             </div>
         </div>
 

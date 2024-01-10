@@ -64,8 +64,8 @@
             overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         }
         .container{
-        width: 1000px;
-            margin-left: 20%;
+            margin-left: 22%;
+            width: 73%;
         }
 
     </style>
@@ -178,10 +178,8 @@
 <br/>
 <br/>
 <div class="container">
-    <div class="d-inline-block">
-        <a th:href="@{/admin/driver/create}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Thêm mới tài xế</a>
-    </div>
-    <div class="d-inline-block">
+
+    <div style="width: 100% " class="d-inline-block">
         <h3 style="text-align: center">Danh sách tài xế</h3>
             <table class="table">
                 <thead>
@@ -237,7 +235,7 @@
             </div>
         </div>
     </div>
-    <div class="d-inline-block">
+    <div style="margin-left: 40%" class="d-inline-block">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item" th:if="${drivers.hasPrevious()}"><a class="page-link"
