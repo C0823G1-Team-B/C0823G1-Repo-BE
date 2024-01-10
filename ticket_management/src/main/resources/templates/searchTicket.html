@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -24,11 +22,41 @@
     />
 </head>
 <style>
+    *{
+        margin-left: 0;
+        box-sizing: border-box;
+        border: 0;
+    }
+    input[type="date"]:hover {
+        background-color: #f4f4f4;
+        border: 1px solid #888;
+    }
+    input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: background-color 0.3s, border 0.3s;
+    }
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Màu nền khi focus vào ô chọn ngày */
+    input[type="date"]:focus {
+        background-color: #f4f4f4;
+        border: 1px solid #888;
+    }
+
+
     * {
         margin-left: 0;
         box-sizing: border-box;
         border: 0;
-    }  HEAD:ticket_management/src/main/resources/templates/BookTickets.html
+    }
 
     .animated {
         -webkit-animation-duration: 1s;
@@ -7732,37 +7760,10 @@
         background: #f8ca12;
         color: #fff;
     }
-=======
-    input[type="date"]:hover {
-        background-color: #f4f4f4;
-        border: 1px solid #888;
-    }
-    input[type="date"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: background-color 0.3s, border 0.3s;
-    }
-    input[type="date"]::-webkit-inner-spin-button,
-    input[type="date"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Màu nền khi focus vào ô chọn ngày */
-    input[type="date"]:focus {
-        background-color: #f4f4f4;
-        border: 1px solid #888;
-    }
-
 
 
 </style>
 <body>
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<!--header section start -->
 <div id="index.html" class="header_section">
     <div class="container">
         <div class="row">
@@ -7806,44 +7807,36 @@
 
             </div>
         </div>
-    </div>
-</div>
 
-<h1 class="text-center mb-4">Đặt vé xe Đà Nẵng trực tuyến</h1>
+    </div>
+
+</div>
+<h1 class="text-center mb-4">Đặt vé xe  Đà Nẵng trực tuyến</h1>
 <hr class="mb-5">
 <div class="container p-5 border border-2 mb-4" style="border-radius: 12px;">
-<!--  id="myForm"   method="get" th:action="@{/api/ticket/searchTicket}"-->
+    <!--  id="myForm"   method="get" th:action="@{/api/ticket/searchTicket}"-->
     <form  class="text-center">
         <div class="row">
             <div class="col-md-3">
                 <div class="mb-3">
-                    <i class="fa-solid fa-location-dot"></i> <label style="margin-left: 8px" for="departureCity"
-                                                                    class="form-label fw-bold">Điểm đi</label>
-                    <select style="width: 68%" name="departure" id="departureCity"
-                            class="form-select form-select-sm search-select !important"
-                            onchange="handleDepartureCityChange()" required>
+                    <i class="fa-solid fa-location-dot"></i>    <label style="margin-left: 8px" for="departureCity" class="form-label fw-bold">Điểm đi</label>
+                    <select style="width: 68%" name="departure" id="departureCity" class="form-select form-select-sm search-select !important" onchange="handleDepartureCityChange()" required>
                         <option value="" selected>Chọn tỉnh thành</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="mb-3">
-                    <i class="fa-solid fa-location-dot"></i> <label style="margin-left: 6px" for="city"
-                                                                    class="form-label fw-bold">Điểm đến</label>
-                    <select style="width: 65%;" name="destination" id="city"
-                            class="form-select form-select-sm search-select" onchange="handleCityChange()" required>
+                    <i class="fa-solid fa-location-dot"></i>   <label style="margin-left: 6px" for="city" class="form-label fw-bold">Điểm đến</label>
+                    <select style="width: 65%;" name="destination" id="city" class="form-select form-select-sm search-select" onchange="handleCityChange()" required>
                         <option value="" selected>Chọn tỉnh thành</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-<<<<<<< HEAD:ticket_management/src/main/resources/templates/BookTickets.html
-                    <i class="fa-regular fa-calendar-days"></i><label style="margin-left: 8px" for="startDateTime"
-                                                                      class="form-label fw-bold">Ngày bắt đầu đi</label>
-                    <input style="width: 60%;display: inline-block;" name="timeStart" type="datetime-local"
-                           id="startDateTime" class="form-control" required>
-
+                    <i class="fa-regular fa-calendar-days"></i><label style="margin-left: 8px" for="startDateTime" class="form-label fw-bold">Ngày bắt đầu đi</label>
+                    <input style="width: 60%;display: inline-block;" name="timeStart" type="date" id="startDateTime" class="form-control" required>
                 </div>
             </div>
             <div class="col-md-2" style="margin-left: -3%">
@@ -7853,113 +7846,10 @@
                 </div>
             </div>
         </div>
+
     </form>
 </div>
 
-
-
-<div th:if="${message}" class="success-message">
-=======
-
-
-<div id="listTicketsContainer" class="mt-4 container"></div>
-
-<!--modal-->
-<div  class="success-message">
-
-    <div class="modal fade" id="myModalNotFound" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p >Không có chuyến xe phù hợp</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="noResultsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Tuyến chưa có lịch trình cụ thể,vui lòng gọi cho số tổng đài 123456 để biết thêm chi tiết</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-<div class="container" th:if="${listTicket != null}">
-    <div th:if="${!listTicket.isEmpty()}" class="mt-4">
-        <div th:each="row,rowStart : ${listTicket}" class="mb-3">
-            <div class="row  p-4 border mb-4" style="border-radius: 10px">
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center mb-3">
-                        <i style="font-size: 40px" class="fa-solid fa-bus me-3"></i>
-                        <p class="fw-bold mb-0"><span
-                                th:text="${row.carRoute.startingPoint + '-'} + ${row.carRoute.endingPoint}"></span></p>
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                        <span class="fw-bold">Miễn phí</span>
-                        <i class="fa-solid fa-wifi mx-2"></i>
-                        <i class="fa-solid fa-bottle-water mx-1"></i>
-                    </div>
-                    <p class="fw-bold">Giá vé <span th:text="${row.price}"></span> <u>VNĐ</u></p>
-                </div>
-                <div class="col-md-5">
-                    <p class="fw-bold">Thời gian bắt đầu <span th:text="${row.startTime}"></span></p>
-                    <p class="fw-bold">Thời gian kết thúc <span th:text="${row.endTime}"></span></p>
-
-                </div>
-                <div class="col-md-1">
-                    <a class="btn btn-dark" th:href="@{/ticket/{idCRI}(idCRI=${row.getId()})}"> Đặt vé </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="missingInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel3">Thông báo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Vui lòng nhập đầy đủ thông tin.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- section footer start -->
 <div class="section_footer ">
     <div class="container">
         <div class="footer_section_2">
@@ -7992,7 +7882,6 @@
                             </span>
                     </div>
 
-
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
                     <h2 class="account_text">Follow Us</h2>
@@ -8018,9 +7907,69 @@
         </div>
     </div>
 </div>
+
+
+<div id="listTicketsContainer" class="mt-4 container"></div>
+
+<!--modal-->
+<div  class="success-message">
+    <div class="modal fade" id="myModalNotFound" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p >Không có chuyến xe phù hợp</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- section footer end -->
-<!-- copyright section start -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="noResultsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tuyến chưa có lịch trình cụ thể,vui lòng gọi cho số tổng đài 123456 để biết thêm chi tiết</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="missingInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Vui lòng nhập đầy đủ thông tin.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html>
@@ -8036,7 +7985,6 @@
 
     var callAPI = (api, selectId) => {
         return axios.get(api)
-
             .then((response) => {
                 renderData(response.data, selectId);
             });
@@ -8072,6 +8020,7 @@
         var currentDate = new Date().toISOString().split('T')[0];
         document.getElementById('startDateTime').min = currentDate;
     });
+
 
     var printResult = () => {
         if ($("#departureCity").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
@@ -8178,47 +8127,3 @@
 
 
 </script>
-<!-- Javascript files-->
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/jquery-3.0.0.min.js"></script>
-<script src="js/plugin.js"></script>
-<!-- sidebar -->
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="js/custom.js"></script>
-<!-- javascript -->
-<script src="js/owl.carousel.js"></script>
-<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".fancybox").fancybox({
-            openEffect: "none",
-            closeEffect: "none"
-        });
-
-        $(".zoom").hover(function () {
-
-            $(this).addClass('transition');
-        }, function () {
-
-            $(this).removeClass('transition');
-        });
-    });
-</script>
-<script>
-    function openNav() {
-        document.getElementById("myNav").style.width = "100%";
-    }
-
-    function closeNav() {
-        document.getElementById("myNav").style.width = "0%";
-    }
-</script>
-<script>
-    $(function () {
-        $("#header").load("header.html");
-    })
-</script>
-
-
