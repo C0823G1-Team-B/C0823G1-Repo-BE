@@ -27,6 +27,10 @@ public class Payment {
         this.tickets = tickets;
     }
 
+    public Payment(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     public Integer getId() {
         return id;
     }
