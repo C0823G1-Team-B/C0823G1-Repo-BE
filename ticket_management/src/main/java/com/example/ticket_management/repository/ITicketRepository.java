@@ -26,4 +26,20 @@ public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
             "left join car_route on car_route.id = car_route_individual.car_route_id\n" +
             "where ticket.car_route_individual_id = :idCRI",nativeQuery = true)
     Page<ITicketDTO> findAllByIdCRI(@Param("idCRI") Integer idCRI, Pageable pageable);
+
+    @Query(value = "select t.number_seat as numberSeat,t.price, c.name,cri.start_time as startTime,cri.end_time as endTime,car.license_plates as licensePlates, cr.starting_point as startingPoint,cr.ending_point as endingPoint \n" +
+            "from ticket t " +
+            "left join customer c on t.customer_id = c.id " +
+            "left join car_route_individual cri on t.car_route_individual_id = cri.id " +
+            "left join car on cri.car_id = car.id " +
+            "left join car_route cr on cri.car_route_id = cr.id " +
+            "where c.email like :name ",
+            nativeQuery = true, countQuery = "select count(*) from(select t.number_seat,t.price, c.name,cri.start_time,cri.end_time,car.license_plates, cr.starting_point,cr.ending_point\\n\" +\n" +
+            "            from ticket t " +
+            "            left join customer c on t.customer_id = c.id " +
+            "            left join car_route_individual cri on t.car_route_individual_id = cri.id " +
+            "            left join car on cri.car_id = car.id " +
+            "            left join car_route cr on cri.car_route_id = cr.id " +
+            "            where c.email like :name ) temp")
+    Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, @Param("name") String email);
 }

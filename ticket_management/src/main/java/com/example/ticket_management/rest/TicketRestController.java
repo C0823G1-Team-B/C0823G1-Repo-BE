@@ -1,5 +1,6 @@
-package com.example.ticket_management.controller;
+package com.example.ticket_management.rest;
 
+import com.example.ticket_management.dto.SearchDto;
 import com.example.ticket_management.model.CarAndDriverDto;
 import com.example.ticket_management.model.CarRouteIndiviDto;
 import com.example.ticket_management.model.*;
@@ -9,10 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -35,7 +39,6 @@ public class TicketRestController {
 
         String timeStartConvert = LocalDateTime.parse(carRouteIndividual.getStartDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String timeEndConvert = LocalDateTime.parse(carRouteIndividual.getEndDateTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
         LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
@@ -85,5 +88,48 @@ public class TicketRestController {
 
         CarAndDriverDto carAndDriverDto = new CarAndDriverDto(driverList, carList);
         return new ResponseEntity<>(carAndDriverDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<SearchDto>> searchTicket(@RequestBody SearchDto searchDto) {
+        CarRoute carRoute = iCarRouteService.findCarRouteByStartingPointAndEndingPoint(searchDto.getStartPoint(), searchDto.getEndPoint());
+        String timeConvert;
+        if (carRoute != null) {
+            if (LocalDate.parse(searchDto.getStartTime()).isEqual(LocalDate.now())) {
+
+                LocalTime currentTime = LocalTime.now();
+                timeConvert = LocalDateTime.of(LocalDate.now(), currentTime)
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                System.out.println(timeConvert);
+
+//            2024-01-06 19:52:00
+            } else {
+                timeConvert = LocalDate.parse(searchDto.getStartTime())
+                        .atStartOfDay()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+            List<CarRouteIndividual> listSearch = iCarRouteIndividualService.findCarouteByStartTimeAndIdRoute(timeConvert, carRoute.getId());
+            System.out.println(listSearch.size());
+            List<SearchDto> searchDtos = new ArrayList<>();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            String startTime, endTime;
+            for (CarRouteIndividual carRouteIndividual : listSearch) {
+                startTime = carRouteIndividual.getStartTime().format(formatter);
+                endTime = carRouteIndividual.getEndTime().format(formatter);
+                searchDtos.add(new SearchDto(carRouteIndividual.getId(),
+                        carRouteIndividual.getCarRoute().getStartingPoint(),
+                        carRouteIndividual.getCarRoute().getEndingPoint(),
+                        startTime,
+                        endTime,
+                        carRouteIndividual.getPrice())
+                );
+            }
+
+            return new ResponseEntity<>(searchDtos, HttpStatus.OK);
+        } else {
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
     }
 }

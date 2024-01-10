@@ -32,4 +32,9 @@ public class CustomerService implements ICustomerService {
     public void deleteById(Integer id) {
         iCustomerRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return iCustomerRepository.findCustomerByEmail(email);
+    }
 }

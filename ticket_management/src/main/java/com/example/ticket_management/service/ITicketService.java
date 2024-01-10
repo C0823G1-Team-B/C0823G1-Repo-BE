@@ -13,4 +13,7 @@ public interface ITicketService extends IGenerationService<Ticket> {
     boolean checkStatusTicket(Integer i);
 
     Page<ITicketDTO> findAllByIdCRI(Integer idCRI, Pageable pageable);
+
+    Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, String email);
+
 }

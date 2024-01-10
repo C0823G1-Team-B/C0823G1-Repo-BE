@@ -1,5 +1,4 @@
 package com.example.ticket_management.config;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 import javax.crypto.Mac;
@@ -10,11 +9,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public class CheckoutConfig {
+public class VNPAYConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/";
+    public static String vnp_ReturnUrl = "http://localhost:8080";
     public static String vnp_TmnCode = "0GF1F3QP";
-    public static String secretKey = " SJIHUHDIKCWUCAQAYLLVPEXDIWMJWWEY";
+    public static String secretKey = "SJIHUHDIKCWUCAQAYLLVPEXDIWMJWWEY";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
     public static String md5(String message) {
@@ -34,7 +33,6 @@ public class CheckoutConfig {
         }
         return digest;
     }
-
     public static String Sha256(String message) {
         String digest = null;
         try {
@@ -52,8 +50,6 @@ public class CheckoutConfig {
         }
         return digest;
     }
-
-    //Util for VNPAY
     public static String hashAllFields(Map fields) {
         List fieldNames = new ArrayList(fields.keySet());
         Collections.sort(fieldNames);
@@ -71,9 +67,8 @@ public class CheckoutConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(secretKey, sb.toString());
+        return hmacSHA512(secretKey,sb.toString());
     }
-
     public static String hmacSHA512(final String key, final String data) {
         try {
 
@@ -96,7 +91,6 @@ public class CheckoutConfig {
             return "";
         }
     }
-
     public static String getIpAddress(HttpServletRequest request) {
         String ipAdress;
         try {

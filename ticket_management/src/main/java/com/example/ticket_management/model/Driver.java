@@ -14,18 +14,14 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "Vui lòng nhập đầy đủ thông tin")
     @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$", message = "Vui lòng nhập tên hợp lệ!")
     private String name;
 
-    @NotBlank(message = "Vui lòng nhập đầy đủ thông tin")
     @Pattern(regexp = "^0\\d{9}$", message = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0")
     private String phoneNumber;
 
-    @NotBlank(message = "Vui lòng nhập đầy đủ thông tin")
     @Pattern(regexp = "^\\d{12}$", message = "CMND/CCCD không hợp lệ")
     private String identity;
-    @NotBlank(message = "Vui lòng nhập đầy đủ thông tin")
     @Pattern(regexp = "^\\d+.([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$", message = "Vui lòng nhập địa chỉ hợp lệ!")
     private String address;
     @Column(columnDefinition = "bit(1) default 0")

@@ -43,6 +43,13 @@ public class TicketService implements ITicketService{
     }
 
     @Override
+    public Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, String email) {
+       Page<ITicketDto> ticketDtos = iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
+//        return iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
+        return ticketDtos;
+    }
+
+    @Override
     public Iterable<Ticket> findAll() {
         return iTicketRepository.findAll();
     }

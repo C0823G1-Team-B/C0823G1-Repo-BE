@@ -22,12 +22,21 @@ public class Customer {
     public Customer() {
     }
 
+
     public Customer(Integer id, String email, String name, String phoneNumber, boolean isDelete, List<Ticket> ticket) {
+
         this.id = id;
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.isDelete = isDelete;
+        this.ticket = ticket;
+    }
+
+    public Customer(String email, String name, String phoneNumber, List<Ticket> ticket) {
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
         this.ticket = ticket;
     }
 
