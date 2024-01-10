@@ -44,27 +44,21 @@ public class EmailController {
             newCustomer.setDelete(true);
             customerService.save(newCustomer);
             mailService.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO);
-
             redirectAttributes.addFlashAttribute("ctmDTO", customerDTO);
-            redirectAttributes.addFlashAttribute("email_message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
+            redirectAttributes.addFlashAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
             return "redirect:/ticket/" + ticketList.get(0).getCarRouteIndividual().getId();
         }
 
         if (customer.isDelete()) {
-            customer.setDelete(false);
-            customerService.save(customer);
-
             mailService.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO);
-
             redirectAttributes.addFlashAttribute("ctmDTO", customerDTO);
-            redirectAttributes.addFlashAttribute("email_message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
+            redirectAttributes.addFlashAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
             return "redirect:/ticket/" + ticketList.get(0).getCarRouteIndividual().getId();
         }
         return "redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + currentPayment.getId();
-
     }
 
-    @GetMapping("/confirm_email")
+    @PostMapping("/confirm_email")
     public String confirmMail(@RequestParam("total_price") Long totalPrice,
                               @RequestParam("payment_id") Integer paymentId,
                               @RequestParam("email") String email) {
