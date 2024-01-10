@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/driver")
@@ -61,12 +62,16 @@ public class DriverController {
 
     @GetMapping("/{id}/edit")
     public String update(@PathVariable int id, Model model) {
-        model.addAttribute("drivers", this.iDriverService.findById(id).get());
-        return "/formEditDriver";
+        model.addAttribute("driver", this.iDriverService.findById(id).get());
+        return "formEditDriver";
     }
 
     @PostMapping("/edit")
-    public String edit(Driver driver) {
+    public String edit(@Valid Driver driver,
+                       BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "formEditDriver";
+        }
         this.iDriverService.save(driver);
         return "redirect:/admin/driver/list";
     }

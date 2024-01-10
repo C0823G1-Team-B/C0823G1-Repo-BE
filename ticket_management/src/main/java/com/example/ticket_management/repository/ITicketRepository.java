@@ -1,7 +1,6 @@
 package com.example.ticket_management.repository;
 
 import com.example.ticket_management.dto.ITicketDto;
-import com.example.ticket_management.dto.TicketDto;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import org.springframework.data.domain.Page;
