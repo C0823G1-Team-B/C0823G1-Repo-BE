@@ -22,7 +22,9 @@ public class Customer {
     public Customer() {
     }
 
+
     public Customer(Integer id, String email, String name, String phoneNumber, boolean isDelete, List<Ticket> ticket) {
+
         this.id = id;
         this.email = email;
         this.name = name;
