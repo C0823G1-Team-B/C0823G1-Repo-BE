@@ -177,86 +177,89 @@
 
 <br/>
 <br/>
-<div>
-    <a th:href="@{/admin/driver/create}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Thêm mới tài xế</a>
-</div>
-<h3 style="text-align: center">Danh sách tài xế</h3>
 <div class="container">
-<table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tên</th>
-            <th scope="col">CNMD/CCCD</th>
-            <th scope="col">Số điện thoại</th>
-            <th scope="col">Địa chỉ</th>
-            <th scope="col">Cập nhật thông tin</th>
-            <th scope="col">Sa thải</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="d,loop:${drivers}">
-            <td th:text="${loop.count + drivers.size * drivers.number}"></td>
-            <td th:text="${d.name}"></td>
-            <td th:text="${d.identity}"></td>
-            <td th:text="${d.phoneNumber}"></td>
-            <td th:text="${d.address}"></td>
-            <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
-                   class="btn btn-outline-primary">Cập nhật</a></td>
-            <td>
-                <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
-                   data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
-                    Sa thải
-                </a>
-            </td>
-        </tbody>
-    </table>
-</div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
-                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
-                            aria-label="Close"></button>
+    <div class="d-inline-block">
+        <a th:href="@{/admin/driver/create}" type="button" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Thêm mới tài xế</a>
+    </div>
+    <div class="d-inline-block">
+        <h3 style="text-align: center">Danh sách tài xế</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">CNMD/CCCD</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Cập nhật thông tin</th>
+                    <th scope="col">Sa thải</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d,loop:${drivers}">
+                    <td th:text="${loop.count + drivers.size * drivers.number}"></td>
+                    <td th:text="${d.name}"></td>
+                    <td th:text="${d.identity}"></td>
+                    <td th:text="${d.phoneNumber}"></td>
+                    <td th:text="${d.address}"></td>
+                    <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
+                           class="btn btn-outline-primary">Cập nhật</a></td>
+                    <td>
+                        <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
+                           data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+                            Sa thải
+                        </a>
+                    </td>
+                </tbody>
+            </table>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                        <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <form action="/admin/driver/remove" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="idDelete" id="idDelete">
+                            Bạn có chắc chắn muốn sa thải tài xế có tên: <span id="nameDelete"></span>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
+                                Đóng
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Sa thải</button>
+                        </div>
+                    </form>
                 </div>
-                <form action="/admin/driver/remove" method="post">
-                    <div class="modal-body">
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="idDelete" id="idDelete">
-                        Bạn có chắc chắn muốn sa thải tài xế có tên: <span id="nameDelete"></span>?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
-                            Đóng
-                        </button>
-                        <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Sa thải</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
+    <div class="d-inline-block">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:if="${drivers.hasPrevious()}"><a class="page-link"
+                                                                          th:href="@{/admin/driver/list(page=${drivers.number - 1})}">Previous</a>
+                </li>
+                <div th:each="item : ${#numbers.sequence(1, drivers.totalPages)}">
+                    <li class="page-item active" th:if="${drivers.number + 1 == item}">
+                        <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
+                    </li>
+                    <li class="page-item" th:if="${drivers.number + 1 != item}">
+                        <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
+                    </li>
+                </div>
+                <li class="page-item" th:if="${drivers.hasNext()}"><a class="page-link"
+                                                                      th:href="@{/admin/driver/list(page=${drivers.number + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item" th:if="${drivers.hasPrevious()}"><a class="page-link"
-                                                                      th:href="@{/admin/driver/list(page=${drivers.number - 1})}">Previous</a>
-            </li>
-            <div th:each="item : ${#numbers.sequence(1, drivers.totalPages)}">
-                <li class="page-item active" th:if="${drivers.number + 1 == item}">
-                    <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
-                </li>
-                <li class="page-item" th:if="${drivers.number + 1 != item}">
-                    <a class="page-link" th:href="@{/admin/driver/list(page=${item - 1})}" th:text="${item}">1</a>
-                </li>
-            </div>
-            <li class="page-item" th:if="${drivers.hasNext()}"><a class="page-link"
-                                                                  th:href="@{/admin/driver/list(page=${drivers.number + 1})}">Next</a>
-            </li>
-        </ul>
-    </nav>
 <main style="margin-top: 58px;">
     <div class="container pt-4"></div>
 </main>
