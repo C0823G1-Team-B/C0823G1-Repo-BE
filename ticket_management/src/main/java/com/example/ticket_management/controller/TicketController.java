@@ -35,7 +35,6 @@ public class TicketController {
     }
     @GetMapping("/{idCRI}")
     public ModelAndView showTicket(@PathVariable Integer idCRI){
-
         Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
         if (!carRouteIndividual.isPresent()){
             return new ModelAndView("error");

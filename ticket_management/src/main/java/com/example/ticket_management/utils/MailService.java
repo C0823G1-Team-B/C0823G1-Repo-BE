@@ -1,6 +1,6 @@
-package com.example.ticket_management.controller.restful;
+package com.example.ticket_management.utils;
 
-import com.example.ticket_management.utils.BCryptUtils;
+import com.example.ticket_management.dto.CustomerDTO;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -9,23 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
-@RestController
-@RequestMapping("/api")
-public class RESTMailController {
+@Component
+public class MailService {
     @Autowired
     JavaMailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-
-    @GetMapping("/mail")
-    public ResponseEntity<String> mailPaymentStatus(@RequestParam("ticket_id") Long ticketId) {
-        String hashedTicketId = BCryptUtils.encryptPassword(String.valueOf(ticketId));
+    public void mailPaymentStatus(Integer paymentId) {
+        String hashedPaymentId = BCryptUtils.encryptPassword(String.valueOf(paymentId));
         MimeMessage message = mailSender.createMimeMessage();
-        String QRCodeCheck = "http://localhost:8080/api/check_qr_code?ticket_id="+hashedTicketId;
+        String QRCodeCheck = "http://localhost:8080/api/check_qr_code?ticket_id=" + hashedPaymentId;
 
         try {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("pansuzu@gmail.com"));
@@ -38,7 +39,6 @@ public class RESTMailController {
             throw new RuntimeException(e);
         }
         mailSender.send(message);
-        return new ResponseEntity<>("Duoc roi nha", HttpStatus.OK);
     }
 
     @GetMapping("/check_qr_code")
@@ -47,5 +47,24 @@ public class RESTMailController {
             return new ResponseEntity<>("OK", HttpStatus.OK);
         }
         return new ResponseEntity<>("Sai ma ticket", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public void mailToConfirmCustomerEmail(Long totalPrice, Integer paymentId, CustomerDTO customerDTO) {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo(customerDTO.getEmail());
+            helper.setSubject("[Nhà xe Hiếu Hoa] Vui lòng xác nhận mail thanh toán");
+            Context context = new Context();
+            context.setVariable("username", customerDTO.getName());
+            context.setVariable("link", "http://localhost:8080/public/confirm_email?total_price=" +
+                                        totalPrice + "&payment_id=" + paymentId + "&email=" + customerDTO.getEmail());
+            String content = templateEngine.process("confirm-email", context);
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }
