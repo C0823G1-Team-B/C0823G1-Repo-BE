@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        #centered-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #bookTicket {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cards-wrapper {
+            display: flex;
+
+            justify-content: center;
+        }
+        .cards-wrapper1{
+            float: left;
+        }
+        .card img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .card {
+            margin: 0 0.5em;
+            box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+            border-radius: 0.5em;
+        }
+        .carousel-inner {
+            padding: 1em;
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: yellow;
+            width: 7vh;
+            height: 7vh;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 0.5em;
+        }
+        .centered-content {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="centered-content">
+    <button onclick="nextPage(1)" class="btn btn-outline-warning" style="width: 200px">Thống kê</button>
+    <br><br><br>
+    <button onclick="revenue()" class="btn btn-outline-warning" style="width: 200px">Doanh thu</button>
+</div>
+<div id="criList">
+</div>
+<div id="listTicket"></div>
+<div id="bookTicket">
+</div>
+<div id="revenue" class="container pt-3 pb-3">
+</div>
+<script>
+    function nextPage(page) {
+        let newPage = page - 1
+        console.log(newPage)
+        $.ajax({
+            url: "http://localhost:8080/ws/listCRI",
+            type: "GET",
+            data: {page: newPage},
+            success: (data) => {
+                display(data.iCarRouteIndividualDTOS.content, newPage, data.totalPage)
+                console.log(data.content)
+                console.log(data.totalPage)
+                $("#centered-content").hide()
+            }
+        })
+    }
+
+    function display(content, newPage, totalPage) {
+        let data = "<table class=\"table align-middle mb-0 bg-white\">\n" +
+            "        <thead class=\"bg-light\">\n" +
+            "        <tr>\n" +
+            "            <th>Điểm đi</th>\n" +
+            "            <th>Điểm đến</th>\n" +
+            "            <th>Thời gian đi</th>\n" +
+            "            <th>Thời gian đến</th>\n" +
+            "            <th>Tài xế</th>\n" +
+            "            <th>Biển số</th>\n" +
+            "            <th>Giá vé</th>\n" +
+            "            <th>Số ghế</th>\n" +
+            "            <th>Tình trạng</th>\n" +
+            "            <th>Chi tiết</th>\n" +
+            "        </tr>\n" +
+            "        </thead>\n" +
+            "        <tbody>\n";
+
+        let now = new Date(); // Lấy thời gian hiện tại
+
+        for (let i = 0; i < content.length; i++) {
+            let startTime = new Date(content[i].startTime);
+            let endTime = new Date(content[i].endTime);
+            let price = content[i].price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+                minimumFractionDigits: 0
+            });
+
+
+            let status = "";
+            data += "        <tr>\n" +
+                "            <td>" + content[i].startingPoint + "</td>\n" +
+                "            <td>" + content[i].endingPoint + "</td>\n" +
+                "            <td>" + startTime.toLocaleTimeString() + " " + startTime.toLocaleDateString() + "</td>\n" +
+                "            <td>" + endTime.toLocaleTimeString() + " " + endTime.toLocaleDateString() + "</td>\n" +
+                "            <td>" + content[i].driverName + "</td>\n" +
+                "            <td>" + content[i].licensePlates + "</td>\n" +
+                "            <td>" + price + "</td>\n" +
+                "            <td>" + content[i].totalSeats + "</td>\n"
+
+            if (startTime > now) {
+                status = "Sắp diễn ra";
+                data += "            <td>\n" +
+                    "                <span class=\"badge badge-success rounded-pill d-inline\">" +
+                    status +
+                    "                </span>\n" +
+                    "            </td>\n"
+            } else if (endTime < now) {
+                status = "Đã kết thúc";
+                data += "            <td>\n" +
+                    "                <span class=\"badge badge-primary rounded-pill d-inline\">" +
+                    status +
+                    "                </span>\n" +
+                    "            </td>\n"
+            } else {
+                status = "Đang diễn ra";
+                data += "            <td>\n" +
+                    "                <span class=\"badge badge-warning rounded-pill d-inline\">" +
+                    status +
+                    "                </span>\n" +
+                    "            </td>\n"
+
+            }
+            data += "<td><button type=\"button\" onclick=\"getDetails(" + content[i].id + "," + 0 + ")\" class=\"btn btn-link btn-sm btn-rounded\">\n" +
+                "                Chi tiết\n" +
+                "            </button></td>" + "        </tr>\n";
+        }
+
+        data += "        </tbody>\n" +
+            "    </table><br><br>";
+        for (let i = 0; i < totalPage; i++) {
+            if (newPage === i) {
+                data += "<button onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
+                    " class=\"btn btn-primary\">\n" + (i + 1) +
+                    " </button>"
+            } else {
+                data += "<button onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
+                    " class=\"btn btn-light\">\n" + (i + 1) +
+                    " </button>"
+            }
+
+        }
+
+        $("#criList").html(data);
+    }
+
+    function getDetails(idCRI, page) {
+        $.ajax({
+            url: "http://localhost:8080/ws/listTicket",
+            type: "GET",
+            data: {idCRI: idCRI, page: page},
+            success: (data) => {
+                displayListTicket(data.iticketDTOS.content, data.totalPage, idCRI, page)
+                $("#criList").hide()
+            }
+        })
+    }
+
+    function displayListTicket(content, totalPage, idCRI, page) {
+        let price;
+        let data = "<table class=\"table align-middle mb-0 bg-white\">\n" +
+            "        <thead class=\"bg-light\">\n" +
+            "        <tr>\n" +
+            "            <th>Điểm đi</th>\n" +
+            "            <th>Điểm đến</th>\n" +
+            "            <th>Số ghế</th>\n" +
+            "            <th>Giá vé</th>\n" +
+            "            <th>Trạng thái</th>\n" +
+            "            <th>Tên khách hàng</th>\n" +
+            "            <th>Thanh toán</th>\n" +
+            "            <th>Đặt vé</th>\n" +
+            "        </tr>\n" +
+            "        </thead>\n" +
+            "        <tbody>\n";
+        for (let i = 0; i < content.length; i++) {
+            price = content[i].price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+                minimumFractionDigits: 0
+            });
+            data += "        <tr>\n" +
+                "            <td>" + content[i].startingPoint + "</td>\n" +
+                "            <td>" + content[i].endingPoint + "</td>\n" +
+                "            <td>" + content[i].numberSeat + "</td>\n" +
+                "            <td>" + price + "</td>\n"
+            if (content[i].status === false) {
+                data += "            <td>Còn trống</td>\n" +
+                    "            <td></td>\n" +
+                    "            <td></td>\n" +
+                    "            <td><button onclick='bookTickets(" + content[i].id + ")' class='btn btn-sm btn-outline-warning'>Đặt vé</button></td>\n"
+            } else {
+                data += "            <td>Đã đặt</td>\n" +
+                    "            <td>" + content[i].customerName + "</td>\n" +
+                    "            <td>" + content[i].paymentStatus + "</td>\n" +
+                    "            <td></td>\n"
+            }
+        }
+        data += "        </tbody>\n" +
+            "    </table><br><br>";
+        for (let i = 0; i < totalPage; i++) {
+            if (page === i) {
+                data += "<button onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
+                    " class=\"btn btn-primary\">\n" + (i + 1) +
+                    " </button>"
+            } else {
+                data += "<button onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
+                    " class=\"btn btn-light\">\n" + (i + 1) +
+                    " </button>"
+            }
+
+        }
+        $("#listTicket").html(data);
+    }
+
+    function bookTickets(id) {
+        let data = "<form style=\"width: 100%\">\n" +
+            "        <label><strong>Số điện thoại :</strong></label>\n" +
+            "        <input type=\"text\" id=\"phone\" class=\"form-control mb-3\" maxlength=\"10\" required=\"\">\n" +
+            "        <p id=\"error1\" style=\"color: red\"></p>\n" +
+            "        <label><strong>Họ và tên :</strong></label>\n" +
+            "        <input type=\"text\" id=\"name\" class=\"form-control mb-3\" maxlength=\"100\" required=\"\">\n" +
+            "        <p id=\"error2\" style=\"color: red\"></p>\n" +
+            "        <label><strong>Email :</strong></label>\n" +
+            "        <input type=\"text\" id=\"email\" class=\"form-control mb-3\">\n" +
+            "        <p id=\"error3\" style=\"color: red\"></p>\n" +
+            "        <button onclick='book(" + id + ")' type=\"submit\" class=\"btn btn-outline-warning mt-3\" name=\"thanh_toan\">Đặt vé</button>\n" +
+            "    </form>"
+        $("#bookTicket").html(data)
+        $("#listTicket").hide()
+    }
+
+    function book(id) {
+        let phone = $("#phone").val()
+        let name = $("#name").val()
+        let email = $("#email").val()
+        let customerDTO = {
+            email: email,
+            name: name,
+            phoneNumber: phone
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            url: "http://localhost:8080/ws/addticket",
+            type: "POST",
+            data: JSON.stringify(customerDTO, id),
+            success: () => {
+                getData()
+            }
+
+        })
+    }
+
+    function revenue() {
+        $.ajax({
+            url: "http://localhost:8080/ws/revenue",
+            type: "GET",
+            success: (data) => {
+                getRevenue(data)
+                console.log(data.length/3)
+                console.log(data)
+            }
+        })
+    }
+
+    function getRevenue(content) {
+        let startTime;
+        let startTime1;
+        let startTime2;
+        let endTime;
+        let endTime1;
+        let endTime2;
+        let price;
+        let price1;
+        let price2;
+        let a;
+        let data = "<div id=\"carouselExampleControlsNoTouching\" class=\"carousel slide\" data-bs-touch=\"false\" data-bs-interval=\"false\">\n" +
+            "    <div class=\"carousel-inner\">"
+        for (let i = 0; i < (content.length / 3 + 1); i++) {
+            if (i===0){
+                startTime = new Date(content[i].startTime);
+                startTime1 = new Date(content[i + 1].startTime);
+                startTime2 = new Date(content[i + 2].startTime);
+                endTime = new Date(content[i].endTime);
+                endTime1 = new Date(content[i + 1].endTime);
+                endTime2 = new Date(content[i + 2].endTime);
+                price = content[i].price * content[i].sold;
+                price = price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                price1 = content[i + 1].price * content[i + 1].sold;
+                price1 = price1.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                price2 = content[i + 2].price * content[i + 2].sold;
+                price2 = price2.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                data += "<div class=\"carousel-item active\">\n" +
+                    "            <div class=\"cards-wrapper\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\"><strong>Chuyến xe: " + content[i].startingPoint + "</strong> - <strong>" + content[i].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\"><strong>Loại xe: Xe thường </strong><strong>" + content[i].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\"><strong>Thời gian chạy: " + startTime.toLocaleDateString() + " " + startTime.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\"><strong>Thời gian đến: " + endTime.toLocaleDateString() + " " + endTime.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\"><strong>Điểm đón: " + content[i].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\"><strong>Điểm trả: " + content[i].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\"><strong>Số vé đã bán: " + content[i].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                </div>\n" +
+                    "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i+1].startingPoint + "</strong> - <strong>" + content[i+1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i+1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime1.toLocaleDateString() + " " + startTime1.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime1.toLocaleDateString() + " " + endTime1.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[i+1].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[i+1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[i+1].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i + 2].startingPoint + "</strong> - <strong>" + content[i + 2].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i + 2].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime2.toLocaleDateString() + " " + startTime2.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime2.toLocaleDateString() + " " + endTime2.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[i + 2].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[i + 2].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[i + 2].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "        </div>"
+            }
+            if(i >=1 && i < (content.length / 3 -1)) {
+                a = i*3;
+                startTime = new Date(content[a].startTime);
+                startTime1 = new Date(content[a + 1].startTime);
+                startTime2 = new Date(content[a + 2].startTime);
+                endTime = new Date(content[a].endTime);
+                endTime1 = new Date(content[a + 1].endTime);
+                endTime2 = new Date(content[a + 2].endTime);
+                price = content[a].price * content[a].sold;
+                price = price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                price1 = content[a + 1].price * content[a + 1].sold;
+                price1 = price1.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                price2 = content[a + 2].price * content[a + 2].sold;
+                price2 = price2.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0
+                });
+                data += "<div class=\"carousel-item\">\n" +
+                    "            <div class=\"cards-wrapper\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a].startingPoint + "</strong> - <strong>" + content[a].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime.toLocaleDateString() + " " + startTime.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime.toLocaleDateString() + " " + endTime.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                </div>\n" +
+                    "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a + 1].startingPoint + "</strong> - <strong>" + content[a + 1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a + 1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime1.toLocaleDateString() + " " + startTime1.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime1.toLocaleDateString() + " " + endTime1.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a + 1].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a + 1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a + 1].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
+                    "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
+                    "                    <div class=\"card-body\">\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a + 2].startingPoint + "</strong> - <strong>" + content[a + 2].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a + 2].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime2.toLocaleDateString() + " " + startTime2.toLocaleTimeString() + "</strong>\n" +
+                    "                        </p>\n" +
+                    "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime2.toLocaleDateString() + " " + endTime2.toLocaleTimeString() + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a + 2].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a + 2].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a + 2].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
+                    "                    </div>" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "        </div>"
+            }
+        }
+
+        data += "</div>\n" +
+            "    <button class=\"carousel-control-prev\" type=\"button\" data-bs-target=\"#carouselExampleControlsNoTouching\" data-bs-slide=\"prev\">\n" +
+            "        <span class=\"carousel-control-prev-icon centered-content\" aria-hidden=\"true\"></span>\n" +
+            // "        <span class=\"visually-hidden\">Previous</span>\n" +
+            "    </button>\n" +
+            "    <button class=\"carousel-control-next\" type=\"button\" data-bs-target=\"#carouselExampleControlsNoTouching\" data-bs-slide=\"next\">\n" +
+            "        <span class=\"carousel-control-next-icon centered-content\" aria-hidden=\"true\"></span>\n" +
+            // "        <span class=\"visually-hidden\">Next</span>\n" +
+            "    </button>\n" +
+            "</div>"
+        $("#revenue").html(data)
+        $("#centered-content").hide()
+    }
+</script>
+</body>
+</html>

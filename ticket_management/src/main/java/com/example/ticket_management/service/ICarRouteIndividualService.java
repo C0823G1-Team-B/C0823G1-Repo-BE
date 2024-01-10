@@ -3,6 +3,8 @@ package com.example.ticket_management.service;
 import com.example.ticket_management.dto.ICarRouteIndividualDTO;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.service.common.IGenerationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,4 +17,8 @@ public interface ICarRouteIndividualService extends IGenerationService<CarRouteI
 
     List<CarRouteIndividual> findCarouteByStartTimeAndIdRoute(String timeConvert, Integer id);
     ICarRouteIndividualDTO findByIdDTO(Integer idCRI);
+
+    Page<ICarRouteIndividualDTO> findAllDTO(Pageable pageable);
+
+    Iterable<ICarRouteIndividualDTO> findAllByRevenue();
 }

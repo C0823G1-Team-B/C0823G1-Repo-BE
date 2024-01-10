@@ -1,10 +1,13 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.dto.ITicketDTO;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,11 @@ public class TicketService implements ITicketService{
             }
         }
         return false;
+    }
+
+    @Override
+    public Page<ITicketDTO> findAllByIdCRI(Integer idCRI, Pageable pageable) {
+        return iTicketRepository.findAllByIdCRI(idCRI, pageable);
     }
 
     @Override
