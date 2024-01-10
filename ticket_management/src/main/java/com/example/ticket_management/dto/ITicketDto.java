@@ -3,19 +3,19 @@ package com.example.ticket_management.dto;
 import java.time.LocalDateTime;
 
 public interface ITicketDto {
-     Integer getNumberSeat();
+    Integer getNumberSeat();
 
-     Long getPrice();
+    Long getPrice();
 
-     String getName();
+    String getName();
 
-     LocalDateTime getStartTime();
+    LocalDateTime getStartTime();
 
-     LocalDateTime getEndTime();
+    LocalDateTime getEndTime();
 
-     String getLicensePlates();
+    String getLicensePlates();
 
-     String getStartingPoint();
+    String getStartingPoint();
 
-     String getEndingPoint();
+    String getEndingPoint();
 }

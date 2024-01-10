@@ -1,8 +1,10 @@
 package com.example.ticket_management.service.impl;
 
-import com.example.ticket_management.dto.ITicketDTO;
+import com.example.ticket_management.dto.ITicketDTO1;
+import com.example.ticket_management.dto.ITicketDto;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
+import com.example.ticket_management.repository.ICarRouteIndividualRepository;
 import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,7 +42,7 @@ public class TicketService implements ITicketService{
     }
 
     @Override
-    public Page<ITicketDTO> findAllByIdCRI(Integer idCRI, Pageable pageable) {
+    public Page<ITicketDTO1> findAllByIdCRI(Integer idCRI, Pageable pageable) {
         return iTicketRepository.findAllByIdCRI(idCRI, pageable);
     }
 
@@ -47,6 +51,11 @@ public class TicketService implements ITicketService{
        Page<ITicketDto> ticketDtos = iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
 //        return iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
         return ticketDtos;
+    }
+
+    @Override
+    public void setTicketByIsDelete() {
+        iTicketRepository.setTicketIsDelete();
     }
 
     @Override

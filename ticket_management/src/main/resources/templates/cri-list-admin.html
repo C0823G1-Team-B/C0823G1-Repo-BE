@@ -46,21 +46,27 @@
 
             justify-content: center;
         }
-        .cards-wrapper1{
+
+        .cards-wrapper1 {
             float: left;
         }
+
         .card img {
             max-width: 100%;
             max-height: 100%;
         }
+
         .card {
             margin: 0 0.5em;
             box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
             border-radius: 0.5em;
+            background-color: #ffeaa7;
         }
+
         .carousel-inner {
             padding: 1em;
         }
+
         .carousel-control-prev,
         .carousel-control-next {
             background-color: yellow;
@@ -74,6 +80,7 @@
             justify-content: center;
             padding-bottom: 0.5em;
         }
+
         .centered-content {
             text-align: center;
         }
@@ -95,14 +102,14 @@
 <script>
     function nextPage(page) {
         let newPage = page - 1
-        console.log(newPage)
         $.ajax({
             url: "http://localhost:8080/ws/listCRI",
             type: "GET",
             data: {page: newPage},
             success: (data) => {
+                $("#criList").show()
                 display(data.iCarRouteIndividualDTOS.content, newPage, data.totalPage)
-                console.log(data.content)
+                console.log(data.iCarRouteIndividualDTOS.content)
                 console.log(data.totalPage)
                 $("#centered-content").hide()
             }
@@ -180,13 +187,14 @@
 
         data += "        </tbody>\n" +
             "    </table><br><br>";
+        data += "<button style='margin-left: 1em' onclick=\"backHome()\" class=\"btn btn-outline-warning\" style=\"width: 200px\">Quay lại</button>";
         for (let i = 0; i < totalPage; i++) {
             if (newPage === i) {
-                data += "<button onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
+                data += "<button style='margin-left: 1em' onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
                     " class=\"btn btn-primary\">\n" + (i + 1) +
                     " </button>"
             } else {
-                data += "<button onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
+                data += "<button style='margin-left: 1em' onclick=\"nextPage(" + (i + 1) + "," + totalPage + ")\"\n" +
                     " class=\"btn btn-light\">\n" + (i + 1) +
                     " </button>"
             }
@@ -194,6 +202,11 @@
         }
 
         $("#criList").html(data);
+    }
+
+    function backHome(){
+        $("#centered-content").show()
+        $("#criList").hide()
     }
 
     function getDetails(idCRI, page) {
@@ -238,30 +251,49 @@
             if (content[i].status === false) {
                 data += "            <td>Còn trống</td>\n" +
                     "            <td></td>\n" +
-                    "            <td></td>\n" +
-                    "            <td><button onclick='bookTickets(" + content[i].id + ")' class='btn btn-sm btn-outline-warning'>Đặt vé</button></td>\n"
-            } else {
-                data += "            <td>Đã đặt</td>\n" +
-                    "            <td>" + content[i].customerName + "</td>\n" +
-                    "            <td>" + content[i].paymentStatus + "</td>\n" +
                     "            <td></td>\n"
+                if(content[i].isDelete === false){
+                    data += "            <td><button onclick='bookTickets(" + content[i].id + ")' class='btn btn-sm btn-outline-warning'>Đặt vé</button></td>\n"
+                } else {
+                    data += "            <td></td>\n"
+                }
+            } else {
+                data += "            <td>Đã đặt</td>\n"
+                    if(content[i].customerName === null){
+                        data += "            <td></td>\n"
+                    } else {
+                        data += "            <td>" + content[i].customerName + "</td>\n"
+                    }
+                    if (content[i].paymentStatus === null){
+                        data += "            <td>Tiền mặt</td>\n"
+                    } else {
+                        data += "            <td>Chuyển khoản</td>\n"
+                    }
+                    data += "            <td></td>\n"
             }
         }
         data += "        </tbody>\n" +
             "    </table><br><br>";
+        data += "<button style='margin-left: 1em' onclick=\"backHome1()\" class=\"btn btn-outline-warning\" style=\"width: 200px\">Quay lại</button>";
         for (let i = 0; i < totalPage; i++) {
             if (page === i) {
-                data += "<button onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
+                data += "<button style='margin-left: 1em' onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
                     " class=\"btn btn-primary\">\n" + (i + 1) +
                     " </button>"
             } else {
-                data += "<button onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
+                data += "<button style='margin-left: 1em' onclick=\"getDetails(" + idCRI + "," + i + ")\"\n" +
                     " class=\"btn btn-light\">\n" + (i + 1) +
                     " </button>"
             }
 
         }
         $("#listTicket").html(data);
+    }
+
+    function backHome1(){
+        $("#listTicket").hide()
+        $("#criList").show()
+        nextPage(1)
     }
 
     function bookTickets(id) {
@@ -311,7 +343,7 @@
             type: "GET",
             success: (data) => {
                 getRevenue(data)
-                console.log(data.length/3)
+                console.log(data.length / 3)
                 console.log(data)
             }
         })
@@ -331,7 +363,7 @@
         let data = "<div id=\"carouselExampleControlsNoTouching\" class=\"carousel slide\" data-bs-touch=\"false\" data-bs-interval=\"false\">\n" +
             "    <div class=\"carousel-inner\">"
         for (let i = 0; i < (content.length / 3 + 1); i++) {
-            if (i===0){
+            if (i === 0) {
                 startTime = new Date(content[i].startTime);
                 startTime1 = new Date(content[i + 1].startTime);
                 startTime2 = new Date(content[i + 2].startTime);
@@ -368,21 +400,21 @@
                     "                        <p class=\"card-text\"><strong>Điểm đón: " + content[i].startingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\"><strong>Điểm trả: " + content[i].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\"><strong>Số vé đã bán: " + content[i].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
                     "                    </div>" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
                     "                    <div class=\"card\" style=\"width: 22rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
-                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i+1].startingPoint + "</strong> - <strong>" + content[i+1].endingPoint + "</strong></p>\n" +
-                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i+1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
+                    "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i + 1].startingPoint + "</strong> - <strong>" + content[i + 1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i + 1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
                     "                        <p class=\"card-text\">Thời gian chạy: <strong>" + startTime1.toLocaleDateString() + " " + startTime1.toLocaleTimeString() + "</strong>\n" +
                     "                        </p>\n" +
                     "                        <p class=\"card-text\">Thời gian đến: <strong>" + endTime1.toLocaleDateString() + " " + endTime1.toLocaleTimeString() + "</strong></p>\n" +
-                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[i+1].startingPoint + "</strong></p>\n" +
-                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[i+1].endingPoint + "</strong></p>\n" +
-                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[i+1].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
+                    "                        <p class=\"card-text\">Điểm đón: <strong>" + content[i + 1].startingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Điểm trả: <strong>" + content[i + 1].endingPoint + "</strong></p>\n" +
+                    "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[i + 1].sold + "<strong></p>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
                     "                    </div>" +
                     "                    </div>\n" +
                     "                </div>\n" +
@@ -397,15 +429,15 @@
                     "                        <p class=\"card-text\">Điểm đón: <strong>" + content[i + 2].startingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Điểm trả: <strong>" + content[i + 2].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[i + 2].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
                     "                    </div>" +
                     "                    </div>\n" +
                     "                </div>\n" +
                     "            </div>\n" +
                     "        </div>"
             }
-            if(i >=1 && i < (content.length / 3 -1)) {
-                a = i*3;
+            if (i >= 1 && i < (content.length / 3 - 1)) {
+                a = i * 3;
                 startTime = new Date(content[a].startTime);
                 startTime1 = new Date(content[a + 1].startTime);
                 startTime2 = new Date(content[a + 2].startTime);
@@ -442,7 +474,7 @@
                     "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a].startingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price + "</strong></div>\n" +
                     "                    </div>" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
@@ -456,7 +488,7 @@
                     "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a + 1].startingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a + 1].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a + 1].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price1 + "</strong></div>\n" +
                     "                    </div>" +
                     "                    </div>\n" +
                     "                </div>\n" +
@@ -471,7 +503,7 @@
                     "                        <p class=\"card-text\">Điểm đón: <strong>" + content[a + 2].startingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Điểm trả: <strong>" + content[a + 2].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Số vé đã bán: <strong>" + content[a + 2].sold + "<strong></p>\n" +
-                    "                        <div class=\"text-left col-6 p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
+                    "                        <div class=\"text-left p-0\"><strong>Doanh thu: </strong><strong style=\"color: red\">" + price2 + "</strong></div>\n" +
                     "                    </div>" +
                     "                    </div>\n" +
                     "                </div>\n" +

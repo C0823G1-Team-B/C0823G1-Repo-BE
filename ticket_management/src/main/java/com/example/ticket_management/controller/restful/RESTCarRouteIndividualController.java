@@ -2,7 +2,7 @@ package com.example.ticket_management.controller.restful;
 
 import com.example.ticket_management.dto.CustomerDTO;
 import com.example.ticket_management.dto.ICarRouteIndividualDTO;
-import com.example.ticket_management.dto.ITicketDTO;
+import com.example.ticket_management.dto.ITicketDTO1;
 import com.example.ticket_management.service.ICarRouteIndividualService;
 import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,21 +67,21 @@ public class RESTCarRouteIndividualController {
     public ResponseEntity<TicketListResponse> listTicketDTO(@RequestParam("idCRI") Integer idCRI,
                                                           @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                                           @PageableDefault(value = 6) Pageable pageable){
-        Page<ITicketDTO> iTicketDTOS = iTicketService.findAllByIdCRI(idCRI,pageable);
+        Page<ITicketDTO1> iTicketDTOS = iTicketService.findAllByIdCRI(idCRI,pageable);
         Integer totalPage = iTicketDTOS.getTotalPages();
         TicketListResponse ticketListResponse = new TicketListResponse(iTicketDTOS,totalPage);
         return new ResponseEntity<>(ticketListResponse,HttpStatus.OK);
     }
     private static class TicketListResponse {
-        private final Page<ITicketDTO> iTicketDTOS;
+        private final Page<ITicketDTO1> iTicketDTOS;
         private final Integer totalPage;
 
-        public TicketListResponse(Page<ITicketDTO> iTicketDTOS, Integer totalPage) {
+        public TicketListResponse(Page<ITicketDTO1> iTicketDTOS, Integer totalPage) {
             this.iTicketDTOS = iTicketDTOS;
             this.totalPage = totalPage;
         }
 
-        public Page<ITicketDTO> getITicketDTOS() {
+        public Page<ITicketDTO1> getITicketDTOS() {
             return iTicketDTOS;
         }
 

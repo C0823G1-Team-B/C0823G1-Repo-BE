@@ -3,6 +3,7 @@ package com.example.ticket_management.controller;
 import com.example.ticket_management.dto.ICarRouteIndividualDTO;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.service.ICarRouteIndividualService;
+import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 public class CarRouteIndividualController {
     @Autowired
     private ICarRouteIndividualService iCarRouteIndividualService;
+    @Autowired
+    private ITicketService iTicketService;
 
     @GetMapping("")
     public ModelAndView showHome() {
@@ -28,11 +31,8 @@ public class CarRouteIndividualController {
     }
 
     @GetMapping("/cri-management")
-    public ModelAndView showListCRIAdmin(@PageableDefault(value = 3) Pageable pageable){
-        Page<ICarRouteIndividualDTO> iCarRouteIndividualDTOS = iCarRouteIndividualService.findAllDTO(pageable);
-        ModelAndView modelAndView =  new ModelAndView("cri-list-admin", "criListDTO", iCarRouteIndividualDTOS);
-        modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"));
-        modelAndView.addObject("now", LocalDateTime.now());
-        return modelAndView;
+    public ModelAndView showListCRIAdmin(){
+        iTicketService.setTicketByIsDelete();
+        return new ModelAndView("cri-list-admin");
     }
 }
