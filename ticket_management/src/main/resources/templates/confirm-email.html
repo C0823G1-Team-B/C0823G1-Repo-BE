@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
-      xmlns:o="urn:schemas-microsoft-com:office:office">
+<html xmlns="http://www.w3.org/1999/xhtml"
+>
 <head>
     <!--[if gte mso 9]>
     <xml>
@@ -88,6 +88,11 @@
         a[x-apple-data-detectors='true'] {
             color: inherit !important;
             text-decoration: none !important;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
         }
 
         table, td {
@@ -245,8 +250,9 @@
                                                 align="left">
 
                                                 <div style="font-size: 14px; line-height: 140%; text-align: center; word-wrap: break-word;">
-                                                    <p style="line-height: 140%;"
-                                                       th:text="Xin chào ${username}, quý khách vui lòng click vào nút thanh toán dưới đây để tiếp tục."></p>
+                                                    <p style="line-height: 140%;">Xin chào <span
+                                                            th:text="${username}"></span>, quý khách vui lòng click vào
+                                                        nút thanh toán dưới đây để tiếp tục.</p>
                                                 </div>
 
                                             </td>
@@ -297,8 +303,7 @@
                                                 <table width="100%">
                                                     <tr>
                                                         <td align=""><![endif]-->
-                                                <form style="display: flex; justify-content: center;"
-                                                      th:action="${link}" method="post">
+                                                <form th:action="${link}" method="post">
                                                     <button class="btn-checkout" type="submit">Thanh toán</button>
                                                 </form>
                                                 <!--[if mso]></td></tr></table><![endif]-->
