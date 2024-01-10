@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-</head>
-<body>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,6 +63,12 @@
             overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         }
 
+        .container {
+            width: 1050px;
+            margin-left: 20%;
+
+        }
+
     </style>
 </head>
 <body>
@@ -95,10 +93,12 @@
                class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-line fa-fw me-3"></i><span>Tạo Lịch Trình</span></a
             >
-            <a href="http://localhost:8080/admin/driver/list" class="list-group-item list-group-item-action py-2 ripple">
+            <a href="http://localhost:8080/admin/driver/list"
+               class="list-group-item list-group-item-action py-2 ripple">
                 <i class="fas fa-chart-pie fa-fw me-3"></i><span>Quản Lý Tài Xế</span>
             </a>
-            <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple"
+            <a href="http://localhost:8080/admin/driver/create"
+               class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
             >
             <a href="#" class="list-group-item list-group-item-action py-2 ripple"
@@ -180,13 +180,17 @@
 </nav>
 
 <div class="container mt-5">
+    <br>
+    <br>
     <!-- Nút Quay lại -->
     <div>
-        <a th:href="@{/admin/driver/list}" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay lại</a>
+        <a th:href="@{/admin/driver/list}" class="btn btn-light" data-mdb-ripple-init data-mdb-ripple-color="dark">Quay
+            lại</a>
     </div>
 
     <!-- Form sử dụng Bootstrap classes -->
-    <form method="post" th:object="${drivers}" th:action="@{/admin/driver/edit}">
+    <form method="post" th:object="${driver}" th:action="@{/admin/driver/edit}">
+
         <fieldset>
             <legend class="mt-4">Thông tin tài xế</legend>
 
@@ -197,23 +201,41 @@
 
             <div class="form-group">
                 <label for="name">Họ và tên</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" />
+                <input type="text" class="form-control" id="name" th:field="*{name}"/>
+            </div>
+            <div th:if="${#fields.hasErrors('name')}">
+                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('name')}" th:text="${err}">
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="identity">CMND/CCCD</label>
-                <input type="text" class="form-control" id="identity" th:field="*{identity}" />
+                <input type="text" class="form-control" id="identity" th:field="*{identity}"/>
+            </div>
+            <div th:if="${#fields.hasErrors('identity')}">
+                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('identity')}" th:text="${err}">
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="phone_number">Số điện thoại</label>
-                <input type="text" class="form-control" id="phone_number" th:field="*{phoneNumber}" />
+                <input type="text" class="form-control" id="phone_number" th:field="*{phoneNumber}"/>
             </div>
+            <div th:if="${#fields.hasErrors('phoneNumber')}">
+                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}">
+                </div>
+            </div>
+
 
             <div class="form-group">
                 <label for="address">Địa chỉ</label>
                 <input type="text" class="form-control" id="address" th:field="*{address}">
             </div>
+            <div th:if="${#fields.hasErrors('address')}">
+                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('address')}" th:text="${err}">
+                </div>
+            </div>
+
 
             <button type="submit" class="btn btn-primary">Cập nhật</button>
         </fieldset>
@@ -231,9 +253,6 @@
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
 ></script>
-
-</body>
-</html>
 
 </body>
 </html>
