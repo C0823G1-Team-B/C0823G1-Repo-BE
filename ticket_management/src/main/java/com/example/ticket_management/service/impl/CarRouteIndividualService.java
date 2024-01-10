@@ -8,6 +8,8 @@ import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.repository.ICarRouteIndividualRepository;
 import com.example.ticket_management.service.ICarRouteIndividualService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,6 +39,16 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
     public void deleteById(Integer id) {
         iCarRouteIndividualRepository.deleteById(id);
 
+    }
+
+    @Override
+    public Page<ICarRouteIndividualDTO> findAllDTO(Pageable pageable) {
+        return iCarRouteIndividualRepository.findAllDTO(pageable);
+    }
+
+    @Override
+    public Iterable<ICarRouteIndividualDTO> findAllByRevenue() {
+        return iCarRouteIndividualRepository.findAllByRevenue();
     }
 
     @Override
