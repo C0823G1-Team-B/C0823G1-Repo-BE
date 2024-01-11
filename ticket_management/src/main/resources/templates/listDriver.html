@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Danh sách tài xế</title>
@@ -63,7 +63,8 @@
             overflow-x: hidden;
             overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         }
-        .container{
+
+        .container {
             margin-left: 22%;
             width: 73%;
         }
@@ -92,13 +93,16 @@
                class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-line fa-fw me-3"></i><span>Tạo Lịch Trình</span></a
             >
-            <a href="http://localhost:8080/admin/driver/list" class="list-group-item list-group-item-action py-2 ripple active">
+            <a href="http://localhost:8080/admin/driver/list"
+               class="list-group-item list-group-item-action py-2 ripple active">
                 <i class="fas fa-chart-pie fa-fw me-3"></i><span>Quản Lý Tài Xế</span>
             </a>
-            <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple "
+            <a href="http://localhost:8080/admin/driver/create"
+               class="list-group-item list-group-item-action py-2 ripple "
             ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
             >
-            <a href="http://localhost:8080/car-route-individual" class="list-group-item list-group-item-action py-2 ripple"
+            <a href="http://localhost:8080/car-route-individual"
+               class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
             >
 
@@ -178,38 +182,40 @@
 <br/>
 <br/>
 <div class="container">
-
+    <a th:if="${isFree == 0}" href="/admin/driver/list?isFree=1" class="btn btn-outline-success">Danh sách các
+        tài xế chưa có tuyến</a>
+    <a th:if="${isFree == 1}" href="/admin/driver/list" class="btn btn-outline-primary">Danh sách tất cả tài xế</a>
     <div style="width: 100% " class="d-inline-block">
         <h3 style="text-align: center">Danh sách tài xế</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Tên</th>
-                    <th scope="col">CNMD/CCCD</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Địa chỉ</th>
-                    <th scope="col">Cập nhật thông tin</th>
-                    <th scope="col">Sa thải</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="d,loop:${drivers}">
-                    <td th:text="${loop.count + drivers.size * drivers.number}"></td>
-                    <td th:text="${d.name}"></td>
-                    <td th:text="${d.identity}"></td>
-                    <td th:text="${d.phoneNumber}"></td>
-                    <td th:text="${d.address}"></td>
-                    <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
-                           class="btn btn-outline-primary">Cập nhật</a></td>
-                    <td>
-                        <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
-                           data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
-                            Sa thải
-                        </a>
-                    </td>
-                </tbody>
-            </table>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên</th>
+                <th scope="col">CNMD/CCCD</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Cập nhật thông tin</th>
+                <th th:if="${isFree == 1}" scope="col">Sa thải</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d,loop:${drivers}">
+                <td th:text="${loop.count + drivers.size * drivers.number}"></td>
+                <td th:text="${d.name}"></td>
+                <td th:text="${d.identity}"></td>
+                <td th:text="${d.phoneNumber}"></td>
+                <td th:text="${#strings.abbreviate(d.address,20)} "></td>
+                <td><a th:href="@{/admin/driver/{id}/edit(id=${d.getId()})}" type="button"
+                       class="btn btn-outline-primary">Cập nhật</a></td>
+                <td th:if="${isFree == 1}">
+                    <a type="button" th:attr="onclick=|onDeleteHandler('${d.id}','${d.name}')|" class="btn btn-primary"
+                       data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal">
+                        Sa thải
+                    </a>
+                </td>
+            </tbody>
+        </table>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -225,7 +231,8 @@
                             Bạn có chắc chắn muốn sa thải tài xế có tên: <span id="nameDelete"></span>?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                                    data-mdb-dismiss="modal">
                                 Đóng
                             </button>
                             <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Sa thải</button>
