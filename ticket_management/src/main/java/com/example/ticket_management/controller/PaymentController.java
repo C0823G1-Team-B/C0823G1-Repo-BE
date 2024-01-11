@@ -1,8 +1,16 @@
 package com.example.ticket_management.controller;
 
-import com.example.ticket_management.config.VNPAYConfig;
+import com.example.ticket_management.config.VNPayConfig;
+import com.example.ticket_management.model.Payment;
+import com.example.ticket_management.service.IPaymentService;
+import com.example.ticket_management.utils.BCryptUtils;
+import com.example.ticket_management.utils.MailService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +24,11 @@ import java.util.*;
 @Controller
 @RequestMapping("/public")
 public class PaymentController {
+    @Autowired
+    IPaymentService paymentService;
+    @Autowired
+    MailService mailService;
+
     @GetMapping("/checkout")
     public String getPay(HttpServletRequest req,
                          @RequestParam("amount") Long orderAmount,
@@ -26,9 +39,10 @@ public class PaymentController {
         long amount = orderAmount * 100;
 
 //        String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
-        String vnp_IpAddr = VNPAYConfig.getIpAddress(req);
+        String bankCode = "NCB";
+        String vnp_IpAddr = VNPayConfig.getIpAddress(req);
 
-        String vnp_TmnCode = VNPAYConfig.vnp_TmnCode;
+        String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
@@ -36,12 +50,12 @@ public class PaymentController {
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-//        vnp_Params.put("vnp_BankCode", bankCode);
+        vnp_Params.put("vnp_BankCode", bankCode);
         vnp_Params.put("vnp_TxnRef", String.valueOf(paymentId));
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + paymentId);
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", VNPAYConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -77,30 +91,52 @@ public class PaymentController {
             }
         }
         String queryUrl = query.toString();
-        String vnp_SecureHash = VNPAYConfig.hmacSHA512(VNPAYConfig.secretKey, hashData.toString());
+        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        String paymentUrl = VNPAYConfig.vnp_PayUrl + "?" + queryUrl;
+        String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
         return "redirect:" + paymentUrl;
     }
 
-    // @GetMapping("/payment_infor")
-    // public String transaction(
-    //         @RequestParam(value = "vnp_Amount", required = false) String amount,
-    //         @RequestParam(value = "vnp_BankCode", required = false) String bankCode,
-    //         @RequestParam(value = "vnp_OrderInfo", required = false) String order,
-    //         @RequestParam(value = "vnp_ResponseCode", required = false) String responseCode,
-    //         Model model) {
-    //     Payment payment = new Payment();
-    //     System.out.println(
-    //             "vo"
-    //     );
-    //     if (responseCode.equals("00")){
-    //         payment.setStatus(true);
-    //         model.addAttribute("successful","Thanh Toán Thành Công");
-    //     }else {
-    //         payment.setStatus(false);
-    //         model.addAttribute("false","Thanh Toán Thất Bại");
-    //     }
-    //     return "/home";
-    // }
+    @GetMapping("/checkout_result")
+    public String paymentResult(HttpServletRequest request, Model model) {
+        Map fields = new HashMap();
+        for (Enumeration params = request.getParameterNames(); params.hasMoreElements(); ) {
+            String fieldName = null;
+            String fieldValue = null;
+            try {
+                fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+                fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                fields.put(fieldName, fieldValue);
+            }
+        }
+
+        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+        fields.remove("vnp_SecureHashType");
+        fields.remove("vnp_SecureHash");
+        Integer paymentId = Integer.valueOf(request.getParameter("vnp_TxnRef"));
+        String signValue = VNPayConfig.hashAllFields(fields);
+        if (signValue.equals(vnp_SecureHash)) {
+            if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
+                if (paymentService.updatePaymentStatus(paymentId, 1)) {
+                    mailService.mailTicketQRCode(paymentService.findById(paymentId).orElse(null));
+                    model.addAttribute("result", "Thanh toán thành công, mã vé đã được gửi vào email của quý khách.");
+                } else {
+                    model.addAttribute("result", "Giao dịch không tồn tại!");
+                }
+            } else {
+                paymentService.updatePaymentStatus(paymentId, 2);
+                model.addAttribute("result", "Thanh toán không thành công!");
+            }
+            return "checkout-result";
+        } else {
+            System.out.println("Secure Hash mismatch!");
+            return "home";
+        }
+    }
+
+
 }
