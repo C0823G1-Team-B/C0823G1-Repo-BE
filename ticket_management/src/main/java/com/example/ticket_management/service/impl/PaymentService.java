@@ -32,4 +32,15 @@ public class PaymentService implements IPaymentService {
     public void deleteById(Integer id) {
         iPaymentRepository.deleteById(id);
     }
+
+    @Override
+    public boolean updatePaymentStatus(Integer paymentId, Integer i) {
+        Payment payment = iPaymentRepository.findById(paymentId).orElse(null);
+        if (payment != null && !payment.isDelete()) {
+            payment.setStatus(i);
+            iPaymentRepository.save(payment);
+            return true;
+        }
+        return false;
+    }
 }
