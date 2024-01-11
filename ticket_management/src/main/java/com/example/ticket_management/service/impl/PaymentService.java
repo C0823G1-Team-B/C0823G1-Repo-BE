@@ -1,17 +1,23 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.model.Customer;
 import com.example.ticket_management.model.Payment;
+import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.repository.IPaymentRepository;
 import com.example.ticket_management.service.IPaymentService;
+import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PaymentService implements IPaymentService {
     @Autowired
     private IPaymentRepository iPaymentRepository;
+    @Autowired
+    private ITicketService ticketService;
 
     @Override
     public Iterable<Payment> findAll() {
@@ -34,13 +40,25 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public boolean updatePaymentStatus(Integer paymentId, Integer i) {
+    public Payment updatePaymentStatus(Integer paymentId, Integer i) {
         Payment payment = iPaymentRepository.findById(paymentId).orElse(null);
         if (payment != null && !payment.isDelete()) {
             payment.setStatus(i);
             iPaymentRepository.save(payment);
-            return true;
+            return payment;
         }
-        return false;
+        return payment;
+    }
+
+    @Override
+    public Payment createPayment(List<Ticket> ticketList, Customer customer) {
+        Payment payment = iPaymentRepository.save(new Payment());
+        payment.setTickets(ticketList);
+        for (Ticket ticket : ticketList) {
+            ticket.setPayments(payment);
+            ticket.setCustomers(customer);
+        }
+        ticketService.saveAll(ticketList);
+        return payment;
     }
 }
