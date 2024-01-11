@@ -3,6 +3,10 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,13 +21,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- bootstrap css -->
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <!-- style css -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- Responsive-->
     <link rel="stylesheet" href="css/responsive.css">
     <!-- fevicon -->
-    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <link rel="icon" href="images/fevicon.png" type="image/gif"/>
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
     <!-- Tweaks for older IEs-->
@@ -35,7 +41,24 @@
           media="screen">
 
 </head>
+<style>
+    * {
+        font-family: Arial;
+    }
 
+    .search-form {
+        max-width: 1128px;
+        background: white;
+        border: 1px solid rgba(232, 8, 56, 0.6);
+        border-radius: 1rem;
+        padding-bottom: 3.5rem;
+        padding-top: 4.5rem;
+        outline: 8px solid rgb(197 58 16 / 10%);
+    }
+    .layout_padding{
+        padding-bottom : 30px;
+    }
+</style>
 <body>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <!--header section start -->
@@ -47,13 +70,13 @@
                         src="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png"
                         srcset="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png 1x"
                         width="227" height="69" alt="Nhà Xe Hiếu Hoa Đà Nẵng Logo" data-retina_logo_url=""
-                        class="fusion-standard-logo" /></a></div>
+                        class="fusion-standard-logo"/></a></div>
             </div>
             <div class="col-sm-6 col-lg-9">
                 <div class="menu_text">
                     <ul>
                         <li><a href="/">Trang Chủ</a></li>
-                        <li><a th:href="@{api/ticket}">Đặt vé</a></li>
+                        <li><a th:href="@{api/ticket}">Đặt Vé</a></li>
                         <li><a href="#booking">Chi Tiết</a></li>
                         <div id="myNav" class="overlay">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -63,11 +86,11 @@
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="!isAuthenticated()" >
-                                    <a href="/login">  Đăng Nhập</a>
+                                <div sec:authorize="!isAuthenticated()">
+                                    <a href="/login"> Đăng Nhập</a>
                                 </div>
-                                <div sec:authorize="isAuthenticated()" >
-                                    <a href="/logout">  Đăng Xuất</a>
+                                <div sec:authorize="isAuthenticated()">
+                                    <a href="/logout"> Đăng Xuất</a>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +226,7 @@
 <!-- our taxis section start -->
 <div id="taxis" class="taxis_section layout_padding">
     <div class="container">
-        <h1 class="our_text"><span style="color: #f4db31;">Bus</span> Của Chúng Tôi </h1>
+        <h1 class="our_text"><span style="color: #f4db31;">TUYẾN </span> PHỔ BIẾN </h1>
         <div class="taxis_section_2">
             <div class="row">
                 <div class="col-sm-4">
@@ -236,10 +259,118 @@
 </div>
 <!-- our taxis section end -->
 <!-- why ride section start -->
-<div id="booking" class="ride_section layout_padding">
-    <div class="container">
-        <div class="ride_main">
-            <h1 class="ride_text"><span style="color: #f4db31;">Hiếu Hoa Express</span></h1>
+
+<div class="container p-5 border border-2 mb-4" style="border-radius: 12px;">
+    <!--  id="myForm"   method="get" th:action="@{/api/ticket/searchTicket}"-->
+    <div id="booking" class="ride_section layout_padding">
+        <div class="container border border-warning search-form">
+            <!--            <div class="ride_main">-->
+            <!--                <h1 style="font-size: 50px"> ĐẶT <span style="color: #f4db31;">VÉ XE</span></h1>-->
+            <!--            </div>-->
+            <form class="text-center">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <i class="fa-solid fa-location-dot"></i> <label style="margin-left: 8px" for="departureCity"
+                                                                            class="form-label fw-bold">Điểm đi</label>
+                            <select style="width: 68%" name="departure" id="departureCity"
+                                    class="form-select form-select-sm search-select !important"
+                                    onchange="handleDepartureCityChange()" required>
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <i class="fa-solid fa-location-dot"></i> <label style="margin-left: 6px" for="city"
+                                                                            class="form-label fw-bold">Điểm đến</label>
+                            <select style="width: 65%;" name="destination" id="city"
+                                    class="form-select form-select-sm search-select" onchange="handleCityChange()"
+                                    required>
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <i class="fa-regular fa-calendar-days"></i><label style="margin-left: 8px"
+                                                                              for="startDateTime"
+                                                                              class="form-label fw-bold">Ngày bắt đầu
+                            đi</label>
+                            <input style="width: 60%;display: inline-block;" name="timeStart" type="date"
+                                   id="startDateTime"
+                                   class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-left: -3%">
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark" onclick="createSearch()">Tìm Chuyến xe</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<div id="listTicketsContainer" class="mt-4 container"></div>
+
+<!--modal-->
+<div class="success-message">
+    <div class="modal fade" id="myModalNotFound" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Không có chuyến xe phù hợp</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="noResultsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tuyến chưa có lịch trình cụ thể,vui lòng gọi cho số tổng đài 123456 để biết thêm chi tiết</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="missingInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel3">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Vui lòng nhập đầy đủ thông tin.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
         </div>
     </div>
 </div>
@@ -434,9 +565,168 @@
     }
 </script>
 <script>
-    $(function() {
+    $(function () {
         $("#header").load("header.html");
     })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+<script>
+    const host = "https://provinces.open-api.vn/api/";
+
+    var callAPI = (api, selectId) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, selectId);
+            });
+    }
+
+    callAPI('https://provinces.open-api.vn/api/?depth=1', 'departureCity');
+    callAPI('https://provinces.open-api.vn/api/?depth=1', 'city');
+
+    var renderData = (array, select) => {
+        let row = '<option disable value="">Chọn</option>';
+        array.forEach(element => {
+            let option = `<option data-id="${element.code}" value="${element.name}" class="${select}-option">${element.name}</option>`;
+            row += option;
+        });
+        document.querySelector("#" + select).innerHTML = row;
+    }
+
+    var handleDepartureCityChange = () => {
+        printResult();
+    };
+
+    var handleCityChange = () => {
+        printResult();
+    };
+
+
+    $("#startDateTime").change(() => {
+        printResult();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var currentDate = new Date().toISOString().split('T')[0];
+        document.getElementById('startDateTime').min = currentDate;
+    });
+
+
+    var printResult = () => {
+        if ($("#departureCity").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+            $("#startDateTime").val() !== "") {
+
+        }
+    }
+
+
+    $(".search-select").select2();
+
+
+    $('#myForm').submit(function (event) {
+        if (!$('#departureCity').val() || !$('#city').val() || !$('#startDateTime').val()) {
+            event.preventDefault();
+            $('#missingInfoModal').modal('show');
+        }
+    });
+    $('input[type="submit"]').click(function (event) {
+        if (!$('#departureCity').val() || !$('#city').val() || !$('#startDateTime').val()) {
+            event.preventDefault();
+            $('#missingInfoModal').modal('show');
+        }
+    });
+
+
+    function createSearch() {
+        let departureCity = $("#departureCity").val();
+        let city = $("#city").val();
+        let timeStart = $("#startDateTime").val();
+
+        if (departureCity && city && timeStart) {
+            let newSearch = {
+                startPoint: departureCity,
+                endPoint: city,
+                startTime: timeStart
+            }
+            console.log(newSearch)
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                type: "POST",
+                data: JSON.stringify(newSearch),
+                url: "http://localhost:8080/public/search",
+                success: function (data, textStatus, xhr) {
+                    if (xhr.status === 204) {
+                        $('#myModalNotFound').modal('show');
+                    } else {
+                        var listTicketsContainer = document.getElementById('listTicketsContainer');
+                        listTicketsContainer.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(function (row) {
+                                var ticketDiv = document.createElement('div');
+                                ticketDiv.className = 'row p-4 border mb-4';
+                                ticketDiv.style.borderRadius = '10px';
+                                var ticketHtml = `
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <i style="font-size: 40px" class="fa-solid fa-bus me-3"></i>
+                        <p style="font-weight: bold" className=" mb-0"><span>${row.startPoint} - ${row.endPoint}</span></p>
+                    <p className="fw-bold mb-0"> </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold">Miễn phí</span>
+                        <i class="fa-solid fa-wifi mx-2"></i>
+                       <i class="fa-solid fa-bottle-water"></i>
+                    </div>
+                    <p class="fw-bold">Giá vé <span>${row.price}</span> <u>VNĐ</u></p>
+                </div>
+                <div class="col-md-5">
+                    <p class="fw-bold">Thời gian bắt đầu <span>${row.startTime}</span></p>
+                    <p class="fw-bold">Thời gian kết thúc <span>${row.endTime}</span></p>
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-dark" style="width: 110px" href="/ticket/${row.id}"> <span>Đặt vé</span> </a>
+                </div>
+            `;
+                                ticketDiv.innerHTML = ticketHtml;
+                                listTicketsContainer.appendChild(ticketDiv);
+                            });
+                        } else {
+                            $('#noResultsModal').modal('show');
+
+                        }
+                    }
+
+                },
+                error: function (error) {
+                    console.log("loi??")
+                    console.log("Error:", error);
+                }
+
+            })
+
+        } else {
+            $('#missingInfoModal').modal('show');
+        }
+        event.preventDefault();
+    }
+
+    function openNav() {
+        document.getElementById("myNav").style.width = "100%";
+    }
+
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+    }
+
 </script>
 </body>
 
