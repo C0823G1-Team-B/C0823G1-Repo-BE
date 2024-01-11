@@ -49,4 +49,19 @@ public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
     @Procedure
     void setTicketIsDelete();
 
+    @Query(value = "select ticket.id as id,\n" +
+            "ticket.number_seat as numberSeat,\n" +
+            "ticket.status as status,\n" +
+            "ticket.is_delete as isDelete,\n" +
+            "car_route_individual.start_time as startTime,\n" +
+            "car_route_individual.end_time as endTime,\n" +
+            "ticket.price as price,\n" +
+            "car_route.starting_point as startingPoint,\n" +
+            "car_route.ending_point as endingPoint\n" +
+            "from ticket \n" +
+            "left join car_route_individual on ticket.car_route_individual_id = car_route_individual.id\n" +
+            "left join car_route on car_route.id = car_route_individual.car_route_id\n" +
+            "where ticket.id = :id",nativeQuery = true)
+    ITicketDTO1 getITicketDTO1ById(Integer id);
+
 }

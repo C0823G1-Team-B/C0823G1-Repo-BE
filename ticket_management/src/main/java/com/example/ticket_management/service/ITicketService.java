@@ -18,4 +18,6 @@ public interface ITicketService extends IGenerationService<Ticket> {
     Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, String email);
 
     void setTicketByIsDelete();
+
+    ITicketDTO1 getITicketDTO1ById(Integer id);
 }
