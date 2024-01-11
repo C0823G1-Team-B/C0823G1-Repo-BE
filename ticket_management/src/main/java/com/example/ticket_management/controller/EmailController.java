@@ -8,6 +8,7 @@ import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.model.TicketCart;
 import com.example.ticket_management.service.ICustomerService;
 import com.example.ticket_management.service.IPaymentService;
+import com.example.ticket_management.service.ITicketService;
 import com.example.ticket_management.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,8 @@ public class EmailController {
     IPaymentService paymentService;
     @Autowired
     MailService mailService;
-
+    @Autowired
+    ITicketService ticketService;
 
     @PostMapping("/email_check")
     public String checkMailExistInDatabase(@ModelAttribute("ctmDTO") CustomerDTO customerDTO,
@@ -41,6 +43,13 @@ public class EmailController {
         currentPayment.setPassCode(VNPayConfig.getRandomNumber(8));
         currentPayment.setStatus(0);
         paymentService.save(currentPayment);
+        for (Ticket t : currentPayment.getTickets()) {
+            t.setPrice(100L);
+        }
+        paymentService.save(currentPayment);
+        for (Ticket t : currentPayment.getTickets()) {
+            ticketService.save(t);
+        }
         Long totalPrice = 0L;
         for (Ticket ticket : ticketList) {
             totalPrice += ticket.getPrice();
@@ -68,7 +77,7 @@ public class EmailController {
             confirmCustomer.setDelete(false);
             customerService.save(confirmCustomer);
         } else {
-            model.addAttribute("result","Email này không tồn tại!");
+            model.addAttribute("result", "Email này không tồn tại!");
             return "/checkout-result";
         }
         Payment payment = paymentService.findById(paymentId).orElse(null);
