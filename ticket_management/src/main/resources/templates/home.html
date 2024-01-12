@@ -693,7 +693,9 @@
                     <p class="fw-bold">Thời gian kết thúc <span>${row.endTime}</span></p>
                 </div>
                 <div class="col-md-1">
-                    <a class="btn btn-dark" style="width: 110px" href="/ticket/${row.id}"> <span>Đặt vé</span> </a>
+                    <a  class="btn ${row.ticket > 15 ? 'btn-dark' : 'btn-danger'}" style="width: 120px" href="/ticket/${row.id}">
+            <span>${row.ticket > 15 ? 'Đặt vé' : 'Sắp hết vé'}</span>
+        </a>
                 </div>
             `;
                                 ticketDiv.innerHTML = ticketHtml;
