@@ -111,6 +111,7 @@ public class VNPayConfig {
         for (int i = 0; i < len; i++) {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 }
