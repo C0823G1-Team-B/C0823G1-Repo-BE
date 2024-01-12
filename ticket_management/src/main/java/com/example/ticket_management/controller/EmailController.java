@@ -37,19 +37,7 @@ public class EmailController {
                                            RedirectAttributes redirectAttributes) {
         Customer customer = customerService.findByEmail(customerDTO.getEmail()).orElse(null);
         List<Ticket> ticketList = new ArrayList<>(ticketCart.ticketList.values());
-        Payment currentPayment = new Payment();
-        paymentService.save(currentPayment);
-        currentPayment.setTickets(ticketList);
-        currentPayment.setPassCode(VNPayConfig.getRandomNumber(8));
-        currentPayment.setStatus(0);
-        paymentService.save(currentPayment);
-        for (Ticket t : currentPayment.getTickets()) {
-            t.setPrice(100L);
-        }
-        paymentService.save(currentPayment);
-        for (Ticket t : currentPayment.getTickets()) {
-            ticketService.save(t);
-        }
+
         Long totalPrice = 0L;
         for (Ticket ticket : ticketList) {
             totalPrice += ticket.getPrice();
@@ -59,11 +47,13 @@ public class EmailController {
             Customer newCustomer = new Customer(customerDTO.getEmail(), customerDTO.getName(), customerDTO.getPhoneNumber(), ticketList);
             newCustomer.setDelete(true);
             customerService.save(newCustomer);
+            Payment currentPayment = paymentService.createPayment(ticketList,newCustomer);
             mailService.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO);
             redirectAttributes.addFlashAttribute("ctmDTO", customerDTO);
             redirectAttributes.addFlashAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
             return "redirect:/ticket/" + ticketList.get(0).getCarRouteIndividual().getId();
         }
+        Payment currentPayment = paymentService.createPayment(ticketList,customer);
         return "redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + currentPayment.getId();
     }
 

@@ -3,12 +3,10 @@ package com.example.ticket_management.controller;
 import com.example.ticket_management.config.VNPayConfig;
 import com.example.ticket_management.model.Payment;
 import com.example.ticket_management.service.IPaymentService;
-import com.example.ticket_management.utils.BCryptUtils;
+import com.example.ticket_management.service.ITicketService;
 import com.example.ticket_management.utils.MailService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +26,8 @@ public class PaymentController {
     IPaymentService paymentService;
     @Autowired
     MailService mailService;
+    @Autowired
+    ITicketService ticketService;
 
     @GetMapping("/checkout")
     public String getPay(HttpServletRequest req,
@@ -121,7 +121,9 @@ public class PaymentController {
         String signValue = VNPayConfig.hashAllFields(fields);
         if (signValue.equals(vnp_SecureHash)) {
             if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                if (paymentService.updatePaymentStatus(paymentId, 1)) {
+                Payment payment = paymentService.updatePaymentStatus(paymentId, 1);
+                if (payment != null) {
+                    ticketService.updateTicketStatus(payment.getTickets());
                     mailService.mailTicketQRCode(paymentService.findById(paymentId).orElse(null));
                     model.addAttribute("result", "Thanh toán thành công, mã vé đã được gửi vào email của quý khách.");
                 } else {
