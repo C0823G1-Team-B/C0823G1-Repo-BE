@@ -47,7 +47,15 @@ public class DriverService implements IDriverService {
     }
 
     @Override
-    public Page<Driver> find(Pageable pageable, String name) {
+    public Page<Driver> find(Pageable pageable, String name, Integer isRemove) {
+        if (isRemove == 1) {
+            return iDriverRepository.findFreeTimeDrivers(pageable, "%" + name + "%");
+        }
         return iDriverRepository.find(pageable, "%" + name + "%");
+    }
+
+    @Override
+    public Driver findIddr(Integer id) {
+        return iDriverRepository.findById(id).get();
     }
 }

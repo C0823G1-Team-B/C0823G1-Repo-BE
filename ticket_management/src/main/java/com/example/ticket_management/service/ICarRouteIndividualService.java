@@ -21,4 +21,5 @@ public interface ICarRouteIndividualService extends IGenerationService<CarRouteI
     Page<ICarRouteIndividualDTO> findAllDTO(Pageable pageable);
 
     Iterable<ICarRouteIndividualDTO> findAllByRevenue();
+    Iterable<CarRouteIndividual> findIdDriver(Integer id);
 }
