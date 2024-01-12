@@ -64,7 +64,7 @@
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="isAuthenticated()">
+                                <div sec:authorize="!isAuthenticated()">
                                     <a href="/login"> Đăng Nhập</a>
 
                                 </div>
