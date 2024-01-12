@@ -11,6 +11,7 @@ public interface IDriverService extends IGenerationService<Driver> {
     List<Driver> findAllDriverFree(String timeConvert);
 
     List<Driver> findAllDriverFreeByTime(String startTimeConvert, String endTimeConvert);
-    Page<Driver> find(Pageable pageable, String name);
+    Page<Driver> find(Pageable pageable, String name, Integer isRemove);
+    Driver findIddr(Integer id);
 
 }

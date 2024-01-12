@@ -1,6 +1,7 @@
 package com.example.ticket_management.controller;
 
 import com.example.ticket_management.model.Driver;
+import com.example.ticket_management.service.ICarRouteIndividualService;
 import com.example.ticket_management.service.IDriverService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/driver")
 public class DriverController {
     @Autowired
     private IDriverService iDriverService;
-
+    @Autowired
+    private ICarRouteIndividualService carRouteIndividualService;
     @GetMapping("/create")
     public String formDriver(Model model) {
         model.addAttribute("driver", new Driver());
@@ -44,15 +45,19 @@ public class DriverController {
                                  @RequestParam(
                                          value = "search",
                                          required = false,
-                                         defaultValue = "") String name) {
+                                         defaultValue = "") String name,
+                                 @RequestParam(
+                                         value = "isFree",
+                                         required = false,
+                                         defaultValue = "0") Integer isFree
+                                 ) {
         Pageable pageable = PageRequest.of(page, 5);
-        Page<Driver> drivers = this.iDriverService.find(pageable, name);
+        Page<Driver> drivers = this.iDriverService.find(pageable, name, isFree);
         model.addAttribute("drivers", drivers);
+        model.addAttribute("isFree",isFree);
         System.out.println(drivers);
         return "listDriver";
     }
-
-
 
     @PostMapping("/remove")
     public String remove(@RequestParam("idDelete") Integer idDelete) {

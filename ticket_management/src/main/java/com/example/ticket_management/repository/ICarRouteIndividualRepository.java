@@ -84,4 +84,6 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "ORDER BY car_route_individual.end_time;", nativeQuery = true)
     Iterable<ICarRouteIndividualDTO> findAllByRevenue();
 
+    @Query(value = "select cri.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.id = :id",nativeQuery = true)
+    Iterable<CarRouteIndividual> findIdDriver(@Param("id") Integer id);
 }

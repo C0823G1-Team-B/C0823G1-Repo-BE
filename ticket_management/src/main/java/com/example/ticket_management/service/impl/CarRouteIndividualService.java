@@ -52,6 +52,11 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
     }
 
     @Override
+    public Iterable<CarRouteIndividual> findIdDriver(Integer id) {
+        return iCarRouteIndividualRepository.findIdDriver(id);
+    }
+
+    @Override
     public ICarRouteIndividualDTO findByIdDTO(Integer idCRI) {
         return iCarRouteIndividualRepository.findByDTO(idCRI);
     }
