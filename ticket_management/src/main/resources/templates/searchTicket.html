@@ -7646,17 +7646,16 @@
         padding-top: 40px;
     }
 
-    .section_footer {
+    /*.section_footer {*/
+    /*    */
+    /*    width: 100%;*/
+    /*    float: left;*/
+    /*    background-color: #292828;*/
+    /*    height: auto;*/
+    /*    position: absolute;*/
+    /*    bottom: 0;*/
 
-
-        width: 100%;
-        float: left;
-        background-color: #292828;
-        height: auto;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
+    /*}*/
 
     .ipsum_text {
         font-size: 12pt;
@@ -8090,17 +8089,24 @@
                     <div class="d-flex align-items-center">
                         <span class="fw-bold">Miễn phí</span>
                         <i class="fa-solid fa-wifi mx-2"></i>
-                        <i class="fa-solid fa-bottle-water mx-1"></i>
+                          <i style="font-size: 12px" class="fa-solid fa-wine-bottle"></i>
                     </div>
-                    <p class="fw-bold">Giá vé <span>${row.price}</span> <u>VNĐ</u></p>
+                    <p class="fw-bold">Giá vé <span>${row.price}</span> <u>VNĐ/1vé</u></p>
                 </div>
                 <div class="col-md-5">
                     <p class="fw-bold">Thời gian bắt đầu <span>${row.startTime}</span></p>
                     <p class="fw-bold">Thời gian kết thúc <span>${row.endTime}</span></p>
                 </div>
+
                 <div class="col-md-1">
-                    <a class="btn btn-dark" style="width: 110px" href="/ticket/${row.id}"> <span>Đặt vé</span> </a>
-                </div>
+             <div class="col-md-1">
+        <a  class="btn ${row.ticket > 15 ? 'btn-dark' : 'btn-danger'}" style="width: 120px" href="/ticket/${row.id}">
+            <span>${row.ticket > 15 ? 'Đặt vé' : 'Sắp hết vé'}</span>
+        </a>
+    </div>
+
+        </div>
+
             `;
                                 ticketDiv.innerHTML = ticketHtml;
                                 listTicketsContainer.appendChild(ticketDiv);

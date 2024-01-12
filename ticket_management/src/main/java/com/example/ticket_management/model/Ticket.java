@@ -21,8 +21,8 @@ public class Ticket {
     private boolean isDelete;
 
     @ManyToOne
-    @JoinColumn(name = "car_route_individual_id", referencedColumnName = "id")
     @JsonBackReference
+    @JoinColumn(name = "car_route_individual_id", referencedColumnName = "id")
     private CarRouteIndividual carRouteIndividual;
 
     @ManyToOne

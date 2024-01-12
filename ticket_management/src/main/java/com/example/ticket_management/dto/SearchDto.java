@@ -7,6 +7,15 @@ public class SearchDto {
     private String startTime;
     private String endTime;
     private Long price;
+    private Integer ticket;
+
+    public Integer getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Integer ticket) {
+        this.ticket = ticket;
+    }
 
     public Integer getId() {
         return id;
@@ -32,13 +41,14 @@ public class SearchDto {
         this.price = price;
     }
 
-    public SearchDto(Integer id, String startPoint, String endPoint, String startTime, String endTime, Long price) {
+    public SearchDto(Integer id, String startPoint, String endPoint, String startTime, String endTime, Long price,Integer ticket) {
         this.id = id;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
+        this.ticket = ticket;
     }
 
     public SearchDto(String startPoint, String endPoint, String startTime) {

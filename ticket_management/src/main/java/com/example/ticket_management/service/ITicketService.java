@@ -21,6 +21,10 @@ public interface ITicketService extends IGenerationService<Ticket> {
 
     void setTicketByIsDelete();
 
+    Integer findAllTicketByCiIdAndStatus(Integer id, int i);
+
+    List<Ticket> findAllTicketByCRI(Integer idCRI);
+
     ITicketDTO1 getITicketDTO1ById(Integer id);
 
     void saveAll(List<Ticket> ticketList);

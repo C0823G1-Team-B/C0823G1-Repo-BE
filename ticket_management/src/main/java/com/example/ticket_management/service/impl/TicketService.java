@@ -56,6 +56,16 @@ public class TicketService implements ITicketService {
     }
 
     @Override
+    public Integer findAllTicketByCiIdAndStatus(Integer id, int i) {
+        return iTicketRepository.findAllTicketByCiIdAndStatus(id,0);
+    }
+
+    @Override
+    public List<Ticket> findAllTicketByCRI(Integer idCRI) {
+        return iTicketRepository.findAllTicketByCRI(idCRI);
+    }
+
+    @Override
     public ITicketDTO1 getITicketDTO1ById(Integer id) {
         return iTicketRepository.getITicketDTO1ById(id);
     }
