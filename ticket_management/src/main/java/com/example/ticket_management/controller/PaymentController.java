@@ -125,13 +125,13 @@ public class PaymentController {
                 if (payment != null) {
                     ticketService.updateTicketStatus(payment.getTickets());
                     mailService.mailTicketQRCode(paymentService.findById(paymentId).orElse(null));
-                    model.addAttribute("result", "Thanh toán thành công, mã vé đã được gửi vào email của quý khách.");
+                    model.addAttribute("result_succeed", "Mã vé đã được gửi vào email của quý khách.");
                 } else {
-                    model.addAttribute("result", "Giao dịch không tồn tại!");
+                    model.addAttribute("result_transaction_error", "Giao dịch không tồn tại!");
                 }
             } else {
                 paymentService.updatePaymentStatus(paymentId, 2);
-                model.addAttribute("result", "Thanh toán không thành công!");
+                model.addAttribute("result_transaction_failed", "Thanh toán không thành công!");
             }
             return "checkout-result";
         } else {
