@@ -86,7 +86,7 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "         car.license_plates\n" +
             "ORDER BY car_route_individual.end_time;", nativeQuery = true)
     Iterable<ICarRouteIndividualDTO> findAllByRevenue();
-
+  
     @Query(value = "select * \n" +
             "from car_route_individual cri\n" +
             "where cri.start_time >= :timeConvert ",nativeQuery = true)
@@ -97,5 +97,8 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "SET car_route_individual.is_delete = 1\n" +
             "WHERE car_route_individual.id = :idCI",nativeQuery = true)
     void updateDeleteById(@Param("idCI") Integer idCI);
+
+    @Query(value = "select cri.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.id = :id",nativeQuery = true)
+    Iterable<CarRouteIndividual> findIdDriver(@Param("id") Integer id);
 
 }

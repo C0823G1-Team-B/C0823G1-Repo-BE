@@ -25,4 +25,7 @@ public interface ICarRouteIndividualService extends IGenerationService<CarRouteI
     List<CarRouteIndividual> findAllIndividualByStartTime(String timeConvert);
 
     void updateDeleteById(Integer id);
+
+    Iterable<CarRouteIndividual> findIdDriver(Integer id);
+
 }

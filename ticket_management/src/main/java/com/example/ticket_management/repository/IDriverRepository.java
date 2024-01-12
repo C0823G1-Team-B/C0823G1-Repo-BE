@@ -49,4 +49,9 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
     @Modifying
     @Query(value = "update driver d set d.is_delete = true where d.id = :id ",nativeQuery = true)
     void deleteById(@Param("id") Integer id);
+
+    @Query(value = "select d.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.name like :name",
+            nativeQuery = true,
+            countQuery = "select count(*) from(select d.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.name like :name) temp")
+    Page<Driver> findFreeTimeDrivers(Pageable pageable, @Param("name") String name);
 }

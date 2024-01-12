@@ -68,6 +68,11 @@
             margin-left: 20%;
 
         }
+        .alert{
+            height: 45px;
+            width: 50%;
+            margin: 5px;
+        }
 
     </style>
 </head>
@@ -101,7 +106,7 @@
                class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
             >
-            <a href="http://localhost:8080/car-route-individual" class="list-group-item list-group-item-action py-2 ripple"
+            <a href="http://localhost:8080/car-route-individual/cri-management" class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
             >
             <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
@@ -202,39 +207,47 @@
             <div class="form-group">
                 <label for="name">Họ và tên</label>
                 <input type="text" class="form-control" id="name" th:field="*{name}"/>
-            </div>
-            <div th:if="${#fields.hasErrors('name')}">
-                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('name')}" th:text="${err}">
+
+                <div th:if="${#fields.hasErrors('name')}">
+                    <div style="color: darkred" th:each="err : ${#fields.errors('name')}" th:text="${err}">
+                    </div>
                 </div>
             </div>
+
 
             <div class="form-group">
                 <label for="identity">CMND/CCCD</label>
                 <input type="text" class="form-control" id="identity" th:field="*{identity}"/>
-            </div>
-            <div th:if="${#fields.hasErrors('identity')}">
-                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('identity')}" th:text="${err}">
+
+                <div th:if="${#fields.hasErrors('identity')}">
+                    <div style="color: darkred" th:each="err : ${#fields.errors('identity')}" th:text="${err}">
+                    </div>
                 </div>
             </div>
+
 
             <div class="form-group">
                 <label for="phone_number">Số điện thoại</label>
                 <input type="text" class="form-control" id="phone_number" th:field="*{phoneNumber}"/>
-            </div>
-            <div th:if="${#fields.hasErrors('phoneNumber')}">
-                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}">
+
+                <div th:if="${#fields.hasErrors('phoneNumber')}">
+                    <div style="color: darkred"
+                         th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}">
+                    </div>
                 </div>
             </div>
+
 
 
             <div class="form-group">
                 <label for="address">Địa chỉ</label>
                 <input type="text" class="form-control" id="address" th:field="*{address}">
-            </div>
-            <div th:if="${#fields.hasErrors('address')}">
-                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.errors('address')}" th:text="${err}">
+
+                <div th:if="${#fields.hasErrors('address')}">
+                    <div th:each="err : ${#fields.errors('address')}" th:text="${err}" style="color: darkred"></div>
                 </div>
             </div>
+
 
 
             <button type="submit" class="btn btn-primary">Cập nhật</button>
