@@ -43,6 +43,7 @@ public class RESTCarRouteIndividualController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         ITicketDTO1 iTicketDTO1 = iTicketService.getITicketDTO1ById(id);
+        PrintPDF.printPDF(iTicketDTO1);
         Ticket ticket1 = ticket.get();
         ticket1.setStatus(true);
         iTicketService.save(ticket1);

@@ -22,7 +22,7 @@ public class Driver {
 
     @Pattern(regexp = "^\\d{12}$", message = "CMND/CCCD không hợp lệ")
     private String identity;
-    @Pattern(regexp = "^\\d+.([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$", message = "Vui lòng nhập địa chỉ hợp lệ!")
+    @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,15}$", message = "Vui lòng nhập địa chỉ hợp lệ!")
     private String address;
     @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;

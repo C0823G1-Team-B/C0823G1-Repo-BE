@@ -1,7 +1,9 @@
 package com.example.ticket_management.repository;
 
+import com.example.ticket_management.model.Ticket;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +12,7 @@ import com.example.ticket_management.dto.ICarRouteIndividualDTO;
 import com.example.ticket_management.model.CarRouteIndividual;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteIndividual,Integer> {
     @Query(value = "select car_route_individual.id as id, \n" +
@@ -83,5 +86,19 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "         car.license_plates\n" +
             "ORDER BY car_route_individual.end_time;", nativeQuery = true)
     Iterable<ICarRouteIndividualDTO> findAllByRevenue();
+  
+    @Query(value = "select * \n" +
+            "from car_route_individual cri\n" +
+            "where cri.start_time >= :timeConvert ",nativeQuery = true)
+    List<CarRouteIndividual> findAllIndividualByStartTime(@Param("timeConvert") String timeConvert);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE car_route_individual\n" +
+            "SET car_route_individual.is_delete = 1\n" +
+            "WHERE car_route_individual.id = :idCI",nativeQuery = true)
+    void updateDeleteById(@Param("idCI") Integer idCI);
+
+    @Query(value = "select cri.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.id = :id",nativeQuery = true)
+    Iterable<CarRouteIndividual> findIdDriver(@Param("id") Integer id);
 
 }

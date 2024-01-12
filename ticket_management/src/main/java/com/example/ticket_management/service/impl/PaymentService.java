@@ -55,6 +55,7 @@ public class PaymentService implements IPaymentService {
     public Payment createPayment(List<Ticket> ticketList, Customer customer) {
         Payment payment = iPaymentRepository.save(new Payment());
         payment.setPassCode(VNPayConfig.getRandomNumber(8));
+        payment.setStatus(0);
         iPaymentRepository.save(payment);
         for (Ticket ticket : ticketList) {
             ticket.setPayments(payment);

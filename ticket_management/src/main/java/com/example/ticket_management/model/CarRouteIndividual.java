@@ -68,6 +68,17 @@ public class CarRouteIndividual {
         this.price = price;
     }
 
+    public CarRouteIndividual(Integer id, LocalDateTime startTime, LocalDateTime endTime, boolean isDelete, Car car, Driver driver, CarRoute carRoute, Long price) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isDelete = isDelete;
+        this.car = car;
+        this.driver = driver;
+        this.carRoute = carRoute;
+        this.price = price;
+    }
+
     public Integer getId() {
         return id;
     }

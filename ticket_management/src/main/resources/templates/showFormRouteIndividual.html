@@ -96,7 +96,7 @@
             <a href="http://localhost:8080/admin/driver/create" class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
             >
-            <a href="http://localhost:8080/car-route-individual" class="list-group-item list-group-item-action py-2 ripple"
+            <a href="http://localhost:8080/car-route-individual/cri-management" class="list-group-item list-group-item-action py-2 ripple"
             ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Thống Kê</span></a
             >
             <!--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"-->
@@ -175,9 +175,59 @@
 </nav>
 <body>
 
-<h1 class="text-center">Thêm Lịch trình</h1>
 
-<div class="container mt-5">
+
+<div id="listTicketsContainer" class="container" style="margin-top: 80px">
+
+</div>
+<div id="updateTickets" style="margin-top: 80px" class="mb-5 container">
+    <h1 class="mt-5 mb-5"> Cập nhật Lịch trình</h1>
+    <form>
+        <input type="hidden" id="idCIUdt" value="">
+        <div class="mb-3">
+            <label for="startUpDateTime" class="form-label">Ngày bắt đầu đi</label>
+            <input name="timeStart" class="form-control" type="datetime-local" id="startUpDateTime" required>
+        </div>
+        <div class="mb-3">
+            <label for="endUpDateTime" class="form-label">Ngày kết thúc</label>
+            <input name="timeEnd" class="form-control" type="datetime-local" id="endUpDateTime" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="routeUp" class="form-label">Chọn tuyến đường</label>
+            <select id="routeUp" name="route" class="form-select">
+                <option th:each="itemCar,status : ${listCarRoute}" th:value="${itemCar.id}"
+                        th:text="${itemCar.startingPoint + ' Đến '+ itemCar.endingPoint}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="carUp" class="form-label">Chọn xe</label>
+
+            <select id="carUp" name="car" class="form-select">
+                <option th:each="itemcar,status : ${listCar}" th:value="${itemcar.id}"
+                        th:text="${'Mã xe: ' + itemcar.id + ', Biển số: ' + itemcar.licensePlates  + ', số ghế: ' + itemcar.totalSeats}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="driverUp" class="form-label">Chọn tài xế</label>
+            <select id="driverUp" name="driver" class="form-select">
+                <option th:each="itemDriver,status : ${listDriver}" th:value="${itemDriver.id}"
+                        th:text="${itemDriver.name}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="priceUp" class="form-label">Nhập giá</label>
+            <input name="price" class="form-control" type="number" id="priceUp" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" onclick="saveUpdate()">Submit</button>
+    </form>
+</div>
+
+<div  id="form-create-Ci" style="margin-top: 80px" class="container ">
+    <button style="margin-left: 600px" type="submit" id="showList" class="btn btn-primary mt-5" >Quản lí lịch trình</button>
     <h1 class="mb-4">Thêm Lịch trình</h1>
     <form>
         <div class="mb-3">
@@ -221,6 +271,7 @@
         <button type="submit" class="btn btn-primary" onclick="createRI()">Submit</button>
     </form>
 </div>
+
 <main style="margin-top: 58px;">
     <div class="container pt-4"></div>
 </main>
@@ -273,10 +324,10 @@
     }
 
     $(document).ready(function () {
+        $("#updateTickets").hide();
 
         $("#startDateTime").change(() => {
             let selectedStartDateTime = new Date($("#startDateTime").val());
-
             if (isPastDateTime($("#startDateTime").val())) {
                 alert("Vui lòng chọn ngày và giờ trong tương lai.");
                 $("#startDateTime").val("");
@@ -417,6 +468,242 @@
         }
         event.preventDefault();
     }
+
+
+    $("#showList").click(() => {
+        $("#form-create-Ci").hide();
+        $.ajax({
+            type: "GET",
+            url: "/public/listCi",
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                var listTicketsContainer = document.getElementById('listTicketsContainer');
+                listTicketsContainer.innerHTML = '<h2 style="margin-top: 80px;margin-bottom: 30px" class="text-center ">Danh sách lịch trình</h2>';
+                if (data.length > 0){
+                    data.forEach(function (row) {
+                        var ticketDiv = document.createElement('div');
+                        ticketDiv.className = 'row p-4 border mb-4';
+                        ticketDiv.style.borderRadius = '10px';
+                        var ticketHtml = `
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <i style="font-size: 40px" class="fa-solid fa-bus me-3"></i>
+                        <p style="font-weight: bold" className=" mb-0"><span>${row.route}</span></p>
+                    <p className="fw-bold mb-0"> </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold">Miễn phí</span>
+                        <i class="fa-solid fa-wifi mx-2"></i>
+                          <i style="font-size: 12px" class="fa-solid fa-wine-bottle"></i>
+                    </div>
+                    <p class="fw-bold">Giá vé <span>${row.price}</span> <u>VNĐ/1vé</u></p>
+                </div>
+                <div class="col-md-5">
+                    <p class="fw-bold">Thời gian bắt đầu <span>${row.startDateTime}</span></p>
+                    <p class="fw-bold">Thời gian kết thúc <span>${row.endDateTime}</span></p>
+                    <p class="fw-bold">Tài xế: <span>${row.driver}</span></p>
+                    <p class="fw-bold"> <span>${row.car}</span></p>
+                </div>
+
+                <div class="col-md-1">
+    <button  type="submit"  id="updateCRI" class="btn btn-primary" onclick="updateCRI(${row.idCRI})">Cập nhật</button>
+        </div> `;
+                        ticketDiv.innerHTML = ticketHtml;
+                        listTicketsContainer.appendChild(ticketDiv);
+                    })
+                } else {
+                    console.log("ko co du lieu")
+                }
+
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+
+    })
+
+    function saveUpdate(){
+        let startUpDateTime = $("#startUpDateTime").val();
+        let endUpDateTime = $("#endUpDateTime").val();
+        let routeUp = $("#routeUp").val();
+        let carUp = $("#carUp").val();
+        let driverUp = $("#driverUp").val();
+        let priceUp = $("#priceUp").val();
+       let idCRI =  $("#idCIUdt").val()
+        if (startUpDateTime && endUpDateTime && routeUp && carUp && driverUp && priceUp) {
+            let newRIUpdate = {
+                idCRI: idCRI,
+                timeStart: startUpDateTime,
+                timeEnd: endUpDateTime,
+                idRoute: routeUp,
+                idCar: carUp,
+                idDriver: driverUp,
+                price: priceUp
+            }
+            console.log(newRIUpdate)
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                type: "POST",
+                data: JSON.stringify(newRIUpdate),
+                url: "http://localhost:8080/public/saveUpdate",
+                success: function (status) {
+                    if (status.status === 201){
+                        $('#successCreate').modal('show');
+                        console.log("oke la")
+                    } else {
+                        console.log("alo loi 201")
+                    }
+
+                //
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+
+            })
+
+        } else {
+            $('#missingInfoModal').modal('show');
+        }
+    }
+    function updateCRI(data){
+        $("#listTicketsContainer").hide()
+        let newCRI = {
+            idCRI: data
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            type: "POST",
+            data: JSON.stringify(newCRI),
+            url: "http://localhost:8080/public/updateCRI",
+            success: function (data) {
+                $("#updateTickets").show();
+                $("#routeUp").val(data.idRoute);
+                $("#priceUp").val(data.price);
+                $("#startUpDateTime").val(data.timeStart);
+                $("#endUpDateTime").val(data.timeEnd);
+                $("#carUp").val(data.idCar);
+                $("#driverUp").val(data.idDriver);
+                $("#idCIUdt").val(data.idCRI)
+                handleEndDateTimeUpChange();
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+
+        })
+    }
+
+
+
+
+    $("#startUpDateTime").change(() => {
+        let selectedStartDateTime = new Date($("#startUpDateTime").val());
+        if (isPastDateTime($("#startUpDateTime").val())) {
+            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $("#startUpDateTime").val("");
+        } else if ($("#endUpDateTime").val() !== "" && selectedStartDateTime >= new Date($("#endUpDateTime").val())) {
+            alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+            $("#startUpDateTime").val("");
+        } else {
+            if ($("#endUpDateTime").val() !== "") {
+                console.log("alo alo anh em oi")
+                handleEndDateTimeUpChange();
+            } else {
+                handleStartDateTimeUpChange();
+            }
+
+        }
+    });
+    function handleStartDateTimeUpChange() {
+        let startDateTimeValue = $("#startUpDateTime").val();
+        if (startDateTimeValue) {
+            $.ajax({
+                type: "GET",
+                url: "/public/startTime",
+                data: {
+                    startTime: startDateTimeValue
+                },
+                dataType: "json",
+                success: function (data) {
+                    updateDropdownsUp(data);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+    }
+    $("#endUpDateTime").change(() => {
+        let selectedStartDateTime = new Date($("#startUpDateTime").val());
+        let selectedEndDateTime = new Date($("#endUpDateTime").val());
+
+        if (isPastDateTime($("#endUpDateTime").val())) {
+            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $("#endUpDateTime").val("");
+        } else if (selectedEndDateTime <= selectedStartDateTime) {
+            alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+            $("#endUpDateTime").val("");
+        } else {
+            handleEndDateTimeUpChange();
+        }
+    })
+    function handleEndDateTimeUpChange() {
+        let startDateTimeValue = $("#startUpDateTime").val();
+        let endDateTimeValue = $("#endUpDateTime").val();
+        if (endDateTimeValue) {
+            $.ajax({
+                type: "GET",
+                url: "/public/endTime",
+                data: {
+                    startTime: startDateTimeValue,
+                    endTime: endDateTimeValue
+                },
+                dataType: "json",
+                success: function (data) {
+                    updateDropdownsUp(data);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+    }
+    function updateDropdownsUp(data) {
+        let driverDropdown = $("#driverUp");
+        driverDropdown.empty();
+        $.each(data.driverList, function (index, driver) {
+            driverDropdown.append($('<option>', {
+                value: driver.id,
+                text: driver.name
+            }));
+        });
+
+        let carDropdown = $("#carUp");
+        carDropdown.empty();
+        $.each(data.carList, function (index, car) {
+            carDropdown.append($('<option>', {
+                value: car.id,
+                text: 'Mã xe: ' + car.id + ', Biển số: ' + car.licensePlates + ', Số ghế: ' + car.totalSeats
+            }));
+        });
+
+    }
+
+
+
+
 
 </script>
 <script
