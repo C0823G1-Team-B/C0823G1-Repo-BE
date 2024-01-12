@@ -10,17 +10,18 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(columnDefinition = "bit(1) default 0")
-    private boolean status;
+    @Column(columnDefinition = "integer default 0")
+    private Integer status;
     @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
-    @OneToMany(mappedBy = "payments")
+    @OneToMany(mappedBy = "payments",cascade = CascadeType.MERGE)
     private List<Ticket> tickets;
+    private String passCode;
 
     public Payment() {
     }
 
-    public Payment(Integer id, boolean status, boolean isDelete, List<Ticket> tickets) {
+    public Payment(Integer id, Integer status, boolean isDelete, List<Ticket> tickets) {
         this.id = id;
         this.status = status;
         this.isDelete = isDelete;
@@ -39,11 +40,11 @@ public class Payment {
         this.id = id;
     }
 
-    public boolean isStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -61,5 +62,13 @@ public class Payment {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public String getPassCode() {
+        return passCode;
+    }
+
+    public void setPassCode(String code) {
+        this.passCode = code;
     }
 }

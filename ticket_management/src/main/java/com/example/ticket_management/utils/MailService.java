@@ -1,6 +1,9 @@
 package com.example.ticket_management.utils;
 
+import com.example.ticket_management.config.VNPayConfig;
 import com.example.ticket_management.dto.CustomerDTO;
+import com.example.ticket_management.model.Customer;
+import com.example.ticket_management.model.Payment;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -23,35 +26,33 @@ public class MailService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public void mailPaymentStatus(Integer paymentId) {
-        String hashedPaymentId = BCryptUtils.encryptPassword(String.valueOf(paymentId));
+    public void mailTicketQRCode(Payment payment) {
+        if (payment == null) {
+            System.out.println("Can't find payment before sending mail!");
+            return;
+        }
+        String hashedPaymentPassword = BCryptUtils.encryptPassword(String.valueOf(payment.getPassCode()));
         MimeMessage message = mailSender.createMimeMessage();
-        String QRCodeCheck = "http://localhost:8080/api/check_qr_code?ticket_id=" + hashedPaymentId;
-
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        String QRCodeCheck = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://localhost:8080/public/check_qr_code?payment_id=" + payment.getId() + "%26pass_code=" + hashedPaymentPassword;
+        System.out.println(QRCodeCheck);
+        //Get customer email from payment
+        Customer customer = payment.getTickets().get(0).getCustomers();
         try {
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("pansuzu@gmail.com"));
-            message.setSubject("Mã QR vé xe nhà xe XYZ");
-            String mailBody = "<h2>Cảm ơn quý khách đã đặt vé xe. Vui lòng đưa mã QR dưới đây cho nhân viên xoát vé</h2>" +
-                              "QR Code <br>" +
-                              "<img src=\"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + QRCodeCheck;
-            message.setContent(mailBody, "text/html");
+            helper.setTo(customer.getEmail());
+            helper.setSubject("[Nhà xe Hiếu Hoa] Mã QR vé xe");
+            Context context = new Context();
+            context.setVariable("link",QRCodeCheck);
+            String content = templateEngine.process("qrcode-email", context);
+            helper.setText(content, true);
+            mailSender.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        mailSender.send(message);
-    }
-
-    @GetMapping("/check_qr_code")
-    public ResponseEntity<String> checkQRCode(@RequestParam("ticket_id") String hashedTicketId) {
-        if (BCryptUtils.checkPassword("1", hashedTicketId)) {
-            return new ResponseEntity<>("OK", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("Sai ma ticket", HttpStatus.NOT_ACCEPTABLE);
     }
 
     public void mailToConfirmCustomerEmail(Long totalPrice, Integer paymentId, CustomerDTO customerDTO) {
         MimeMessage message = mailSender.createMimeMessage();
-
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(customerDTO.getEmail());

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body style="text-align: center">
+<h2 style="color: #23D991">Cảm ơn quý khách đã đặt vé nhà xe Hiếu Hoa.</h2>
+<h3>Vui lòng đưa mã QR code dưới đây cho nhân viên xoát vé.</h3>
+<img th:src="${link}">
+</body>
+</html>

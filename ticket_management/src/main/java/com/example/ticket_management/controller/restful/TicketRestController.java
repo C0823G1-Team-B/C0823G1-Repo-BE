@@ -1,5 +1,6 @@
-package com.example.ticket_management.rest;
+package com.example.ticket_management.controller.restful;
 
+import com.example.ticket_management.dto.CarRouteIndividualDTO;
 import com.example.ticket_management.dto.SearchDto;
 import com.example.ticket_management.model.CarAndDriverDto;
 import com.example.ticket_management.model.CarRouteIndiviDto;
@@ -34,6 +35,7 @@ public class TicketRestController {
     private ICarRouteService iCarRouteService;
 
 
+
     @PostMapping(value = "/create")
     public ResponseEntity<CarRouteIndividual> createRI(@RequestBody CarRouteIndiviDto carRouteIndividual) {
 
@@ -64,16 +66,33 @@ public class TicketRestController {
 
         return new ResponseEntity<>(carRouteIndividual1, HttpStatus.CREATED);
     }
+    @PostMapping("/saveUpdate")
+    public ResponseEntity<?> create(@RequestBody CarRouteIndividualDTO carRouteIndividualDTO) {
+        List<Ticket> ticketList = iTicketService.findAllTicketByCRI(carRouteIndividualDTO.getIdCRI());
+        System.out.println(ticketList.isEmpty());
+        CarRouteIndividual carRouteIndividual = new CarRouteIndividual(
+                carRouteIndividualDTO.getIdCRI(),
+                carRouteIndividualDTO.getTimeStart(),
+                carRouteIndividualDTO.getTimeEnd(),false,
+                iCarService.findById(carRouteIndividualDTO.getIdCar()).get(),
+                iDriverService.findById(carRouteIndividualDTO.getIdDriver()).get(),
+                iCarRouteService.findById(carRouteIndividualDTO.getIdRoute()).get(),
+                carRouteIndividualDTO.getPrice()
+                );
+        iCarRouteIndividualService.save(carRouteIndividual);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @GetMapping("/startTime")
     public ResponseEntity<CarAndDriverDto> findDriverAndCarFree(String startTime) {
+        System.out.println(startTime);
         String timeConvert = LocalDateTime.parse(startTime).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         List<Driver> driverList = iDriverService.findAllDriverFree(timeConvert);
         List<Car> carList = iCarService.findAllCarFree(timeConvert);
         System.out.println(startTime);
         System.out.println(driverList.size());
         System.out.println(carList.size());
-
         CarAndDriverDto carAndDriverDto = new CarAndDriverDto(driverList, carList);
         return new ResponseEntity<>(carAndDriverDto, HttpStatus.OK);
     }
@@ -113,7 +132,9 @@ public class TicketRestController {
             List<SearchDto> searchDtos = new ArrayList<>();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
             String startTime, endTime;
+            Integer ticketQuality;
             for (CarRouteIndividual carRouteIndividual : listSearch) {
+                ticketQuality = iTicketService.findAllTicketByCiIdAndStatus(carRouteIndividual.getId(),0);
                 startTime = carRouteIndividual.getStartTime().format(formatter);
                 endTime = carRouteIndividual.getEndTime().format(formatter);
                 searchDtos.add(new SearchDto(carRouteIndividual.getId(),
@@ -121,7 +142,7 @@ public class TicketRestController {
                         carRouteIndividual.getCarRoute().getEndingPoint(),
                         startTime,
                         endTime,
-                        carRouteIndividual.getPrice())
+                        carRouteIndividual.getPrice(),ticketQuality)
                 );
             }
 
@@ -130,6 +151,58 @@ public class TicketRestController {
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
     }
+
+    @GetMapping("listCi")
+    public ResponseEntity<List<CarRouteIndividualDTO>> listCarRouteIndividualDTO(){
+        LocalTime currentTime = LocalTime.now();
+       String timeConvert = LocalDateTime.of(LocalDate.now(), currentTime)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+       List<CarRouteIndividual> routeIndividualList = iCarRouteIndividualService.findAllIndividualByStartTime(timeConvert);
+       List<CarRouteIndividualDTO> list = new ArrayList<>();
+       String place;
+       String car;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String startTime, endTime;
+       for (CarRouteIndividual temp : routeIndividualList){
+           startTime = temp.getStartTime().format(formatter);
+           endTime = temp.getEndTime().format(formatter);
+           place = temp.getCarRoute().getStartingPoint() + "Đến" + temp.getCarRoute().getEndingPoint();
+           car = "Mã xe: "+ temp.getCar().getId() +", Biển số: " + temp.getCar().getLicensePlates() + ", Số ghế: " +temp.getCar().getTotalSeats();
+           list.add(new CarRouteIndividualDTO(temp.getId(), startTime,
+                   endTime,
+                   place,
+                   car,
+                   temp.getDriver().getName(),
+                   temp.getPrice()
+                   ));
+       }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    @PostMapping("updateCRI")
+    public ResponseEntity<CarRouteIndividualDTO> updateCRI(@RequestBody CarRouteIndividualDTO carRouteIndividualDTO){
+        CarRouteIndividual carRouteIndividual = iCarRouteIndividualService.findById(carRouteIndividualDTO.getIdCRI()).get();
+        System.out.println(carRouteIndividual.getStartTime());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+//        String startTime = carRouteIndividual.getStartTime().format(formatter);
+//        String endTime = carRouteIndividual.getEndTime().format(formatter);
+        String place = carRouteIndividual.getCarRoute().getStartingPoint() + " Đến" + carRouteIndividual.getCarRoute().getEndingPoint();
+        String car = "Mã xe: "+ carRouteIndividual.getCar().getId() +", Biển số: " + carRouteIndividual.getCar().getLicensePlates() + ", Số ghế: " +carRouteIndividual.getCar().getTotalSeats();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+//        LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
+//        LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
+        System.out.println(carRouteIndividual.getId());
+            iCarRouteIndividualService.updateDeleteById(carRouteIndividual.getId());
+        return new ResponseEntity<>(new CarRouteIndividualDTO(
+                carRouteIndividual.getId(),
+                carRouteIndividual.getStartTime(),
+                carRouteIndividual.getEndTime(),
+                carRouteIndividual.getCarRoute().getId(),
+                carRouteIndividual.getCar().getId(),
+                carRouteIndividual.getDriver().getId(),
+                carRouteIndividual.getPrice()
+        ), HttpStatus.OK);
+    }
+
 }

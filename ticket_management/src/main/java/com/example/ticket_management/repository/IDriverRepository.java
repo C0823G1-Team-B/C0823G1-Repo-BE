@@ -21,7 +21,7 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "        (cdl.start_time >= :timeConvert AND cdl.start_time <= :timeConvert) " +
             "        OR (cdl.end_time >= :timeConvert AND cdl.end_time <= :timeConvert) " +
             "        OR (cdl.start_time <= :timeConvert AND cdl.end_time >= :timeConvert) " +
-            "    )" +
+            "    )  " +
             ")",
             nativeQuery = true)
     List<Driver> findAllDriverFree(@Param("timeConvert") String timeStartConvert);
@@ -35,7 +35,7 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "        (cdl.start_time >= :timeStartConvert AND cdl.start_time <= :endTimeConvert)\n" +
             "        OR (cdl.end_time >= :timeStartConvert AND cdl.end_time <= :endTimeConvert)\n" +
             "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
-            "    )\n" +
+            "    ) and cdl.is_delete = 0  \n" +
             ")",nativeQuery = true)
     List<Driver> findAllDriverFreeByTime(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
 
@@ -49,4 +49,9 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
     @Modifying
     @Query(value = "update driver d set d.is_delete = true where d.id = :id ",nativeQuery = true)
     void deleteById(@Param("id") Integer id);
+
+    @Query(value = "select d.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.name like :name",
+            nativeQuery = true,
+            countQuery = "select count(*) from(select d.* from driver d left join car_route_individual cri on  d.id = cri.driver_id where d.is_delete = 0 and cri.driver_id is null and d.name like :name) temp")
+    Page<Driver> findFreeTimeDrivers(Pageable pageable, @Param("name") String name);
 }
