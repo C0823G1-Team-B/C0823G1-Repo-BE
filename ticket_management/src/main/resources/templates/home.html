@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- basic -->
@@ -23,7 +24,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="css/responsive.css">
     <!-- fevicon -->
-    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <link rel="icon" href="images/fevicon.png" type="image/gif"/>
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
     <!-- Tweaks for older IEs-->
@@ -47,7 +48,7 @@
                         src="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png"
                         srcset="https://hieuhoaexpress.com/wp-content/uploads/2019/08/hieuhoa_logo_trang.png 1x"
                         width="227" height="69" alt="Nhà Xe Hiếu Hoa Đà Nẵng Logo" data-retina_logo_url=""
-                        class="fusion-standard-logo" /></a></div>
+                        class="fusion-standard-logo"/></a></div>
             </div>
             <div class="col-sm-6 col-lg-9">
                 <div class="menu_text">
@@ -63,11 +64,12 @@
                                 <a href="#taxis">Loại Xe</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="!isAuthenticated()" >
-                                    <a href="/login">  Đăng Nhập</a>
+                                <div sec:authorize="isAuthenticated()">
+                                    <a href="/login"> Đăng Nhập</a>
+
                                 </div>
-                                <div sec:authorize="isAuthenticated()" >
-                                    <a href="/logout">  Đăng Xuất</a>
+                                <div sec:authorize="isAuthenticated()">
+                                    <a href="/logout"> Đăng Xuất</a>
                                 </div>
                             </div>
                         </div>
@@ -76,8 +78,6 @@
                             </span>
                     </ul>
                 </div>
-                </li>
-
             </div>
         </div>
     </div>
@@ -434,7 +434,7 @@
     }
 </script>
 <script>
-    $(function() {
+    $(function () {
         $("#header").load("header.html");
     })
 </script>
