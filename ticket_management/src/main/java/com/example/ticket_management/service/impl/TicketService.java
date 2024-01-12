@@ -4,7 +4,6 @@ import com.example.ticket_management.dto.ITicketDTO1;
 import com.example.ticket_management.dto.ITicketDto;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
-import com.example.ticket_management.repository.ICarRouteIndividualRepository;
 import com.example.ticket_management.repository.ITicketRepository;
 import com.example.ticket_management.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class TicketService implements ITicketService{
+public class TicketService implements ITicketService {
     @Autowired
     private ITicketRepository iTicketRepository;
 
@@ -31,9 +28,9 @@ public class TicketService implements ITicketService{
     @Override
     public boolean checkStatusTicket(Integer i) {
         List<Ticket> tickets = (List<Ticket>) findAll();
-        for (Ticket ticket:tickets){
-            if (Objects.equals(ticket.getId(), i)){
-                if (ticket.isStatus()){
+        for (Ticket ticket : tickets) {
+            if (Objects.equals(ticket.getId(), i)) {
+                if (ticket.isStatus()) {
                     return true;
                 }
             }
@@ -48,7 +45,7 @@ public class TicketService implements ITicketService{
 
     @Override
     public Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, String email) {
-       Page<ITicketDto> ticketDtos = iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
+        Page<ITicketDto> ticketDtos = iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
 //        return iTicketRepository.findAllTicketInformationOfUser(pageable, "%" + email + "%");
         return ticketDtos;
     }
@@ -66,6 +63,24 @@ public class TicketService implements ITicketService{
     @Override
     public List<Ticket> findAllTicketByCRI(Integer idCRI) {
         return iTicketRepository.findAllTicketByCRI(idCRI);
+    }
+
+    @Override
+    public ITicketDTO1 getITicketDTO1ById(Integer id) {
+        return iTicketRepository.getITicketDTO1ById(id);
+    }
+
+    @Override
+    public void saveAll(List<Ticket> ticketList) {
+        iTicketRepository.saveAll(ticketList);
+    }
+
+    @Override
+    public void updateTicketStatus(List<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            ticket.setStatus(true);
+        }
+        iTicketRepository.saveAll(tickets);
     }
 
     @Override

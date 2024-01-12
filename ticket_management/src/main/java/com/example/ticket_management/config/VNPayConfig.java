@@ -9,9 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public class VNPAYConfig {
+public class VNPayConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080";
+    public static String vnp_ReturnUrl = "http://localhost:8080/public/checkout_result";
     public static String vnp_TmnCode = "0GF1F3QP";
     public static String secretKey = "SJIHUHDIKCWUCAQAYLLVPEXDIWMJWWEY";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
@@ -111,6 +111,7 @@ public class VNPAYConfig {
         for (int i = 0; i < len; i++) {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 }

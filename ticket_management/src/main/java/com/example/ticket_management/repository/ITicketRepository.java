@@ -10,10 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 
-public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
+public interface ITicketRepository extends JpaRepository<Ticket, Integer> {
     Iterable<Ticket> findAllByCarRouteIndividual(CarRouteIndividual carRouteIndividual);
 
     @Query(value = "select ticket.id as id,\n" +
@@ -29,7 +28,7 @@ public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
             "left join payment on ticket.payment_id = payment.id \n" +
             "left join car_route_individual on ticket.car_route_individual_id = car_route_individual.id\n" +
             "left join car_route on car_route.id = car_route_individual.car_route_id\n" +
-            "where ticket.car_route_individual_id = :idCRI",nativeQuery = true)
+            "where ticket.car_route_individual_id = :idCRI", nativeQuery = true)
     Page<ITicketDTO1> findAllByIdCRI(@Param("idCRI") Integer idCRI, Pageable pageable);
 
     @Query(value = "select t.number_seat as numberSeat,t.price, c.name,cri.start_time as startTime,cri.end_time as endTime,car.license_plates as licensePlates, cr.starting_point as startingPoint,cr.ending_point as endingPoint \n" +
@@ -62,4 +61,18 @@ public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
             "WHERE ticket.car_route_individual_id = :idCRI AND ticket.status = 1",nativeQuery = true)
     List<Ticket> findAllTicketByCRI(@Param("idCRI") Integer idCRI);
 
+    @Query(value = "select ticket.id as id,\n" +
+            "ticket.number_seat as numberSeat,\n" +
+            "ticket.status as status,\n" +
+            "ticket.is_delete as isDelete,\n" +
+            "car_route_individual.start_time as startTime,\n" +
+            "car_route_individual.end_time as endTime,\n" +
+            "ticket.price as price,\n" +
+            "car_route.starting_point as startingPoint,\n" +
+            "car_route.ending_point as endingPoint\n" +
+            "from ticket \n" +
+            "left join car_route_individual on ticket.car_route_individual_id = car_route_individual.id\n" +
+            "left join car_route on car_route.id = car_route_individual.car_route_id\n" +
+            "where ticket.id = :id", nativeQuery = true)
+    ITicketDTO1 getITicketDTO1ById(Integer id);
 }

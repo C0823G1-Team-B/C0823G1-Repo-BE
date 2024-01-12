@@ -57,6 +57,7 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
             "from car_route_individual join car on car_route_individual.car_id = car.id\n" +
             "join car_route on car_route.id = car_route_individual.car_route_id\n" +
             "join driver on driver.id = car_route_individual.driver_id\n" +
+            "where start_time > CURRENT_TIMESTAMP or (start_time < CURRENT_TIMESTAMP and end_time > CURRENT_TIMESTAMP)\n" +
             "order by startTime;" , nativeQuery = true)
     Page<ICarRouteIndividualDTO> findAllDTO(Pageable pageable);
 

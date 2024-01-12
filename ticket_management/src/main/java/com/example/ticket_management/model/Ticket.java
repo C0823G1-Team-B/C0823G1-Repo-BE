@@ -23,16 +23,19 @@ public class Ticket {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "car_route_individual_id", referencedColumnName = "id")
+    @JsonBackReference
     private CarRouteIndividual carRouteIndividual;
 
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonBackReference
     private Customer customers;
 
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    @JsonBackReference
     private Payment payments;
 
     public Ticket() {
