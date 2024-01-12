@@ -1,5 +1,7 @@
 package com.example.ticket_management.dto;
 
+import java.time.LocalDateTime;
+
 public interface ITicketDTO1 {
     Integer getId();
 
@@ -16,4 +18,6 @@ public interface ITicketDTO1 {
     String getEndingPoint();
 
     boolean getIsDelete();
+    LocalDateTime getEndTime();
+    LocalDateTime getStartTime();
 }

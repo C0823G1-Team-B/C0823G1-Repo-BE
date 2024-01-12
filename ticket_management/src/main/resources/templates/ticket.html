@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container pt-3 pb-3">
-    <div th:text="${message}" style="text-align: center; font-size: 1rem;color: red"></div>
+    <div class="text-primary" th:text="${message}" style="text-align: center; font-size: 2rem;color: red"></div>
     <div class="row justify-content-between" style="padding-bottom: 50px">
         <div class="col-sm-8 p-0">
             <div class="row">
@@ -1118,7 +1118,6 @@
                         <button type="submit" class="btn btn-danger mt-3" name="thanh_toan">Thanh toán</button>
                     </div>
                 </form>
-                <h2 th:text="${email_message}"></h2>
             </div>
         </div>
     </div>

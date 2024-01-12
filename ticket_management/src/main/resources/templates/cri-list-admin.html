@@ -84,7 +84,22 @@
         .centered-content {
             text-align: center;
         }
+
+        #revenue {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
+    <script>
+        function displayToast(message, color) {
+            document.getElementById("toastContent").innerHTML = message;
+            document.getElementById("liveToast").style.background = color;
+            let myAlert = document.getElementById('liveToast');//select id of toast
+            let bsAlert = new bootstrap.Toast(myAlert);//inizialize it
+            bsAlert.show();//show it
+        }
+    </script>
 </head>
 <body>
 <div id="centered-content">
@@ -98,6 +113,22 @@
 <div id="bookTicket">
 </div>
 <div id="revenue" class="container pt-3 pb-3">
+</div>
+<div class="position-fixed top-0 end-5 p-3" style="z-index: 11;margin-left: 600px; text-align: center">
+    <div id="liveToast" style="color: white; background:lightgreen ;border-radius:0%/0%;" class="toast"
+         role="dialog" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30px" height="30px">
+                <g id="surface1_4_">
+                    <path style="fill:#4CAF50;"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                    <path style="fill:#CCFF90;"
+                          d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
+                </g>
+            </svg>
+            <span id="toastContent">Nội dung hiển thị</span>
+        </div>
+    </div>
 </div>
 <script>
     function nextPage(page) {
@@ -204,7 +235,7 @@
         $("#criList").html(data);
     }
 
-    function backHome(){
+    function backHome() {
         $("#centered-content").show()
         $("#criList").hide()
     }
@@ -217,6 +248,7 @@
             success: (data) => {
                 displayListTicket(data.iticketDTOS.content, data.totalPage, idCRI, page)
                 $("#criList").hide()
+                $("#listTicket").show()
             }
         })
     }
@@ -252,24 +284,24 @@
                 data += "            <td>Còn trống</td>\n" +
                     "            <td></td>\n" +
                     "            <td></td>\n"
-                if(content[i].isDelete === false){
-                    data += "            <td><button onclick='bookTickets(" + content[i].id + ")' class='btn btn-sm btn-outline-warning'>Đặt vé</button></td>\n"
+                if (content[i].isDelete === false) {
+                    data += "            <td><button onclick='bookTickets(" + content[i].id + "," + idCRI + "," + page + "," + content[i].numberSeat + ")' class='btn btn-sm btn-outline-warning'>Đặt vé</button></td>\n"
                 } else {
                     data += "            <td></td>\n"
                 }
             } else {
                 data += "            <td>Đã đặt</td>\n"
-                    if(content[i].customerName === null){
-                        data += "            <td></td>\n"
-                    } else {
-                        data += "            <td>" + content[i].customerName + "</td>\n"
-                    }
-                    if (content[i].paymentStatus === null){
-                        data += "            <td>Tiền mặt</td>\n"
-                    } else {
-                        data += "            <td>Chuyển khoản</td>\n"
-                    }
+                if (content[i].customerName === null) {
                     data += "            <td></td>\n"
+                } else {
+                    data += "            <td>" + content[i].customerName + "</td>\n"
+                }
+                if (content[i].paymentStatus === null) {
+                    data += "            <td>Tiền mặt</td>\n"
+                } else {
+                    data += "            <td>Chuyển khoản</td>\n"
+                }
+                data += "            <td></td>\n"
             }
         }
         data += "        </tbody>\n" +
@@ -290,50 +322,46 @@
         $("#listTicket").html(data);
     }
 
-    function backHome1(){
+    function backHome1() {
         $("#listTicket").hide()
         $("#criList").show()
         nextPage(1)
     }
 
-    function bookTickets(id) {
-        let data = "<form style=\"width: 100%\">\n" +
-            "        <label><strong>Số điện thoại :</strong></label>\n" +
-            "        <input type=\"text\" id=\"phone\" class=\"form-control mb-3\" maxlength=\"10\" required=\"\">\n" +
-            "        <p id=\"error1\" style=\"color: red\"></p>\n" +
-            "        <label><strong>Họ và tên :</strong></label>\n" +
-            "        <input type=\"text\" id=\"name\" class=\"form-control mb-3\" maxlength=\"100\" required=\"\">\n" +
-            "        <p id=\"error2\" style=\"color: red\"></p>\n" +
-            "        <label><strong>Email :</strong></label>\n" +
-            "        <input type=\"text\" id=\"email\" class=\"form-control mb-3\">\n" +
-            "        <p id=\"error3\" style=\"color: red\"></p>\n" +
-            "        <button onclick='book(" + id + ")' type=\"submit\" class=\"btn btn-outline-warning mt-3\" name=\"thanh_toan\">Đặt vé</button>\n" +
-            "    </form>"
+    function bookTickets(id, idCRI, page, numberseat) {
+        let data = "<p><strong>Bạn có chắc chắn muốn xuất vé cho ghế " + numberseat + " không?</strong></p>\n" +
+            "    <br><br><br>\n" +
+            "    <button onclick=\"book(" + id + ")\" class=\"btn btn-outline-warning\" style=\"width: 200px\">Xuất vé</button>\n" +
+            "    <br><br><br>\n" +
+            "    <button onclick=\"backHome2(" + idCRI + "," + page + ")\" class=\"btn btn-outline-warning\" style=\"width: 200px\">Quay lại</button>"
         $("#bookTicket").html(data)
+        $("#bookTicket").show()
         $("#listTicket").hide()
     }
 
+    function backHome2(idCRI, page) {
+        $("#listTicket").show()
+        getDetails(idCRI, page)
+        $("#bookTicket").hide()
+    }
+
     function book(id) {
-        let phone = $("#phone").val()
-        let name = $("#name").val()
-        let email = $("#email").val()
-        let customerDTO = {
-            email: email,
-            name: name,
-            phoneNumber: phone
-        }
         $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
             url: "http://localhost:8080/ws/addticket",
             type: "POST",
-            data: JSON.stringify(customerDTO, id),
-            success: () => {
-                getData()
-            }
+            data: {id: id},
+            success: (status, xhr) => {
+                if (xhr.status === 204) {
 
+                } else {
+                    displayToast("Bạn đã xuất vé thành công !!!", "orange")
+                }
+            },
+            error: (aaa) => {
+                if (aaa.status === 404) {
+                    displayToast("Vé này đã được đặt xin mời chọn vé khác", "orange")
+                }
+            }
         })
     }
 
