@@ -21,7 +21,7 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "        (cdl.start_time >= :timeConvert AND cdl.start_time <= :timeConvert) " +
             "        OR (cdl.end_time >= :timeConvert AND cdl.end_time <= :timeConvert) " +
             "        OR (cdl.start_time <= :timeConvert AND cdl.end_time >= :timeConvert) " +
-            "    )" +
+            "    )  " +
             ")",
             nativeQuery = true)
     List<Driver> findAllDriverFree(@Param("timeConvert") String timeStartConvert);
@@ -35,7 +35,7 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "        (cdl.start_time >= :timeStartConvert AND cdl.start_time <= :endTimeConvert)\n" +
             "        OR (cdl.end_time >= :timeStartConvert AND cdl.end_time <= :endTimeConvert)\n" +
             "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
-            "    )\n" +
+            "    ) and cdl.is_delete = 0  \n" +
             ")",nativeQuery = true)
     List<Driver> findAllDriverFreeByTime(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
 

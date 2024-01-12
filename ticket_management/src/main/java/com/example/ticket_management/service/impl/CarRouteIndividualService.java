@@ -52,6 +52,16 @@ public class CarRouteIndividualService implements ICarRouteIndividualService {
     }
 
     @Override
+    public List<CarRouteIndividual> findAllIndividualByStartTime(String timeConvert) {
+        return iCarRouteIndividualRepository.findAllIndividualByStartTime(timeConvert);
+    }
+
+    @Override
+    public void updateDeleteById(Integer id) {
+        iCarRouteIndividualRepository.updateDeleteById(id);
+    }
+
+    @Override
     public ICarRouteIndividualDTO findByIdDTO(Integer idCRI) {
         return iCarRouteIndividualRepository.findByDTO(idCRI);
     }

@@ -21,4 +21,8 @@ public interface ICarRouteIndividualService extends IGenerationService<CarRouteI
     Page<ICarRouteIndividualDTO> findAllDTO(Pageable pageable);
 
     Iterable<ICarRouteIndividualDTO> findAllByRevenue();
+
+    List<CarRouteIndividual> findAllIndividualByStartTime(String timeConvert);
+
+    void updateDeleteById(Integer id);
 }

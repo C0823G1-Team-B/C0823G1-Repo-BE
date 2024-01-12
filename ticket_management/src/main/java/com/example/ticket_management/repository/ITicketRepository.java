@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
     Iterable<Ticket> findAllByCarRouteIndividual(CarRouteIndividual carRouteIndividual);
 
@@ -46,7 +48,18 @@ public interface ITicketRepository extends JpaRepository<Ticket,Integer> {
             "            where c.email like :name ) temp")
     Page<ITicketDto> findAllTicketInformationOfUser(Pageable pageable, @Param("name") String email);
 
+
     @Procedure
     void setTicketIsDelete();
+
+    @Query(value = "select count(ticket.id)\n" +
+            "from ticket\n" +
+            "where ticket.car_route_individual_id = :idCi and ticket.status = :status",nativeQuery = true)
+    Integer findAllTicketByCiIdAndStatus(@Param("idCi")Integer idCi,@Param("status")Integer status );
+
+    @Query(value = "SELECT ticket.*\n" +
+            "FROM ticket\n" +
+            "WHERE ticket.car_route_individual_id = :idCRI AND ticket.status = 1",nativeQuery = true)
+    List<Ticket> findAllTicketByCRI(@Param("idCRI") Integer idCRI);
 
 }

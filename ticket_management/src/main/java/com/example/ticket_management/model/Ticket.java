@@ -1,5 +1,6 @@
 package com.example.ticket_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,14 +21,17 @@ public class Ticket {
     private boolean isDelete;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "car_route_individual_id", referencedColumnName = "id")
     private CarRouteIndividual carRouteIndividual;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customers;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
     private Payment payments;
 
