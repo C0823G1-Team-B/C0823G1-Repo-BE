@@ -21,10 +21,10 @@ public class PrintPDF {
         try {
 
             // Tạo đối tượng PdfWriter
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chính\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\vexe" + iTicketDTO1.getId() + ".pdf"));
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chinh\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\vexe" + iTicketDTO1.getId() + ".pdf"));
             document.open();
             PdfContentByte contentByte = pdfWriter.getDirectContentUnder();
-            Image backgroundImage = Image.getInstance("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chính\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\hieuhoa_logo_trang.png");
+            Image backgroundImage = Image.getInstance("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chinh\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\pngtree-black-minimalist-atmospheric-wooden-background-backgroundwooden-backgroundtree-texture-image_77053.jpg");
             backgroundImage.setAbsolutePosition(0, 0);
             contentByte.addImage(backgroundImage);
 
@@ -32,7 +32,7 @@ public class PrintPDF {
 
 
             // Thêm nội dung sử dụng add function
-            BaseFont baseFont = BaseFont.createFont("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chính\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\arial-unicode-ms.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chinh\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\arial-unicode-ms.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font font = new Font(baseFont, 15, Font.BOLD, BaseColor.YELLOW);
 
             Chunk chunk = new Chunk("Vé xe nhà xe Hiếu Hoa", font);
@@ -69,7 +69,7 @@ public class PrintPDF {
 
             document.add(paragraph5);
             document.add(new Paragraph(""));
-            Image image1 = Image.getInstance("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chính\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\hieuhoa_logo_trang.png");
+            Image image1 = Image.getInstance("D:\\C0823G1_Nguyen_Dinh_Thai_Bao_Module1\\module_4\\case-chinh\\C0823G1-Repo-BE\\ticket_management\\src\\main\\java\\com\\example\\ticket_management\\pdf\\hieuhoa_logo_trang.png");
             image1.scaleAbsoluteWidth(180);
             document.add(image1);
 
