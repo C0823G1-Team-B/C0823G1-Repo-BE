@@ -34,7 +34,7 @@ public class MailService {
         String hashedPaymentPassword = BCryptUtils.encryptPassword(String.valueOf(payment.getPassCode()));
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        String QRCodeCheck = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://localhost:8080/public/check_qr_code?payment_id=" + payment.getId() + "&pass_code=" + hashedPaymentPassword;
+        String QRCodeCheck = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://localhost:8080/public/check_qr_code?payment_id=" + payment.getId() + "%26pass_code=" + hashedPaymentPassword;
         System.out.println(QRCodeCheck);
         //Get customer email from payment
         Customer customer = payment.getTickets().get(0).getCustomers();

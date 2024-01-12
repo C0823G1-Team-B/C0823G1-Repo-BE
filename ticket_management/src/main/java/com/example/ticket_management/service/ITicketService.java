@@ -8,6 +8,8 @@ import com.example.ticket_management.service.common.IGenerationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ITicketService extends IGenerationService<Ticket> {
     Iterable<Ticket> findAllByCarRouteIndividual(CarRouteIndividual carRouteIndividual);
 
@@ -20,4 +22,8 @@ public interface ITicketService extends IGenerationService<Ticket> {
     void setTicketByIsDelete();
 
     ITicketDTO1 getITicketDTO1ById(Integer id);
+
+    void saveAll(List<Ticket> ticketList);
+
+    void updateTicketStatus(List<Ticket> tickets);
 }

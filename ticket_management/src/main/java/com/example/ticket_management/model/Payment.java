@@ -14,7 +14,7 @@ public class Payment {
     private Integer status;
     @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
-    @OneToMany(mappedBy = "payments", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "payments")
     private List<Ticket> tickets;
     private String passCode;
 
