@@ -1,5 +1,6 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.config.VNPayConfig;
 import com.example.ticket_management.model.Customer;
 import com.example.ticket_management.model.Payment;
 import com.example.ticket_management.model.Ticket;
@@ -53,7 +54,8 @@ public class PaymentService implements IPaymentService {
     @Override
     public Payment createPayment(List<Ticket> ticketList, Customer customer) {
         Payment payment = iPaymentRepository.save(new Payment());
-        payment.setTickets(ticketList);
+        payment.setPassCode(VNPayConfig.getRandomNumber(8));
+        iPaymentRepository.save(payment);
         for (Ticket ticket : ticketList) {
             ticket.setPayments(payment);
             ticket.setCustomers(customer);
