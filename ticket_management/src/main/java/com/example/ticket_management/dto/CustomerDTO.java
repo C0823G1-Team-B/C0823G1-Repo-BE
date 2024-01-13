@@ -26,6 +26,12 @@ public class CustomerDTO {
     public CustomerDTO() {
     }
 
+    public CustomerDTO(String email, String name, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
     public CustomerDTO(Integer id, String email, String name, String phoneNumber) {
         this.id = id;
         this.email = email;

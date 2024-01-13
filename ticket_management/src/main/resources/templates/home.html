@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
           media="screen">
-
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 </head>
 <style>
     * {
@@ -233,28 +233,14 @@
         <h1 class="our_text"><span style="color: #f4db31;">TUYẾN </span> PHỔ BIẾN </h1>
         <div class="taxis_section_2">
             <div class="row">
-                <div class="col-sm-4">
+                <div th:each="list,loop:${routeCar}" class="col-sm-4">
                     <div class="taxi_main">
-                        <div class="round_1">01</div>
-                        <h2 class="carol_text">Bus 1</h2>
-                        <p class="reader_text">Xe 20 giường</p>
+                        <div th:text="${loop.count}" class="round_1"></div>
+                        <div>
+                            <span style="font-size: 21px;margin-left: 43px;">Điểm đi <i style="color: #7373fa" class="fas fa-map-marker-alt"></i> :</span> <span th:text="${list.getStartingPoint()}" style="float: none; font-size: 21px" class="carol_text"></span></di><br>
+                            <span style="font-size: 21px;margin-left: 43px;">Điểm đến <i style="color: red" class="fas fa-map-marker-alt"></i> : <span></span><span th:text="${list.getEndingPoint()}"  style="float: none; font-size: 21px" class="carol_text"></span></span>
+                        </div>
                         <div class="images_2"><a href="#"><img src="images/xe3.png"></a></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="taxi_main">
-                        <div class="round_1">02</div>
-                        <h2 class="carol_text">Bus 2</h2>
-                        <p class="reader_text">Xe 34 giường</p>
-                        <div class="images_2"><img src="images/xe3.png"></a></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="taxi_main">
-                        <div class="round_1">03</div>
-                        <h2 class="carol_text">Bus 3</h2>
-                        <p class="reader_text">Xe 40 giường</p>
-                        <div class="images_2"><img src="images/xe3.png"></a></div>
                     </div>
                 </div>
             </div>
