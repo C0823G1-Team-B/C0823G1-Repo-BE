@@ -59,6 +59,11 @@ public class DriverController {
         return "listDriver";
     }
 
+    /**
+     *
+     * @param idDelete
+     * @return
+     */
     @PostMapping("/remove")
     public String remove(@RequestParam("idDelete") Integer idDelete) {
         iDriverService.deleteById(idDelete);

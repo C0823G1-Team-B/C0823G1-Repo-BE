@@ -27,5 +27,4 @@ public interface ICarRouteIndividualService extends IGenerationService<CarRouteI
     void updateDeleteById(Integer id);
 
     Iterable<CarRouteIndividual> findIdDriver(Integer id);
-
 }

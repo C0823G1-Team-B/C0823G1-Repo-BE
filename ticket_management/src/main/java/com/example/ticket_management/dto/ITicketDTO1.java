@@ -11,7 +11,7 @@ public interface ITicketDTO1 {
 
     String getCustomerName();
 
-    Boolean getPaymentStatus();
+    Integer getPaymentStatus();
 
     Long getPrice();
     String getStartingPoint();
