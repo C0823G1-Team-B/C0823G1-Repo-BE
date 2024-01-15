@@ -35,9 +35,21 @@ public interface IDriverRepository extends JpaRepository<Driver,Integer> {
             "        (cdl.start_time >= :timeStartConvert AND cdl.start_time <= :endTimeConvert)\n" +
             "        OR (cdl.end_time >= :timeStartConvert AND cdl.end_time <= :endTimeConvert)\n" +
             "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
-            "    ) and cdl.is_delete = 0  \n" +
+            "    )  \n" +
             ")",nativeQuery = true)
     List<Driver> findAllDriverFreeByTime(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
+    @Query(value = "SELECT DISTINCT driver.* \n" +
+            "FROM driver\n" +
+            "WHERE driver.id NOT IN (\n" +
+            "    SELECT cdl.driver_id\n" +
+            "    FROM car_route_individual cdl\n" +
+            "    WHERE (\n" +
+            "        (cdl.start_time >= :timeStartConvert AND cdl.start_time <= :endTimeConvert)\n" +
+            "        OR (cdl.end_time >= :timeStartConvert AND cdl.end_time <= :endTimeConvert)\n" +
+            "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
+            "    ) and cdl.is_delete = 0   \n" +
+            ")",nativeQuery = true)
+    List<Driver> findAllDriverFreeByTimeUp(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
 
     @Query(value = "select d.* from driver d where d.name like :name and d.is_delete = 0",
             nativeQuery = true,

@@ -1,7 +1,6 @@
 package com.example.ticket_management.service.impl;
 
-import com.example.ticket_management.dto.ITicketDTO1;
-import com.example.ticket_management.dto.ITicketDto;
+import com.example.ticket_management.dto.*;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.repository.ITicketRepository;
@@ -61,7 +60,7 @@ public class TicketService implements ITicketService {
     }
 
     @Override
-    public List<Ticket> findAllTicketByCRI(Integer idCRI) {
+    public List<CusDTO> findAllTicketByCRI(Integer idCRI) {
         return iTicketRepository.findAllTicketByCRI(idCRI);
     }
 
@@ -81,6 +80,11 @@ public class TicketService implements ITicketService {
             ticket.setStatus(true);
         }
         iTicketRepository.saveAll(tickets);
+    }
+
+    @Override
+    public List<CustomerDTO> findAllTicketByCRIUpdate(Integer id) {
+        return iTicketRepository.findAllTicketByCRIUpdate(id);
     }
 
     @Override

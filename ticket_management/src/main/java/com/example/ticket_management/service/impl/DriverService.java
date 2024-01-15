@@ -58,4 +58,9 @@ public class DriverService implements IDriverService {
     public Driver findIddr(Integer id) {
         return iDriverRepository.findById(id).get();
     }
+
+    @Override
+    public List<Driver> findAllDriverFreeByTimeUp(String startTimeConvert, String endTimeConvert) {
+        return iDriverRepository.findAllDriverFreeByTimeUp(startTimeConvert,endTimeConvert);
+    }
 }
