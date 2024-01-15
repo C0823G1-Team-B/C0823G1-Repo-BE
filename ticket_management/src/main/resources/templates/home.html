@@ -90,12 +90,7 @@
                                 <a href="#taxis">Lịch Trình</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="!isAuthenticated()">
-                                    <a href="/login"> Đăng Nhập</a>
-                                </div>
-                                <div sec:authorize="isAuthenticated()">
-                                    <a href="/logout"> Đăng Xuất</a>
-                                </div>
+                                <a href="/login"> <i class="fa-solid fa-user"></i></a>
                             </div>
                         </div>
                         <span style="font-size:33px;cursor:pointer; color: #ffffff;" onclick="openNav()">
