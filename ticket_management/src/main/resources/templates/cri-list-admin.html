@@ -27,6 +27,11 @@
             rel="stylesheet"
     />
     <style>
+        #back{
+            position: fixed;
+            top: 83%;
+            left: 52%;
+        }
         #centered-content {
             position: fixed;
             top: 50%;
@@ -531,6 +536,7 @@
             type: "GET",
             success: (data) => {
                 getRevenue(data)
+                $("#revenue").show()
                 console.log(data.length / 3)
                 console.log(data)
             }
@@ -550,7 +556,7 @@
         let a;
         let data = "<div id=\"carouselExampleControlsNoTouching\" class=\"carousel slide\" data-bs-touch=\"false\" data-bs-interval=\"false\">\n" +
             "    <div class=\"carousel-inner\">"
-        for (let i = 0; i < (content.length / 3 + 1); i++) {
+        for (let i = 0; i < (content.length / 3); i++) {
             if (i === 0) {
                 startTime = new Date(content[i].startTime);
                 startTime1 = new Date(content[i + 1].startTime);
@@ -558,19 +564,19 @@
                 endTime = new Date(content[i].endTime);
                 endTime1 = new Date(content[i + 1].endTime);
                 endTime2 = new Date(content[i + 2].endTime);
-                price = content[i].price * content[i].sold;
+                price = content[i].totalAmount - (content[i].price * (content[i].totalSeats - content[i].sold));
                 price = price.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                     minimumFractionDigits: 0
                 });
-                price1 = content[i + 1].price * content[i + 1].sold;
+                price1 = content[i+1].totalAmount - (content[i+1].price * (content[i+1].totalSeats - content[i+1].sold));
                 price1 = price1.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                     minimumFractionDigits: 0
                 });
-                price2 = content[i + 2].price * content[i + 2].sold;
+                price2 = content[i+2].totalAmount - (content[i+2].price * (content[i+2].totalSeats - content[i+2].sold));
                 price2 = price2.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
@@ -578,7 +584,7 @@
                 });
                 data += "<div class=\"carousel-item active\">\n" +
                     "            <div class=\"cards-wrapper\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\"><strong>Chuyến xe: " + content[i].startingPoint + "</strong> - <strong>" + content[i].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\"><strong>Loại xe: Xe thường </strong><strong>" + content[i].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -592,7 +598,7 @@
                     "                    </div>" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i + 1].startingPoint + "</strong> - <strong>" + content[i + 1].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i + 1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -607,7 +613,7 @@
                     "                    </div>\n" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[i + 2].startingPoint + "</strong> - <strong>" + content[i + 2].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[i + 2].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -624,7 +630,7 @@
                     "            </div>\n" +
                     "        </div>"
             }
-            if (i >= 1 && i < (content.length / 3 - 1)) {
+            if (i >= 1 && i <= (content.length / 3 - 1)) {
                 a = i * 3;
                 startTime = new Date(content[a].startTime);
                 startTime1 = new Date(content[a + 1].startTime);
@@ -632,19 +638,19 @@
                 endTime = new Date(content[a].endTime);
                 endTime1 = new Date(content[a + 1].endTime);
                 endTime2 = new Date(content[a + 2].endTime);
-                price = content[a].price * content[a].sold;
+                price = content[a].totalAmount - (content[a].price * (content[a].totalSeats - content[a].sold));
                 price = price.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                     minimumFractionDigits: 0
                 });
-                price1 = content[a + 1].price * content[a + 1].sold;
+                price1 = content[a+1].totalAmount - (content[a+1].price * (content[a+1].totalSeats - content[a+1].sold));
                 price1 = price1.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                     minimumFractionDigits: 0
                 });
-                price2 = content[a + 2].price * content[a + 2].sold;
+                price2 = content[a+2].totalAmount - (content[a+2].price * (content[a+2].totalSeats - content[a+2].sold));
                 price2 = price2.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
@@ -652,7 +658,7 @@
                 });
                 data += "<div class=\"carousel-item\">\n" +
                     "            <div class=\"cards-wrapper\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a].startingPoint + "</strong> - <strong>" + content[a].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -666,7 +672,7 @@
                     "                    </div>" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a + 1].startingPoint + "</strong> - <strong>" + content[a + 1].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a + 1].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -681,7 +687,7 @@
                     "                    </div>\n" +
                     "                </div>\n" +
                     "                <div class=\"cards-wrapper cards-wrapper1\">\n" +
-                    "                    <div class=\"card\" style=\"width: 19rem;\">\n" +
+                    "                    <div class=\"card\" style=\"width: 19.5rem;\">\n" +
                     "                    <div class=\"card-body\">\n" +
                     "                        <p class=\"card-text\">Chuyến xe: <strong>" + content[a + 2].startingPoint + "</strong> - <strong>" + content[a + 2].endingPoint + "</strong></p>\n" +
                     "                        <p class=\"card-text\">Loại xe: <strong>Xe thường </strong><strong>" + content[a + 2].totalSeats + "<strong> chỗ</strong></strong></p>\n" +
@@ -710,9 +716,15 @@
             // "        <span class=\"visually-hidden\">Next</span>\n" +
             "    </button>\n" +
             "</div>"
+        data += "<div id='back'><button onclick=\"backHome3()\" class=\"btn btn-outline-warning\" style=\"width: 200px\">Quay lại</button></div>";
         $("#revenue").html(data)
         $("#centered-content").hide()
     }
+    function backHome3() {
+        $("#centered-content").show()
+        $("#revenue").hide()
+    }
+
 </script>
 <script
         type="text/javascript"

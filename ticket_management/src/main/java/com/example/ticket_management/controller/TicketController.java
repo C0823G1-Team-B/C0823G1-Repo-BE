@@ -75,7 +75,10 @@ public class TicketController {
     }
 
     @GetMapping("/noselectticket/{id}")
-    public ModelAndView noSelectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart, @PathVariable Integer id) {
+    public ModelAndView noSelectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart, @PathVariable Integer id,
+                                       @RequestParam(value = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
+                                       @RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                       @RequestParam(value = "email", required = false, defaultValue = "") String email) {
         Optional<Ticket> ticket = iTicketService.findById(id);
         if (!ticket.isPresent()) {
             return new ModelAndView("error");
@@ -85,9 +88,10 @@ public class TicketController {
         List<Ticket> tickets1 = (List<Ticket>) tickets;
         ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
         modelAndView.addObject("ticketCart", ticketCart);
+        CustomerDTO customerDTO = new CustomerDTO(email, name, phoneNumber);
         modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
         modelAndView.addObject("cri", iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
-        modelAndView.addObject("ctmDTO", new CustomerDTO());
+        modelAndView.addObject("ctmDTO", customerDTO);
         return modelAndView;
     }
 
