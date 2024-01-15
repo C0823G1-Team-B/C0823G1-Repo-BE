@@ -34,5 +34,19 @@ public interface ICarRepository extends JpaRepository<Car,Integer> {
             "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
             " ) and cdl.is_delete = 0\n" +
             ")",nativeQuery = true)
+    List<Car> findAllCarFreeByTimeUp(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
+
+    @Query(value = "SELECT DISTINCT car.* \n" +
+            "FROM car\n" +
+            "WHERE car.id NOT IN (\n" +
+            "    SELECT cdl.car_id\n" +
+            "    FROM car_route_individual cdl\n" +
+            "    WHERE (\n" +
+            "        (cdl.start_time >= :timeStartConvert AND cdl.start_time <= :endTimeConvert)\n" +
+            "        OR (cdl.end_time >= :timeStartConvert AND cdl.end_time <= :endTimeConvert)\n" +
+            "        OR (cdl.start_time <= :timeStartConvert AND cdl.end_time >= :endTimeConvert)\n" +
+            " )\n" +
+            ")",nativeQuery = true)
     List<Car> findAllCarFreeByTime(@Param("timeStartConvert") String startTimeConvert, @Param("endTimeConvert") String endTimeConvert);
+
 }

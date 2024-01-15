@@ -1,12 +1,12 @@
 package com.example.ticket_management.repository;
 
-import com.example.ticket_management.dto.ITicketDTO1;
-import com.example.ticket_management.dto.ITicketDto;
+import com.example.ticket_management.dto.*;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
@@ -56,10 +56,11 @@ public interface ITicketRepository extends JpaRepository<Ticket, Integer> {
             "where ticket.car_route_individual_id = :idCi and ticket.status = :status",nativeQuery = true)
     Integer findAllTicketByCiIdAndStatus(@Param("idCi")Integer idCi,@Param("status")Integer status );
 
-    @Query(value = "SELECT ticket.*\n" +
+    @Query(value = "SELECT ticket.customer_id as customerId\n" +
             "FROM ticket\n" +
-            "WHERE ticket.car_route_individual_id = :idCRI AND ticket.status = 1",nativeQuery = true)
-    List<Ticket> findAllTicketByCRI(@Param("idCRI") Integer idCRI);
+            "WHERE ticket.car_route_individual_id = :idCi AND ticket.status = 1\n" +
+            "group by ticket.customer_id",nativeQuery = true)
+    List<CusDTO> findAllTicketByCRI(@Param("idCi") Integer idCRI);
 
     @Query(value = "select ticket.id as id,\n" +
             "ticket.number_seat as numberSeat,\n" +
@@ -75,4 +76,10 @@ public interface ITicketRepository extends JpaRepository<Ticket, Integer> {
             "left join car_route on car_route.id = car_route_individual.car_route_id\n" +
             "where ticket.id = :id", nativeQuery = true)
     ITicketDTO1 getITicketDTO1ById(Integer id);
+    @Query(value = "\n" +
+            "SELECT NEW com.example.ticket_management.dto.CustomerDTO(ticket.customer_id, ticket.car_route_individual_id)\n" +
+            "FROM Ticket ticket\n" +
+            "WHERE ticket.car_route_individual_id = :idCRI AND ticket.status = 1\n" +
+            "GROUP BY ticket.customer_id",nativeQuery = true)
+    List<CustomerDTO> findAllTicketByCRIUpdate(@Param("idCRI") Integer idCRI);
 }

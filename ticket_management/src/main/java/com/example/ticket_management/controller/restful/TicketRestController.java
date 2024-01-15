@@ -1,16 +1,21 @@
 package com.example.ticket_management.controller.restful;
-
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import com.example.ticket_management.dto.CarRouteIndividualDTO;
+import com.example.ticket_management.dto.CusDTO;
 import com.example.ticket_management.dto.SearchDto;
 import com.example.ticket_management.model.CarAndDriverDto;
 import com.example.ticket_management.model.CarRouteIndiviDto;
 import com.example.ticket_management.model.*;
 import com.example.ticket_management.service.*;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,6 +38,12 @@ public class TicketRestController {
     private ITicketService iTicketService;
     @Autowired
     private ICarRouteService iCarRouteService;
+    @Autowired
+    private ICustomerService iCustomerService;
+    @Autowired
+    JavaMailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
 
 
 
@@ -67,9 +78,8 @@ public class TicketRestController {
         return new ResponseEntity<>(carRouteIndividual1, HttpStatus.CREATED);
     }
     @PostMapping("/saveUpdate")
-    public ResponseEntity<?> create(@RequestBody CarRouteIndividualDTO carRouteIndividualDTO) {
-        List<Ticket> ticketList = iTicketService.findAllTicketByCRI(carRouteIndividualDTO.getIdCRI());
-        System.out.println(ticketList.isEmpty());
+    public ResponseEntity<CarRouteIndividualDTO> createSaveUpdate(@RequestBody CarRouteIndividualDTO carRouteIndividualDTO) {
+        CarRouteIndividual criCheck = iCarRouteIndividualService.findById(carRouteIndividualDTO.getIdCRI()).get();
         CarRouteIndividual carRouteIndividual = new CarRouteIndividual(
                 carRouteIndividualDTO.getIdCRI(),
                 carRouteIndividualDTO.getTimeStart(),
@@ -78,10 +88,48 @@ public class TicketRestController {
                 iDriverService.findById(carRouteIndividualDTO.getIdDriver()).get(),
                 iCarRouteService.findById(carRouteIndividualDTO.getIdRoute()).get(),
                 carRouteIndividualDTO.getPrice()
-                );
-        iCarRouteIndividualService.save(carRouteIndividual);
+        );
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        List<CusDTO> ticketList = iTicketService.findAllTicketByCRI(carRouteIndividual.getId());
+        int check1 = carRouteIndividualDTO.getTimeStart().compareTo(criCheck.getStartTime());
+        int check2 = carRouteIndividualDTO.getTimeEnd().compareTo(criCheck.getEndTime());
+        boolean  check11 = check1 == 1;
+        boolean check22 = check2 == 1;
+
+
+        if (ticketList.isEmpty()){
+            System.out.println("ko gui gmail ");
+            iCarRouteIndividualService.save(carRouteIndividual);
+            return new ResponseEntity<>(new CarRouteIndividualDTO(false),HttpStatus.OK);
+        } else {
+            iCarRouteIndividualService.save(carRouteIndividual);
+            if ( (check11) || (check22) || (carRouteIndividualDTO.getIdRoute() != criCheck.getCarRoute().getId()) || (carRouteIndividualDTO.getIdCar() != criCheck.getCar().getId())){
+                MimeMessage message = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message);
+                for (CusDTO temp : ticketList){
+                    Customer customer = iCustomerService.findById(temp.getCustomerId()).get();
+                    try{
+                        helper.setTo(customer.getEmail());
+                        helper.setSubject("[Nhà xe Hiếu Hoa] vui lòng xác nhận gmail thông báo");
+                        Context context = new Context();
+                        context.setVariable("username", customer.getName());
+                        String space = "Vì 1 số lí do mà " + "Chuyến đi từ" + criCheck.getCarRoute().getStartingPoint() + "Đến" + criCheck.getCarRoute().getEndingPoint() + " vào lúc "
+                                + criCheck.getStartTime() + " đến " + criCheck.getEndTime() + "có thể có sự thay đổi vào lúc" + criCheck.getStartTime() + " đến " +
+                                criCheck.getEndTime() + "Nhân viên của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất mong bạn bỏ qua";
+                        context.setVariable("space",space);
+
+                        String content = templateEngine.process("updateGmailForm.html", context);
+                        helper.setText(content, true);
+                        mailSender.send(message);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            return new ResponseEntity<>(new CarRouteIndividualDTO(true),HttpStatus.OK);
+        }
+
     }
 
     @GetMapping("/startTime")
@@ -97,6 +145,7 @@ public class TicketRestController {
         return new ResponseEntity<>(carAndDriverDto, HttpStatus.OK);
     }
 
+
     @GetMapping("/endTime")
     public ResponseEntity<CarAndDriverDto> findDriverAndCarFreeByTime(String startTime, String endTime) {
         String startTimeConvert = LocalDateTime.parse(startTime).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -104,6 +153,17 @@ public class TicketRestController {
 
         List<Driver> driverList = iDriverService.findAllDriverFreeByTime(startTimeConvert, endTimeConvert);
         List<Car> carList = iCarService.findAllCarFreeByTime(startTimeConvert, endTimeConvert);
+
+        CarAndDriverDto carAndDriverDto = new CarAndDriverDto(driverList, carList);
+        return new ResponseEntity<>(carAndDriverDto, HttpStatus.OK);
+    }
+    @GetMapping("/endTimeUp")
+    public ResponseEntity<CarAndDriverDto> findDriverAndCarFreeByTimeUp(String startTime, String endTime) {
+        String startTimeConvert = LocalDateTime.parse(startTime).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String endTimeConvert = LocalDateTime.parse(endTime).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        List<Driver> driverList = iDriverService.findAllDriverFreeByTimeUp(startTimeConvert, endTimeConvert);
+        List<Car> carList = iCarService.findAllCarFreeByTimeUp(startTimeConvert, endTimeConvert);
 
         CarAndDriverDto carAndDriverDto = new CarAndDriverDto(driverList, carList);
         return new ResponseEntity<>(carAndDriverDto, HttpStatus.OK);
@@ -192,8 +252,9 @@ public class TicketRestController {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 //        LocalDateTime startTime = LocalDateTime.parse(carRouteIndividual.getStartDateTime(), formatter);
 //        LocalDateTime endTime = LocalDateTime.parse(carRouteIndividual.getEndDateTime(), formatter);
-        System.out.println(carRouteIndividual.getId());
-            iCarRouteIndividualService.updateDeleteById(carRouteIndividual.getId());
+
+        iCarRouteIndividualService.updateDeleteById(carRouteIndividual.getId());
+        List<CusDTO> ticketList = iTicketService.findAllTicketByCRI(carRouteIndividual.getId());
         return new ResponseEntity<>(new CarRouteIndividualDTO(
                 carRouteIndividual.getId(),
                 carRouteIndividual.getStartTime(),
@@ -201,7 +262,7 @@ public class TicketRestController {
                 carRouteIndividual.getCarRoute().getId(),
                 carRouteIndividual.getCar().getId(),
                 carRouteIndividual.getDriver().getId(),
-                carRouteIndividual.getPrice()
+                carRouteIndividual.getPrice(),ticketList.isEmpty()
         ), HttpStatus.OK);
     }
 

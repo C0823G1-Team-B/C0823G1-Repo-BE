@@ -15,6 +15,19 @@ public class CarRouteIndividualDTO {
     private Integer idRoute;
     private Integer idCar;
     private Integer idDriver;
+    private boolean ticketExist;
+
+    public CarRouteIndividualDTO(boolean ticketExist) {
+        this.ticketExist = ticketExist;
+    }
+
+    public boolean isTicketExist() {
+        return ticketExist;
+    }
+
+    public void setTicketExist(boolean ticketExist) {
+        this.ticketExist = ticketExist;
+    }
 
     public Integer getIdRoute() {
         return idRoute;
@@ -72,6 +85,16 @@ public class CarRouteIndividualDTO {
         this.idCar = carId;
         this.idDriver = driverId;
         this.price = price;
+    }
+    public CarRouteIndividualDTO(Integer id,LocalDateTime startDateTime, LocalDateTime endDateTime, Integer routeId, Integer carId, Integer driverId, Long price,boolean ticketExist) {
+        this.idCRI = id;
+        this.timeStart = startDateTime;
+        this.timeEnd = endDateTime;
+        this.idRoute = routeId;
+        this.idCar = carId;
+        this.idDriver = driverId;
+        this.price = price;
+        this.ticketExist = ticketExist;
     }
 
 
