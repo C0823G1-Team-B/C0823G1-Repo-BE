@@ -1,5 +1,6 @@
 package com.example.ticket_management.service.impl;
 
+import com.example.ticket_management.dto.CarRouteDTO;
 import com.example.ticket_management.model.CarRoute;
 import com.example.ticket_management.repository.ICarRouteRepository;
 import com.example.ticket_management.service.ICarRouteService;
@@ -37,6 +38,11 @@ public class CarRouteService implements ICarRouteService {
     @Override
     public CarRoute findCarRouteByStartingPointAndEndingPoint(String departure, String destination) {
          return iCarRouteRepository.findCarRouteByStartingPointAndEndingPoint(departure,destination);
+    }
+
+    @Override
+    public List<CarRouteDTO> getCarRouteHigh() {
+        return iCarRouteRepository.getCarRouteHigh();
     }
 
 

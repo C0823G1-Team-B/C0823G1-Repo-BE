@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
           media="screen">
-
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 </head>
 <style>
     * {
@@ -55,9 +55,12 @@
         padding-top: 4.5rem;
         outline: 8px solid rgb(197 58 16 / 10%);
     }
-    .layout_padding{
-        padding-bottom : 30px;
+
+    .layout_padding {
+        padding-bottom: 30px;
+        padding-top: 105px;
     }
+
 </style>
 <body>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -76,14 +79,15 @@
                 <div class="menu_text">
                     <ul>
                         <li><a href="/">Trang Chủ</a></li>
-                        <li><a th:href="@{api/ticket}">Đặt Vé</a></li>
+                        <li><a href="#booking">Đặt Vé</a></li>
+                        <li><a href="#taxis">Lịch Trình</a></li>
                         <li><a href="#booking">Chi Tiết</a></li>
                         <div id="myNav" class="overlay">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                             <div class="overlay-content">
-                                <a href="#">Trang Chủ</a>
-                                <a  th:href="@{api/ticket}">Đặt vé</a>
-                                <a href="#taxis">Loại Xe</a>
+                                <a href="/">Trang Chủ</a>
+                                <a href="#booking">Đặt vé</a>
+                                <a href="#taxis">Lịch Trình</a>
                                 <a href="#booking">Chi Tiết</a>
                                 <a href="#contact">Liên Hệ</a>
                                 <div sec:authorize="!isAuthenticated()">
@@ -113,111 +117,111 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="book_now">
-                                <h1 class="book_text">Đặt xe ngay</h1>
-                                <h1 class="call_text">(+84) 1234567890</h1>
-                            </div>
-                            <div class="image_1"><img src="images/xe3.png"></div>
+                        <div class="col-md-12">
+                            <!--                            <div class="book_now">-->
+                            <!--                                <h1 class="book_text">Đặt xe ngay</h1>-->
+                            <!--                                <h1 class="call_text">(+84) 1234567890</h1>-->
+                            <!--                            </div>-->
+                            <div class="image_1"><img src="https://storage.googleapis.com/futa-busline-web-cms-prod/1128_x_250_x3_da64214da0/1128_x_250_x3_da64214da0.png"></div>
                         </div>
-                        <div class="col-md-6">
-                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>
-                            <!-- <div class="contact_bg">
-                          <div class="input_main">
-                            <div class="container">
-                              <h2 class="request_text">Your everyday travel partner</h2>
-                              <form action="/action_page.php">
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="PICKUP" name="Name">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="DROP" name="Email">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="WHEN" name="Email">
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                          <div class="send_bt"><a href="#">SEARCH</a></div>
-                        </div> -->
-                        </div>
+<!--                        <div class="col-md-6">-->
+<!--                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>-->
+<!--                            <&#45;&#45;-->
+<!--                            <div class="contact_bg">-->
+<!--                                <div class="input_main">-->
+<!--                                    <div class="container">-->
+<!--                                        <h2 class="request_text">Your everyday travel partner</h2>-->
+<!--                                        <form action="/action_page.php">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <input type="text" class="email-bt" placeholder="PICKUP" name="Name">-->
+<!--                                            </div>-->
+<!--                                            <div class="form-group">-->
+<!--                                                <input type="text" class="email-bt" placeholder="DROP" name="Email">-->
+<!--                                            </div>-->
+<!--                                            <div class="form-group">-->
+<!--                                                <input type="text" class="email-bt" placeholder="WHEN" name="Email">-->
+<!--                                            </div>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="send_bt"><a href="#">SEARCH</a></div>-->
+<!--                            </div>-->
+<!--                            &ndash;&gt;-->
+<!--                        </div>-->
                     </div>
                 </div>
-                <div class="carousel-item">
+                <div class="carousel-item ">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="book_now">
-                                <h1 class="book_text">Đặt xe ngay</h1>
-                                <h1 class="call_text">(+84) 1234567890</h1>
-                            </div>
-                            <div class="image_1"><img src="images/xe3.png"></div>
+                        <div class="col-md-12">
+                            <!--                            <div class="book_now">-->
+                            <!--                                <h1 class="book_text">Đặt xe ngay</h1>-->
+                            <!--                                <h1 class="call_text">(+84) 1234567890</h1>-->
+                            <!--                            </div>-->
+                            <div class="image_1"><img src="https://storage.googleapis.com/futa-busline-web-cms-prod/1128_x_250_x3_da64214da0/1128_x_250_x3_da64214da0.png"></div>
                         </div>
-                        <div class="col-md-6">
-                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>
-                            <!-- <div class="contact_bg">
-                          <div class="input_main">
-                            <div class="container">
-                              <h2 class="request_text">Your everyday travel partner</h2>
-                              <form action="/action_page.php">
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="PICKUP" name="Name">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="DROP" name="Email">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="WHEN" name="Email">
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                          <div class="send_bt"><a href="#">SEARCH</a></div>
-                        </div> -->
-                        </div>
+                        <!--                        <div class="col-md-6">-->
+                        <!--                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>-->
+                        <!--                            <&#45;&#45;-->
+                        <!--                            <div class="contact_bg">-->
+                        <!--                                <div class="input_main">-->
+                        <!--                                    <div class="container">-->
+                        <!--                                        <h2 class="request_text">Your everyday travel partner</h2>-->
+                        <!--                                        <form action="/action_page.php">-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="PICKUP" name="Name">-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="DROP" name="Email">-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="WHEN" name="Email">-->
+                        <!--                                            </div>-->
+                        <!--                                        </form>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="send_bt"><a href="#">SEARCH</a></div>-->
+                        <!--                            </div>-->
+                        <!--                            &ndash;&gt;-->
+                        <!--                        </div>-->
                     </div>
                 </div>
-                <div class="carousel-item">
+                <div class="carousel-item ">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="book_now">
-                                <h1 class="book_text">Đặt xe ngay</h1>
-                                <h1 class="call_text">(+84) 1234567890</h1>
-                            </div>
-                            <div class="image_1"><img src="images/xe3.png"></div>
+                        <div class="col-md-12">
+                            <!--                            <div class="book_now">-->
+                            <!--                                <h1 class="book_text">Đặt xe ngay</h1>-->
+                            <!--                                <h1 class="call_text">(+84) 1234567890</h1>-->
+                            <!--                            </div>-->
+                            <div class="image_1"><img src="https://storage.googleapis.com/futa-busline-web-cms-prod/1128_x_250_x3_da64214da0/1128_x_250_x3_da64214da0.png"></div>
                         </div>
-                        <div class="col-md-6">
-                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>
-                            <!-- <div class="contact_bg">
-                          <div class="input_main">
-                            <div class="container">
-                              <h2 class="request_text">Your everyday travel partner</h2>
-                              <form action="/action_page.php">
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="PICKUP" name="Name">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="DROP" name="Email">
-                                </div>
-                                <div class="form-group">
-                                  <input type="text" class="email-bt" placeholder="WHEN" name="Email">
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                          <div class="send_bt"><a href="#">SEARCH</a></div>
-                        </div> -->
-                        </div>
+                        <!--                        <div class="col-md-6">-->
+                        <!--                            <h1 class="booking_text">Book a City Taxi to your destination in town</h1>-->
+                        <!--                            <&#45;&#45;-->
+                        <!--                            <div class="contact_bg">-->
+                        <!--                                <div class="input_main">-->
+                        <!--                                    <div class="container">-->
+                        <!--                                        <h2 class="request_text">Your everyday travel partner</h2>-->
+                        <!--                                        <form action="/action_page.php">-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="PICKUP" name="Name">-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="DROP" name="Email">-->
+                        <!--                                            </div>-->
+                        <!--                                            <div class="form-group">-->
+                        <!--                                                <input type="text" class="email-bt" placeholder="WHEN" name="Email">-->
+                        <!--                                            </div>-->
+                        <!--                                        </form>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="send_bt"><a href="#">SEARCH</a></div>-->
+                        <!--                            </div>-->
+                        <!--                            &ndash;&gt;-->
+                        <!--                        </div>-->
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
-                <i class="fa fa-angle-left"></i></a>
-            </a>
-            <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
-                <i class="fa fa-angle-right"></i>
-            </a>
-            </a>
+
         </div>
 
     </div>
@@ -229,28 +233,14 @@
         <h1 class="our_text"><span style="color: #f4db31;">TUYẾN </span> PHỔ BIẾN </h1>
         <div class="taxis_section_2">
             <div class="row">
-                <div class="col-sm-4">
+                <div th:each="list,loop:${routeCar}" class="col-sm-4">
                     <div class="taxi_main">
-                        <div class="round_1">01</div>
-                        <h2 class="carol_text">Bus 1</h2>
-                        <p class="reader_text">Xe 20 giường</p>
+                        <div th:text="${loop.count}" class="round_1"></div>
+                        <div>
+                            <span style="font-size: 21px;margin-left: 43px;">Điểm đi <i style="color: #7373fa" class="fas fa-map-marker-alt"></i> :</span> <span th:text="${list.getStartingPoint()}" style="float: none; font-size: 21px" class="carol_text"></span></di><br>
+                            <span style="font-size: 21px;margin-left: 43px;">Điểm đến <i style="color: red" class="fas fa-map-marker-alt"></i> : <span></span><span th:text="${list.getEndingPoint()}"  style="float: none; font-size: 21px" class="carol_text"></span></span>
+                        </div>
                         <div class="images_2"><a href="#"><img src="images/xe3.png"></a></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="taxi_main">
-                        <div class="round_1">02</div>
-                        <h2 class="carol_text">Bus 2</h2>
-                        <p class="reader_text">Xe 34 giường</p>
-                        <div class="images_2"><img src="images/xe3.png"></a></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="taxi_main">
-                        <div class="round_1">03</div>
-                        <h2 class="carol_text">Bus 3</h2>
-                        <p class="reader_text">Xe 40 giường</p>
-                        <div class="images_2"><img src="images/xe3.png"></a></div>
                     </div>
                 </div>
             </div>
@@ -387,7 +377,7 @@
                     Hiếu Hoa đã góp phần tích cực trong việc thúc đẩy giao thương,
                     đi lại giữa TP. Đà Nẵng với các tỉnh phía Bắc.
                 </p>
-                <div class="book_bt"><a href="#">ĐẶT XE NGAY</a></div>
+                <div class="book_bt"><a href="#booking">ĐẶT XE NGAY</a></div>
             </div>
         </div>
     </div>
@@ -400,7 +390,7 @@
                     Hiếu Hoa luôn mong muốn mang đến cho khách hàng sự hài lòng, an tâm và trải nghiệm tốt nhất có
                     thể khi đồng hành cùng với chúng tôi trên mọi nẻo đường.
                 </p>
-                <div class="book_bt_2"><a href="#">ĐẶT XE NGAY</a></div>
+                <div class="book_bt_2"><a href="#booking">ĐẶT XE NGAY</a></div>
             </div>
             <div class="col-sm-4">
                 <div class="image_3"><img src="images/img-4.png"></div>
@@ -419,7 +409,7 @@
                     nhiệt tình mà dịch vụ còn rất thuận tiện cho Quý khách hàng. Khi đến với chúng tôi, bạn sẽ được
                     tận hưởng nhiều dịch vụ chất lượng caol
                 </p>
-                <div class="book_bt"><a href="#">ĐẶT XE NGAY</a></div>
+                <div class="book_bt"><a href="#booking">ĐẶT XE NGAY</a></div>
             </div>
         </div>
     </div>
@@ -434,7 +424,7 @@
 
                     Kính chúc Quý Khánh luôn Bình An Trên Vạn Dặm.
                 </p>
-                <div class="book_bt_2"><a href="#">ĐẶT XE NGAY</a></div>
+                <div class="book_bt_2"><a href="#booking">ĐẶT XE NGAY</a></div>
             </div>
             <div class="col-sm-4">
                 <div class="image_3"><img src="images/img-5.png"></div>

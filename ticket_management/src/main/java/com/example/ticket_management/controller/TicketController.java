@@ -29,94 +29,101 @@ public class TicketController {
     private ITicketService iTicketService;
     @Autowired
     private ICarRouteIndividualService iCarRouteIndividualService;
+
     @ModelAttribute("ticketCart")
-    public TicketCart getTicketCart(){
+    public TicketCart getTicketCart() {
         return new TicketCart();
     }
+
     @GetMapping("/{idCRI}")
-    public ModelAndView showTicket(@PathVariable Integer idCRI){
+    public ModelAndView showTicket(@PathVariable Integer idCRI) {
         Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
-        if (!carRouteIndividual.isPresent()){
+        if (!carRouteIndividual.isPresent()) {
             return new ModelAndView("error");
         }
         ICarRouteIndividualDTO iCarRouteIndividualDTO = iCarRouteIndividualService.findByIdDTO(idCRI);
         Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(carRouteIndividual.get());
         List<Ticket> tickets1 = (List<Ticket>) tickets;
-        ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-        modelAndView.addObject("ticketCart",new TicketCart());
-        modelAndView.addObject("cri",iCarRouteIndividualDTO);
+        ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
+        modelAndView.addObject("ticketCart", new TicketCart());
+        modelAndView.addObject("cri", iCarRouteIndividualDTO);
         modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-        modelAndView.addObject("ctmDTO",new CustomerDTO());
+        modelAndView.addObject("ctmDTO", new CustomerDTO());
         return modelAndView;
     }
 
     @GetMapping("/selectticket/{id}")
-    public ModelAndView selectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart, @PathVariable Integer id){
+    public ModelAndView selectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart,
+                                     @PathVariable Integer id,
+                                     @RequestParam(value = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
+                                     @RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                     @RequestParam(value = "email", required = false, defaultValue = "") String email) {
         Optional<Ticket> ticket = iTicketService.findById(id);
-        if (!ticket.isPresent()){
+        if (!ticket.isPresent()) {
             return new ModelAndView("error");
         }
         ticketCart.addTicket(ticket.get());
         Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(ticket.get().getCarRouteIndividual());
         List<Ticket> tickets1 = (List<Ticket>) tickets;
-        ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-        modelAndView.addObject("ticketCart",ticketCart);
+        ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
+        modelAndView.addObject("ticketCart", ticketCart);
         modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-        modelAndView.addObject("cri",iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
-        modelAndView.addObject("ctmDTO",new CustomerDTO());
+        CustomerDTO customerDTO = new CustomerDTO(email, name, phoneNumber);
+        modelAndView.addObject("cri", iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
+        modelAndView.addObject("ctmDTO", customerDTO);
         return modelAndView;
     }
 
     @GetMapping("/noselectticket/{id}")
-    public ModelAndView noSelectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart, @PathVariable Integer id){
+    public ModelAndView noSelectTicket(@ModelAttribute("ticketCart") TicketCart ticketCart, @PathVariable Integer id) {
         Optional<Ticket> ticket = iTicketService.findById(id);
-        if (!ticket.isPresent()){
+        if (!ticket.isPresent()) {
             return new ModelAndView("error");
         }
         ticketCart.removeTicket(ticket.get());
         Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(ticket.get().getCarRouteIndividual());
         List<Ticket> tickets1 = (List<Ticket>) tickets;
-        ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-        modelAndView.addObject("ticketCart",ticketCart);
+        ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
+        modelAndView.addObject("ticketCart", ticketCart);
         modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-        modelAndView.addObject("cri",iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
-        modelAndView.addObject("ctmDTO",new CustomerDTO());
+        modelAndView.addObject("cri", iCarRouteIndividualService.findByIdDTO(ticket.get().getCarRouteIndividual().getId()));
+        modelAndView.addObject("ctmDTO", new CustomerDTO());
         return modelAndView;
     }
 
     @PostMapping("/payment/{idCRI}")
-    public ModelAndView showPayment(@Validated @ModelAttribute("ctmDTO") CustomerDTO customerDTO, BindingResult bindingResult, @PathVariable Integer idCRI, @ModelAttribute("ticketCart") TicketCart ticketCart){
-        if (bindingResult.hasErrors()){
+    public ModelAndView showPayment(@Validated @ModelAttribute("ctmDTO") CustomerDTO customerDTO, BindingResult bindingResult, @PathVariable Integer idCRI, @ModelAttribute("ticketCart") TicketCart ticketCart) {
+        if (bindingResult.hasErrors()) {
             Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
-            if (!carRouteIndividual.isPresent()){
+            if (!carRouteIndividual.isPresent()) {
                 return new ModelAndView("error");
             }
             ICarRouteIndividualDTO iCarRouteIndividualDTO = iCarRouteIndividualService.findByIdDTO(idCRI);
             Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(carRouteIndividual.get());
             List<Ticket> tickets1 = (List<Ticket>) tickets;
-            ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-            modelAndView.addObject("ticketCart",ticketCart);
-            modelAndView.addObject("cri",iCarRouteIndividualDTO);
+            ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
+            modelAndView.addObject("ticketCart", ticketCart);
+            modelAndView.addObject("cri", iCarRouteIndividualDTO);
             modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
             return modelAndView;
         }
 
-        Map<Integer,Ticket> ticketMap = ticketCart.ticketList;
+        Map<Integer, Ticket> ticketMap = ticketCart.ticketList;
         Set<Integer> integers = ticketMap.keySet();
-        for (Integer i:integers){
-            if (iTicketService.checkStatusTicket(i)){
+        for (Integer i : integers) {
+            if (iTicketService.checkStatusTicket(i)) {
                 Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
-                if (!carRouteIndividual.isPresent()){
+                if (!carRouteIndividual.isPresent()) {
                     return new ModelAndView("error");
                 }
                 ICarRouteIndividualDTO iCarRouteIndividualDTO = iCarRouteIndividualService.findByIdDTO(idCRI);
                 Iterable<Ticket> tickets = iTicketService.findAllByCarRouteIndividual(carRouteIndividual.get());
                 List<Ticket> tickets1 = (List<Ticket>) tickets;
-                ModelAndView modelAndView = new ModelAndView("ticket","tickets",tickets1);
-                modelAndView.addObject("ticketCart",new TicketCart());
-                modelAndView.addObject("cri",iCarRouteIndividualDTO);
+                ModelAndView modelAndView = new ModelAndView("ticket", "tickets", tickets1);
+                modelAndView.addObject("ticketCart", new TicketCart());
+                modelAndView.addObject("cri", iCarRouteIndividualDTO);
                 modelAndView.addObject("df", DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-                modelAndView.addObject("message","Đã có khách hàng khách khác chọn vé nhanh hơn! Xin mời bạn chọn lại!");
+                modelAndView.addObject("message", "Đã có khách hàng khách khác chọn vé nhanh hơn! Xin mời bạn chọn lại!");
                 return modelAndView;
             }
         }
