@@ -133,6 +133,7 @@ public class TicketController {
         }
         System.out.println(customerDTO.getPhoneNumber());
 
+        //thêm hàm valid vào form
 
         // Đoạn này mọi người xử lý nhé đã có giỏ hàng vé và thông tin khách hàng
         // Mọi người xử lý ok thì lưu vào database và
