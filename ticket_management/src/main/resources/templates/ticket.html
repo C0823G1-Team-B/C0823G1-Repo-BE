@@ -1107,7 +1107,7 @@
                     <p class="card-text">Ghế đã chọn: <strong th:each="t: ${ticketCart.getNumberSeat2()}"><strong
                             th:text="${t}"></strong> </strong></p>
                     <div class="text-left col-6 p-0"><strong>Thành tiền: </strong><strong
-                            th:text="${#numbers.formatDecimal(ticketCart.getNumberSeat2().size()*cri.getPrice(), 0, 'COMMA', 0, 'POINT') + 'đ'}"
+                            th:text="${#numbers.formatDecimal(ticketCart.totalAmount(), 0, 'COMMA', 0, 'POINT') + 'đ'}"
                             style="color: red"></strong></div>
                 </div>
             </div>

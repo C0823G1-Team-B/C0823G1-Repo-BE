@@ -63,6 +63,7 @@ public interface ICarRouteIndividualRepository extends JpaRepository<CarRouteInd
 
     @Query(value = "SELECT COUNT(CASE WHEN ticket.status = true THEN 1 ELSE NULL END) AS sold,\n" +
             "       car_route_individual.end_time AS endTime,\n" +
+            "       sum(ticket.price) as totalAmount,\n" +
             "       car_route_individual.start_time AS startTime,\n" +
             "       car.total_seats AS totalSeats,\n" +
             "       car_route_individual.price AS price,\n" +
