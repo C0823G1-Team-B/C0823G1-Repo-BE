@@ -31,32 +31,6 @@ public class EmailController {
     @Autowired
     ITicketService ticketService;
 
-    @PostMapping("/email_check")
-    public String checkMailExistInDatabase(@ModelAttribute("ctmDTO") CustomerDTO customerDTO,
-                                           @SessionAttribute("ticketCart") TicketCart ticketCart,
-                                           RedirectAttributes redirectAttributes) {
-        Customer customer = customerService.findByEmail(customerDTO.getEmail()).orElse(null);
-        List<Ticket> ticketList = new ArrayList<>(ticketCart.ticketList.values());
-
-        Long totalPrice = 0L;
-        for (Ticket ticket : ticketList) {
-            totalPrice += ticket.getPrice();
-        }
-
-        if (customer == null) {
-            Customer newCustomer = new Customer(customerDTO.getEmail(), customerDTO.getName(), customerDTO.getPhoneNumber(), ticketList);
-            newCustomer.setDelete(true);
-            customerService.save(newCustomer);
-            Payment currentPayment = paymentService.createPayment(ticketList,newCustomer);
-            mailService.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO);
-            redirectAttributes.addFlashAttribute("ctmDTO", customerDTO);
-            redirectAttributes.addFlashAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
-            return "redirect:/ticket/" + ticketList.get(0).getCarRouteIndividual().getId();
-        }
-        Payment currentPayment = paymentService.createPayment(ticketList,customer);
-        return "redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + currentPayment.getId();
-    }
-
     @PostMapping("/confirm_email")
     public String confirmMail(@RequestParam("total_price") Long totalPrice,
                               @RequestParam("payment_id") Integer paymentId,

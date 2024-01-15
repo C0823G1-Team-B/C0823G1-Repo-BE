@@ -2,24 +2,22 @@ package com.example.ticket_management.controller;
 
 import com.example.ticket_management.dto.CustomerDTO;
 import com.example.ticket_management.dto.ICarRouteIndividualDTO;
-import com.example.ticket_management.model.CarRouteIndividual;
-import com.example.ticket_management.model.Ticket;
-import com.example.ticket_management.model.TicketCart;
+import com.example.ticket_management.model.*;
 import com.example.ticket_management.service.ICarRouteIndividualService;
+import com.example.ticket_management.service.ICustomerService;
+import com.example.ticket_management.service.IPaymentService;
 import com.example.ticket_management.service.ITicketService;
-import jakarta.validation.Valid;
+import com.example.ticket_management.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ticket")
@@ -29,6 +27,12 @@ public class TicketController {
     private ITicketService iTicketService;
     @Autowired
     private ICarRouteIndividualService iCarRouteIndividualService;
+    @Autowired
+    private ICustomerService customerService;
+    @Autowired
+    private IPaymentService paymentService;
+    @Autowired
+    MailService mailService;
 
     @ModelAttribute("ticketCart")
     public TicketCart getTicketCart() {
@@ -96,7 +100,11 @@ public class TicketController {
     }
 
     @PostMapping("/payment/{idCRI}")
-    public ModelAndView showPayment(@Validated @ModelAttribute("ctmDTO") CustomerDTO customerDTO, BindingResult bindingResult, @PathVariable Integer idCRI, @ModelAttribute("ticketCart") TicketCart ticketCart) {
+    public ModelAndView showPayment(@Validated @ModelAttribute("ctmDTO") CustomerDTO customerDTO,
+                                    BindingResult bindingResult,
+                                    @PathVariable Integer idCRI,
+                                    @ModelAttribute("ticketCart") TicketCart ticketCart,
+                                    RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             Optional<CarRouteIndividual> carRouteIndividual = iCarRouteIndividualService.findById(idCRI);
             if (!carRouteIndividual.isPresent()) {
@@ -131,14 +139,26 @@ public class TicketController {
                 return modelAndView;
             }
         }
-        System.out.println(customerDTO.getPhoneNumber());
+        //Kiểm tra email của khách hàng trong database
+        Customer customer = customerService.findByEmail(customerDTO.getEmail()).orElse(null);
+        List<Ticket> ticketList = new ArrayList<>(ticketCart.ticketList.values());
 
-        //thêm hàm valid vào form
-
-        // Đoạn này mọi người xử lý nhé đã có giỏ hàng vé và thông tin khách hàng
-        // Mọi người xử lý ok thì lưu vào database và
-        // Set lại chỗ vé: status , id_customer, id_payment để vé hiển thị đúng nhé
-        // Hiện tại đang để về trang error
-        return new ModelAndView("error");
+        Long totalPrice = 0L;
+        for (Ticket ticket : ticketList) {
+            totalPrice += ticket.getPrice();
+        }
+        if (customer == null) {
+            Customer newCustomer = new Customer(customerDTO.getEmail(), customerDTO.getName(), customerDTO.getPhoneNumber(), ticketList);
+            newCustomer.setDelete(true);
+            customerService.save(newCustomer);
+            Payment currentPayment = paymentService.createPayment(ticketList, newCustomer);
+            mailService.mailToConfirmCustomerEmail(totalPrice, currentPayment.getId(), customerDTO);
+            ModelAndView modelAndView = new ModelAndView("redirect:/ticket/" + ticketList.get(0).getCarRouteIndividual().getId());
+            redirectAttributes.addFlashAttribute("ctmDTO", customerDTO);
+            redirectAttributes.addFlashAttribute("message", "Quý khách vui lòng kiểm tra e-mail để tiếp tục thanh toán");
+            return modelAndView;
+        }
+        Payment currentPayment = paymentService.createPayment(ticketList, customer);
+        return new ModelAndView("redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + currentPayment.getId());
     }
 }

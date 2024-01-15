@@ -40,6 +40,9 @@ public class Customer {
         this.ticket = ticket;
     }
 
+    public Customer(String email, String name, String phoneNumber) {
+    }
+
     public Integer getId() {
         return id;
     }

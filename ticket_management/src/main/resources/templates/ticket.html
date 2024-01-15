@@ -1112,7 +1112,7 @@
                 </div>
             </div>
             <div style="padding-top: 30px">
-                <form id="checkout_form" th:action="@{/public/email_check}" th:object="${ctmDTO}" method="post">
+                <form id="checkout_form" th:action="@{/ticket/payment/{idCRI}(idCRI=${cri.id})}" th:object="${ctmDTO}" method="post">
                     <input type="hidden" name="id" th:field="*{id}">
                     <label><strong>Số điện thoại :</strong></label>
                     <p class="text-muted">(Nếu SĐT có Zalo thì thông tin vé sẽ được gửi về Zalo)</p>
