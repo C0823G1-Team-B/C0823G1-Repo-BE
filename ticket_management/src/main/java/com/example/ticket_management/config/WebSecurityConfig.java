@@ -81,42 +81,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**", "/api/ticket/formCreateRoute", "/api/ticket/formCreateRouteIndividual", "/car-route-individual/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
-                ).oauth2Login((oauth2Login) -> oauth2Login
-                        .userInfoEndpoint((userInfo) -> userInfo
-                                .userAuthoritiesMapper(grantedAuthoritiesMapper())
-                        )
-                )
+                ).oauth2Login(withDefaults())
                 .formLogin((formLogin) ->
                         formLogin.defaultSuccessUrl("/admin"))
                 .logout(logout ->
                         logout.logoutSuccessUrl("/"))
                 .httpBasic(Customizer.withDefaults())
                 .build();
-    }
-    private GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
-        return (authorities) -> {
-            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-
-            authorities.forEach((authority) -> {
-                GrantedAuthority mappedAuthority;
-
-                if (authority instanceof OidcUserAuthority) {
-                    OidcUserAuthority userAuthority = (OidcUserAuthority) authority;
-                    mappedAuthority = new OidcUserAuthority(
-                            "OIDC_USER", userAuthority.getIdToken(), userAuthority.getUserInfo());
-                } else if (authority instanceof OAuth2UserAuthority) {
-                    OAuth2UserAuthority userAuthority = (OAuth2UserAuthority) authority;
-                    mappedAuthority = new OAuth2UserAuthority(
-                            "OAUTH2_USER", userAuthority.getAttributes());
-                } else {
-                    mappedAuthority = authority;
-                }
-
-                mappedAuthorities.add(mappedAuthority);
-            });
-
-            return mappedAuthorities;
-        };
     }
 
     @Bean
