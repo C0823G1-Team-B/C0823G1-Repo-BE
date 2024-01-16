@@ -11,6 +11,9 @@
 </head>
 <style>
     * {
+        font-family: Arial;
+    }
+    * {
         margin-left: 0;
         box-sizing: border-box;
         border: 0;
@@ -7736,24 +7739,19 @@
                 <div class="menu_text">
                     <ul>
                         <li><a href="/">Trang Chủ</a></li>
-                        <li><a th:href="@{ticket}">Đặt Vé</a></li>
+                        <li><a href="/#booking">Đặt Vé</a></li>
+                        <li><a href="/#taxis">Lịch Trình</a></li>
                         <li><a th:href="@{/api/search-ticket}">Tra Cứu Vé</a></li>
-                        <li><a href="#contact">Lịch Trình</a></li>
-                        <li><a href="#contact">Liên Hệ</a></li>
+                        <li><a href="/#booking">Liên Hệ</a></li>
                         <div id="myNav" class="overlay">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                             <div class="overlay-content">
-                                <a href="#">Trang Chủ</a>
-                                <a th:href="@{api/ticket}">Đặt vé</a>
-                                <a href="#taxis">Loại Xe</a>
-                                <a href="#booking">Chi Tiết</a>
-                                <a href="#contact">Liên Hệ</a>
-                                <div sec:authorize="!isAuthenticated()">
-                                    <a href="/login"> Đăng Nhập</a>
-                                </div>
-                                <div sec:authorize="isAuthenticated()">
-                                    <a href="/logout"> Đăng Xuất</a>
-                                </div>
+                                <a href="/">Trang Chủ</a>
+                                <a href="/#booking">Đặt vé</a>
+                                <a href="/#taxis">Lịch Trình</a>
+                                <a href="/#booking">Chi Tiết</a>
+                                <a href="/#contact">Liên Hệ</a>
+                                <a href="/login"> <i class="fas fa-user"></i></a>
                             </div>
                         </div>
                         <span style="font-size:33px;cursor:pointer; color: #ffffff;" onclick="openNav()">
@@ -7938,3 +7936,7 @@
         $("#header").load("header.html");
     })
 </script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+      media="screen">
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
