@@ -10,7 +10,10 @@ import com.example.ticket_management.service.ICustomerService;
 import com.example.ticket_management.service.IPaymentService;
 import com.example.ticket_management.service.ITicketService;
 import com.example.ticket_management.utils.MailService;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +62,30 @@ public class EmailController {
         }
         model.addAttribute("result", "Giao dịch không tồn tại!");
         return "checkout-result";
+    }
+
+    @GetMapping("/gmail_check")
+    public String gmailCheck(@AuthenticationPrincipal @Nullable OAuth2User principal,
+                             @SessionAttribute TicketCart ticketCart) {
+        if (principal == null) {
+            return "redirect:http://localhost:8080/oauth2/authorization/google";
+        }
+        String email = principal.getAttribute("email");
+        Customer customer = customerService.findByEmail(email).orElse(null);
+        if (customer == null) {
+            Customer newCustomer = new Customer();
+            newCustomer.setName(principal.getAttribute("name"));
+            newCustomer.setEmail(email);
+            customerService.save(newCustomer);
+            customer = newCustomer;
+        }
+        List<Ticket> ticketList = new ArrayList<>(ticketCart.ticketList.values());
+        Long totalPrice = 0L;
+        for (Ticket ticket : ticketList) {
+            totalPrice += ticket.getPrice();
+        }
+        Payment payment = paymentService.createPayment(ticketList, customer);
+
+        return "redirect:/public/checkout?amount=" + totalPrice + "&payment_id=" + payment.getId();
     }
 }

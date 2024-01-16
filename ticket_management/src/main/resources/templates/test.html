@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
 </head>
 <body>
 <a href="/api/user">Get user info</a>
-<script src="https://accounts.google.com/gsi/client" async></script>
-<div id="g_id_onload"
-     data-client_id="486939991707-ad40nhcc5snch36i6akqmmrfbe00i9tj.apps.googleusercontent.com"
-     data-login_uri=""
-     data-auto_prompt="false">
+
+<div class="container authenticated">
+    Logged in as: <span id="user"></span>
+    <div>
+        <button onClick="logout()" class="btn btn-primary">Logout</button>
+    </div>
 </div>
-<div class="g_id_signin"
-     data-type="standard"
-     data-size="large"
-     data-theme="outline"
-     data-text="sign_in_with"
-     data-shape="rectangular"
-     data-logo_alignment="left">
-</div>
+
+<script>
+    var logout = function() {
+        $.post("/logout", function() {
+            console.log("logout trigger!")
+            $("#user").html('');
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
+        })
+        return true;
+    }
+</script>
 </body>
 </html>

@@ -11,14 +11,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -26,8 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -81,9 +74,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**", "/api/ticket/formCreateRoute", "/api/ticket/formCreateRouteIndividual", "/car-route-individual/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
-                ).oauth2Login(withDefaults())
+                )
                 .formLogin((formLogin) ->
                         formLogin.defaultSuccessUrl("/admin"))
+                .oauth2Login(withDefaults())
                 .logout(logout ->
                         logout.logoutSuccessUrl("/"))
                 .httpBasic(Customizer.withDefaults())
