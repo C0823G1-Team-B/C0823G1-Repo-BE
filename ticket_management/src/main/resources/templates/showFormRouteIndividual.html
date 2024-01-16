@@ -309,11 +309,11 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="ticketExist" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+<div class="modal fade" id="ticketExist" tabindex="-1" aria-labelledby="exampleModalLabel7" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel5">Thông báo</h5>
+                <h5 class="modal-title" id="exampleModalLabel7">Thông báo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -350,7 +350,39 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Thời gian bắt dau phai nho hon thoi gian ket thuc </p>
+                <p>Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="TimeFuture" tabindex="-1" aria-labelledby="exampleModalLabel8" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel8">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Vui lòng chọn ngày và giờ trong tương lai </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="TimeEnd" tabindex="-1" aria-labelledby="exampleModalLabel9" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel9">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Thời gian kết thúc phải lớn hơn thời gian bắt đầu </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -378,7 +410,7 @@
         $("#startDateTime").change(() => {
             let selectedStartDateTime = new Date($("#startDateTime").val());
             if (isPastDateTime($("#startDateTime").val())) {
-                alert("Vui lòng chọn ngày và giờ trong tương lai.");
+                $('#TimeFuture').modal('show');
                 $("#startDateTime").val("");
             } else if ($("#endDateTime").val() !== "" && selectedStartDateTime >= new Date($("#endDateTime").val())) {
                 $('#timeStart').modal('show');
@@ -399,10 +431,10 @@
             let selectedEndDateTime = new Date($("#endDateTime").val());
 
             if (isPastDateTime($("#endDateTime").val())) {
-                alert("Vui lòng chọn ngày và giờ trong tương lai.");
+                $('#TimeFuture').modal('show');
                 $("#endDateTime").val("");
             } else if (selectedEndDateTime <= selectedStartDateTime) {
-                alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+                $('#TimeEnd').modal('show');
                 $("#endDateTime").val("");
             } else {
                 handleEndDateTimeChange();
@@ -670,10 +702,10 @@
     $("#startUpDateTime").change(() => {
         let selectedStartDateTime = new Date($("#startUpDateTime").val());
         if (isPastDateTime($("#startUpDateTime").val())) {
-            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $('#TimeFuture').modal('show');
             $("#startUpDateTime").val("");
         } else if ($("#endUpDateTime").val() !== "" && selectedStartDateTime >= new Date($("#endUpDateTime").val())) {
-            alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+            $('#timeStart').modal('show');
             $("#startUpDateTime").val("");
         } else {
             if ($("#endUpDateTime").val() !== "") {
@@ -709,10 +741,10 @@
         let selectedEndDateTime = new Date($("#endUpDateTime").val());
 
         if (isPastDateTime($("#endUpDateTime").val())) {
-            alert("Vui lòng chọn ngày và giờ trong tương lai.");
+            $('#TimeFuture').modal('show');
             $("#endUpDateTime").val("");
         } else if (selectedEndDateTime <= selectedStartDateTime) {
-            alert("Thời gian kết thúc phải lớn hơn thời gian bắt đầu.");
+            $('#TimeEnd').modal('show');
             $("#endUpDateTime").val("");
         } else {
             handleEndDateTimeUpChange();
