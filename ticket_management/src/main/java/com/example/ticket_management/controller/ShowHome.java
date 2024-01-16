@@ -38,6 +38,7 @@ public class ShowHome {
     //    @GetMapping("/booksTick")
     @GetMapping("/test")
     public String toTest() {
+        System.out.println("OKOKKOKOK");
         return "test";
     }
 }

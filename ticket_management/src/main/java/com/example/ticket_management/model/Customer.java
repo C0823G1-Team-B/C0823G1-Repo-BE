@@ -16,7 +16,7 @@ public class Customer {
     @Column(columnDefinition = "bit(1) default 0")
     private boolean isDelete;
 
-   @OneToMany(mappedBy ="customers" )
+    @OneToMany(mappedBy = "customers")
     private List<Ticket> ticket;
 
     public Customer() {
@@ -40,7 +40,8 @@ public class Customer {
         this.ticket = ticket;
     }
 
-    public Customer(String email, String name, String phoneNumber) {
+    public Customer(String email) {
+        this.email = email;
     }
 
     public Integer getId() {
