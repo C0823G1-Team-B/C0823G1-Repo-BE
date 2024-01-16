@@ -309,6 +309,22 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="timeStart" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel5">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Thời gian bắt dau phai nho hon thoi gian ket thuc </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -332,7 +348,7 @@
                 alert("Vui lòng chọn ngày và giờ trong tương lai.");
                 $("#startDateTime").val("");
             } else if ($("#endDateTime").val() !== "" && selectedStartDateTime >= new Date($("#endDateTime").val())) {
-                alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.");
+                $('#timeStart').modal('show');
                 $("#startDateTime").val("");
             } else {
                 if ($("#endDateTime").val() !== "") {

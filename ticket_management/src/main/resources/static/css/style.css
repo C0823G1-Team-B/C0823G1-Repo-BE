@@ -415,6 +415,7 @@ button {
     font-size: 50px;
     color: #fefefe;
     font-weight: bold;
+    margin-top: -84px;
 }
 
 .taxis_section_2 {
@@ -427,7 +428,7 @@ button {
     float: left;
     background-color: #fefefe;
     height: auto;
-    margin-top: 70px;
+    margin-top: 12px
 }
 .round_1 {
     width: 21%;
