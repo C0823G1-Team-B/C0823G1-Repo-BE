@@ -17,4 +17,5 @@ public interface ICarRouteRepository extends JpaRepository<CarRoute,Integer> {
             "order by count(car_route_id) desc\n" +
             "limit 3;",nativeQuery = true)
     List<CarRouteDTO> getCarRouteHigh();
+
 }

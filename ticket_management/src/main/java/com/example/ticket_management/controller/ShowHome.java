@@ -19,20 +19,25 @@ import java.util.List;
 public class ShowHome {
     @Autowired
     ICarRouteService iCarRouteService;
+
     @GetMapping("/")
     public String showHome(Model model) {
         model.addAttribute("a", "a");
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = new Date();
-    List<CarRouteDTO> routeDTOS = iCarRouteService.getCarRouteHigh();
-    List<CarRoute> routeListHigh = new ArrayList<>();
-        for (CarRouteDTO temp : routeDTOS){
+        List<CarRouteDTO> routeDTOS = iCarRouteService.getCarRouteHigh();
+        List<CarRoute> routeListHigh = new ArrayList<>();
+        for (CarRouteDTO temp : routeDTOS) {
             routeListHigh.add(iCarRouteService.findById(temp.getCarRouteId()).get());
             System.out.println(temp.getCarRouteId());
         }
-        model.addAttribute("routeCar",routeListHigh);
+        model.addAttribute("routeCar", routeListHigh);
         return "home";
     }
-//    @GetMapping("/booksTick")
 
+    //    @GetMapping("/booksTick")
+    @GetMapping("/test")
+    public String toTest() {
+        return "test";
+    }
 }

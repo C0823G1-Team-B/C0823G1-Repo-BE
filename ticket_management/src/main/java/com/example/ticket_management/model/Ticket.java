@@ -38,6 +38,10 @@ public class Ticket {
     public Ticket() {
     }
 
+    public Ticket(Customer customers) {
+        this.customers = customers;
+    }
+
     public Ticket(Integer id, Integer numberSeat, Long price, boolean status, boolean isDelete, CarRouteIndividual carRouteIndividual, Customer customers, Payment payments) {
         this.id = id;
         this.numberSeat = numberSeat;

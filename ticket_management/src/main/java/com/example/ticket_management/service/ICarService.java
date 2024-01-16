@@ -11,4 +11,5 @@ public interface ICarService extends IGenerationService<Car> {
 
     List<Car> findAllCarFreeByTime(String startTimeConvert, String endTimeConvert);
 
+    List<Car> findAllCarFreeByTimeUp(String startTimeConvert, String endTimeConvert);
 }

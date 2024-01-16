@@ -45,4 +45,9 @@ public class CarService implements ICarService {
         return iCarRepository.findAllCarFreeByTime(startTimeConvert,endTimeConvert);
     }
 
+    @Override
+    public List<Car> findAllCarFreeByTimeUp(String startTimeConvert, String endTimeConvert) {
+        return iCarRepository.findAllCarFreeByTimeUp(startTimeConvert,endTimeConvert);
+    }
+
 }

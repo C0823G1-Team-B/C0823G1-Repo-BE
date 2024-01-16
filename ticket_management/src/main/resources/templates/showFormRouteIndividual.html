@@ -309,6 +309,39 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ticketExist" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel5">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Đã có khách hàng đã đặt vé vào thời gian này sẽ gửi mail cho những khách hàng đã đặt vé của lịch trình này</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ticketUpdateNotExist" tabindex="-1" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel6">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tiền hành cập nhật lịch trinh</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="timeStart" tabindex="-1" aria-labelledby="exampleModalLabel5" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -569,15 +602,19 @@
                 type: "POST",
                 data: JSON.stringify(newRIUpdate),
                 url: "http://localhost:8080/public/saveUpdate",
-                success: function (status) {
-                    if (status.status === 201){
+                success: function (data,xhr) {
+                    if (xhr.status === 200){
+                        console.log("111")
                         $('#successCreate').modal('show');
-                        console.log("oke la")
+                        console.log("111")
                     } else {
-                        console.log("alo loi 201")
+                        $('#successCreate').modal('show');
+                        console.log("22")
                     }
+                    $("#updateTickets").hide();
+                    $("#listTicketsContainer").show();
 
-                //
+
                 },
                 error: function (error) {
                     console.log("Error:", error);
@@ -588,6 +625,7 @@
         } else {
             $('#missingInfoModal').modal('show');
         }
+        event.preventDefault();
     }
     function updateCRI(data){
         $("#listTicketsContainer").hide()
@@ -613,6 +651,11 @@
                 $("#driverUp").val(data.idDriver);
                 $("#idCIUdt").val(data.idCRI)
                 handleEndDateTimeUpChange();
+                if (!data.ticketExist){
+                $("#ticketExist").modal('show');
+                } else {
+                    $("#ticketUpdateNotExist").modal('show');
+                }
             },
             error: function (error) {
                 console.log("Error:", error);
@@ -681,7 +724,7 @@
         if (endDateTimeValue) {
             $.ajax({
                 type: "GET",
-                url: "/public/endTime",
+                url: "/public/endTimeUp",
                 data: {
                     startTime: startDateTimeValue,
                     endTime: endDateTimeValue

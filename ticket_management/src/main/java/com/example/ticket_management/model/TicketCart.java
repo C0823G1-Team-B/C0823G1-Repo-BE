@@ -50,4 +50,13 @@ public class TicketCart {
         }
         return strList;
     }
+
+    public Long totalAmount(){
+        Long totalAmount = 0L;
+        Set<Integer> integers = ticketList.keySet();
+        for (Integer i : integers){
+            totalAmount +=  ticketList.get(i).getPrice();
+        }
+        return  totalAmount;
+    }
 }

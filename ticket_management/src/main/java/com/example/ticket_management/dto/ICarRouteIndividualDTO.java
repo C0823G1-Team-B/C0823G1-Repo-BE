@@ -13,4 +13,5 @@ public interface ICarRouteIndividualDTO {
     String getDriverName();
     String getLicensePlates();
     Integer getSold();
+    Long getTotalAmount();
 }

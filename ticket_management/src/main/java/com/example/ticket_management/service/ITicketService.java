@@ -1,7 +1,6 @@
 package com.example.ticket_management.service;
 
-import com.example.ticket_management.dto.ITicketDTO1;
-import com.example.ticket_management.dto.ITicketDto;
+import com.example.ticket_management.dto.*;
 import com.example.ticket_management.model.CarRouteIndividual;
 import com.example.ticket_management.model.Ticket;
 import com.example.ticket_management.service.common.IGenerationService;
@@ -23,11 +22,13 @@ public interface ITicketService extends IGenerationService<Ticket> {
 
     Integer findAllTicketByCiIdAndStatus(Integer id, int i);
 
-    List<Ticket> findAllTicketByCRI(Integer idCRI);
+    List<CusDTO> findAllTicketByCRI(Integer idCRI);
 
     ITicketDTO1 getITicketDTO1ById(Integer id);
 
     void saveAll(List<Ticket> ticketList);
 
     void updateTicketStatus(List<Ticket> tickets);
+
+    List<CustomerDTO> findAllTicketByCRIUpdate(Integer id);
 }

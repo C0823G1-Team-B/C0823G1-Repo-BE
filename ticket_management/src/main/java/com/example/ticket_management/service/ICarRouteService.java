@@ -9,5 +9,7 @@ import java.util.List;
 public interface ICarRouteService extends IGenerationService<CarRoute> {
     CarRoute findCarRouteByStartingPointAndEndingPoint(String departure, String destination);
 
+
+
     List<CarRouteDTO> getCarRouteHigh();
 }
