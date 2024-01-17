@@ -29,7 +29,6 @@ public class ShowHome {
         List<CarRoute> routeListHigh = new ArrayList<>();
         for (CarRouteDTO temp : routeDTOS) {
             routeListHigh.add(iCarRouteService.findById(temp.getCarRouteId()).get());
-            System.out.println(temp.getCarRouteId());
         }
         model.addAttribute("routeCar", routeListHigh);
         return "home";

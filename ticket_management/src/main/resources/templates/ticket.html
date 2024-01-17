@@ -1130,7 +1130,7 @@
                     <label><strong>Họ và tên :</strong></label>
                     <input id="name" oninput="handleInputChange(this)" onchange="handleInputChange(this)" type="text"
                            th:field="*{name}" class="form-control mb-3" maxlength="100" required="">
-                    <p th:if="${#fields.hasErrors()}" th:errors="*{email}" style="color: red"></p>
+                    <p th:if="${#fields.hasErrors()}" th:errors="*{name}" style="color: red"></p>
                     <label><strong>Email :</strong></label>
                     <p class="text-muted">(Nếu có thì thông tin vé sẽ được gửi về email thay vì gửi về SĐT)</p>
                     <input id="email" oninput="handleInputChange(this)" onchange="handleInputChange(this)" type="text"

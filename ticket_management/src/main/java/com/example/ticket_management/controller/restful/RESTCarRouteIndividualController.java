@@ -51,7 +51,7 @@ public class RESTCarRouteIndividualController {
     }
 
     @GetMapping("/listCRI")
-    public ResponseEntity<CRIListResponse> listCRI(@RequestParam("page") Integer page, @PageableDefault(value = 6) Pageable pageable) {
+    public ResponseEntity<CRIListResponse> listCRI(@RequestParam("page") Integer page, @PageableDefault(value = 7) Pageable pageable) {
         Page<ICarRouteIndividualDTO> iCarRouteIndividualDTOS = iCarRouteIndividualService.findAllDTO(pageable);
         Integer CRITotalPage = iCarRouteIndividualDTOS.getTotalPages();
         CRIListResponse criTotalPage = new CRIListResponse(iCarRouteIndividualDTOS, CRITotalPage);
@@ -79,7 +79,7 @@ public class RESTCarRouteIndividualController {
     @GetMapping("/listTicket")
     public ResponseEntity<TicketListResponse> listTicketDTO(@RequestParam("idCRI") Integer idCRI,
                                                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                                            @PageableDefault(value = 6) Pageable pageable) {
+                                                            @PageableDefault(value = 8) Pageable pageable) {
         Page<ITicketDTO1> iTicketDTOS = iTicketService.findAllByIdCRI(idCRI, pageable);
         Integer totalPage = iTicketDTOS.getTotalPages();
         TicketListResponse ticketListResponse = new TicketListResponse(iTicketDTOS, totalPage);
