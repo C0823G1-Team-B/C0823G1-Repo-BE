@@ -19,7 +19,7 @@ public class CustomerDTO {
     @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Tên chỉ được nhập a-z hoặc A-Z")
     private String name;
 
-    @NotBlank(message = "Tên không được để trống")
+    @NotBlank(message = "Số điện thoại không được để trống")
     @Pattern(regexp = "^0\\d{9}$", message = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0")
     private String phoneNumber;
 

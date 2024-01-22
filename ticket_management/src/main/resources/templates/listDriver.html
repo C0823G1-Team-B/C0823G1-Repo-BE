@@ -83,7 +83,7 @@
             <!--                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>-->
             <!--                </a>-->
             <a href="#" class="list-group-item list-group-item-action py-2 ripple ">
-                <i class="fas fa-chart-area fa-fw me-3"></i><span>Quản lý xe</span>
+                <i class="fas fa-chart-area fa-fw me-3"></i><span>Quản Lý Xe</span>
             </a>
             <a href="http://localhost:8080/api/ticket/formCreateRoute"
                class="list-group-item list-group-item-action py-2 ripple"
@@ -99,7 +99,7 @@
             </a>
             <a href="http://localhost:8080/admin/driver/create"
                class="list-group-item list-group-item-action py-2 ripple "
-            ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm tài xế</span></a
+            ><i class="fas fa-globe fa-fw me-3"></i><span>Thêm Tài Xế</span></a
             >
             <a href="http://localhost:8080/car-route-individual/cri-management"
                class="list-group-item list-group-item-action py-2 ripple"
@@ -246,7 +246,7 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item" th:if="${drivers.hasPrevious()}"><a class="page-link"
-                                                                          th:href="@{/admin/driver/list(page=${drivers.number - 1})}">Previous</a>
+                                                                          th:href="@{/admin/driver/list(page=${drivers.number - 1})}">Trang trước</a>
                 </li>
                 <div th:each="item : ${#numbers.sequence(1, drivers.totalPages)}">
                     <li class="page-item active" th:if="${drivers.number + 1 == item}">
@@ -257,7 +257,7 @@
                     </li>
                 </div>
                 <li class="page-item" th:if="${drivers.hasNext()}"><a class="page-link"
-                                                                      th:href="@{/admin/driver/list(page=${drivers.number + 1})}">Next</a>
+                                                                      th:href="@{/admin/driver/list(page=${drivers.number + 1})}">Trang sau</a>
                 </li>
             </ul>
         </nav>
